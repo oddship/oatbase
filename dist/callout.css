@@ -1,0 +1,15 @@
+/* src/css/components/callout.css */
+@layer components {
+  [data-callout] {
+    padding: var(--space-4);
+    color: var(--muted-foreground);
+    background: var(--faint);
+    border: 1px solid var(--border);
+    border-inline-start: 3px solid var(--primary);
+    border-radius: var(--radius-small);
+  }
+
+  [data-callout] > :first-child {
+    color: var(--foreground);
+  }
+}

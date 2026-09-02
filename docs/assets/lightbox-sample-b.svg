@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-labelledby="title description">
+  <title id="title">Quiet hills</title>
+  <desc id="description">Abstract green hills below a pale morning sky.</desc>
+  <rect width="640" height="400" fill="#e9eee8"/>
+  <circle cx="500" cy="105" r="54" fill="#d6b86a"/>
+  <path d="M0 300 L155 140 L310 300Z" fill="#668b69"/>
+  <path d="M150 330 L390 115 L640 330Z" fill="#315c45"/>
+  <path d="M0 300 Q160 255 320 310 T640 290 V400 H0Z" fill="#203f33"/>
+</svg>

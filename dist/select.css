@@ -1,0 +1,82 @@
+/* src/css/components/select.css */
+@layer components {
+  ot-select {
+    position: relative;
+    display: block;
+  }
+
+  ot-select:not([data-enhanced]) > :not(select), ot-select[data-enhanced] > select {
+    display: none;
+  }
+
+  ot-select:not([data-enhanced]) > select, ot-select > button[aria-haspopup="listbox"] {
+    width: 100%;
+  }
+
+  ot-select > button[aria-haspopup="listbox"] {
+    color: var(--foreground);
+    background: var(--background);
+    border-color: var(--input);
+    justify-content: space-between;
+  }
+
+  ot-select > button[aria-haspopup="listbox"]:after {
+    content: "⌄";
+    color: var(--muted-foreground);
+  }
+
+  ot-select > [role="listbox"] {
+    position: absolute;
+    z-index: var(--z-dropdown);
+    max-height: var(--oatbase-listbox-max-height, min(18rem, 50dvh));
+    overflow-y: auto;
+    padding: var(--space-1);
+    list-style: none;
+    color: var(--foreground);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-large);
+    margin: 0;
+    top: calc(100% + var(--space-1));
+    left: 0;
+    right: 0;
+  }
+
+  ot-select [role="option"] {
+    display: flex;
+    align-items:  center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-small);
+    cursor: default;
+    margin: 0;
+  }
+
+  ot-select [role="option"]:hover {
+    background: var(--accent);
+  }
+
+  ot-select [role="option"]:-webkit-any([data-active], [aria-selected="true"]) {
+    background: var(--accent);
+  }
+
+  ot-select [role="option"]:-moz-any([data-active], [aria-selected="true"]) {
+    background: var(--accent);
+  }
+
+  ot-select [role="option"]:is([data-active], [aria-selected="true"]) {
+    background: var(--accent);
+  }
+
+  ot-select [role="option"][aria-selected="true"]:after {
+    content: "✓";
+    color: var(--primary);
+    margin-inline-start: auto;
+  }
+
+  ot-select [role="option"][aria-disabled="true"] {
+    pointer-events: none;
+    opacity: .5;
+  }
+}

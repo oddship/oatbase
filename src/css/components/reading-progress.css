@@ -1,0 +1,4 @@
+@layer components {
+  ot-reading-progress { display: block; }
+  ot-reading-progress > progress { display: block; }
+}

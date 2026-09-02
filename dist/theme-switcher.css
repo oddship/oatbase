@@ -1,0 +1,21 @@
+/* src/css/components/theme-switcher.css */
+@layer components {
+  ot-theme-switcher {
+    display: inline-flex;
+    align-items:  center;
+    gap: var(--space-1);
+  }
+
+  ot-theme-switcher[data-group] {
+    padding: var(--space-1);
+    background: var(--muted);
+    border-radius: var(--radius-medium);
+  }
+
+  ot-theme-switcher [data-theme-value][aria-pressed="true"] {
+    background: var(--background);
+    color: var(--foreground);
+    border-color: var(--border);
+    box-shadow: var(--shadow-small);
+  }
+}

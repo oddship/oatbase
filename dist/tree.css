@@ -1,0 +1,59 @@
+/* src/css/components/tree.css */
+@layer components {
+  ot-tree :where(ul) {
+    list-style: none;
+    margin: 0;
+    padding-inline-start: var(--space-5);
+  }
+
+  ot-tree > ul {
+    padding-inline-start: 0;
+  }
+
+  ot-tree [role="treeitem"] {
+    margin: 0;
+  }
+
+  ot-tree [role="treeitem"] > :where(button, a, span):first-child {
+    display: flex;
+    justify-content: flex-start;
+    align-items:  center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-2);
+    color: var(--foreground);
+    text-align: start;
+    text-decoration: none;
+    border-radius: var(--radius-small);
+    background: none;
+    border: 0;
+    width: 100%;
+  }
+
+  ot-tree [role="treeitem"] > :where(button, a, span):first-child:hover {
+    background: var(--accent);
+  }
+
+  ot-tree [role="treeitem"] > :where(button, a, span):first-child:focus-visible {
+    background: var(--accent);
+  }
+
+  ot-tree [role="treeitem"][aria-expanded="false"] > [role="group"] {
+    display: none;
+  }
+
+  ot-tree [role="treeitem"] > :first-child:before {
+    content: "";
+    color: var(--muted-foreground);
+    text-align: center;
+    flex: 0 0 1em;
+    width: 1em;
+  }
+
+  ot-tree [role="treeitem"][aria-expanded] > :first-child:before {
+    content: "⌄";
+  }
+
+  ot-tree [role="treeitem"][aria-expanded="false"] > :first-child:before {
+    content: "›";
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "name": "@oddship/oatbase",
+  "version": "0.1.0",
+  "description": "Advanced, semantic components for Oat UI",
+  "keywords": [
+    "oat",
+    "ui",
+    "components",
+    "web-components",
+    "semantic-html",
+    "zero-dependency"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oddship/oatbase.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oddship/oatbase/issues"
+  },
+  "homepage": "https://github.com/oddship/oatbase#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css",
+    "./src/js/*.js",
+    "./dist/*.js"
+  ],
+  "files": [
+    "dist/",
+    "src/",
+    "README.md",
+    "THEMING.md",
+    "THIRD_PARTY_NOTICES.md",
+    "LICENSE",
+    "components.json"
+  ],
+  "main": "dist/oatbase.js",
+  "module": "dist/oatbase.esm.js",
+  "style": "dist/oatbase.css",
+  "exports": {
+    ".": {
+      "import": "./dist/oatbase.esm.js",
+      "default": "./dist/oatbase.js"
+    },
+    "./css": "./dist/oatbase.css",
+    "./extensions": {
+      "import": "./dist/extensions.esm.js",
+      "default": "./dist/extensions.js"
+    },
+    "./extensions.css": "./dist/extensions.css",
+    "./combobox": {
+      "import": "./dist/combobox.esm.js",
+      "default": "./dist/combobox.js"
+    },
+    "./combobox.css": "./dist/combobox.css",
+    "./command": {
+      "import": "./dist/command.esm.js",
+      "default": "./dist/command.js"
+    },
+    "./command.css": "./dist/command.css",
+    "./select": {
+      "import": "./dist/select.esm.js",
+      "default": "./dist/select.js"
+    },
+    "./select.css": "./dist/select.css",
+    "./theme-switcher": {
+      "import": "./dist/theme-switcher.esm.js",
+      "default": "./dist/theme-switcher.js"
+    },
+    "./theme-switcher.css": "./dist/theme-switcher.css",
+    "./tooltip-compat": {
+      "import": "./dist/tooltip-compat.esm.js",
+      "default": "./dist/tooltip-compat.js"
+    },
+    "./tooltip-compat.css": "./dist/tooltip-compat.css",
+    "./copy-button": {
+      "import": "./dist/copy-button.esm.js",
+      "default": "./dist/copy-button.js"
+    },
+    "./copy-button.css": "./dist/copy-button.css",
+    "./multiselect": {
+      "import": "./dist/multiselect.esm.js",
+      "default": "./dist/multiselect.js"
+    },
+    "./multiselect.css": "./dist/multiselect.css",
+    "./password-field": {
+      "import": "./dist/password-field.esm.js",
+      "default": "./dist/password-field.js"
+    },
+    "./password-field.css": "./dist/password-field.css",
+    "./splitter": {
+      "import": "./dist/splitter.esm.js",
+      "default": "./dist/splitter.js"
+    },
+    "./splitter.css": "./dist/splitter.css",
+    "./tree": {
+      "import": "./dist/tree.esm.js",
+      "default": "./dist/tree.js"
+    },
+    "./tree.css": "./dist/tree.css",
+    "./toggle": {
+      "import": "./dist/toggle.esm.js",
+      "default": "./dist/toggle.js"
+    },
+    "./toggle.css": "./dist/toggle.css",
+    "./toolbar": {
+      "import": "./dist/toolbar.esm.js",
+      "default": "./dist/toolbar.js"
+    },
+    "./toolbar.css": "./dist/toolbar.css",
+    "./choice-card.css": "./dist/choice-card.css",
+    "./otp-input": {
+      "import": "./dist/otp-input.esm.js",
+      "default": "./dist/otp-input.js"
+    },
+    "./otp-input.css": "./dist/otp-input.css",
+    "./lightbox": {
+      "import": "./dist/lightbox.esm.js",
+      "default": "./dist/lightbox.js"
+    },
+    "./lightbox.css": "./dist/lightbox.css",
+    "./scrollspy": {
+      "import": "./dist/scrollspy.esm.js",
+      "default": "./dist/scrollspy.js"
+    },
+    "./scrollspy.css": "./dist/scrollspy.css",
+    "./footnotes": {
+      "import": "./dist/footnotes.esm.js",
+      "default": "./dist/footnotes.js"
+    },
+    "./footnotes.css": "./dist/footnotes.css",
+    "./reading-progress": {
+      "import": "./dist/reading-progress.esm.js",
+      "default": "./dist/reading-progress.js"
+    },
+    "./reading-progress.css": "./dist/reading-progress.css",
+    "./data-table": {
+      "import": "./dist/data-table.esm.js",
+      "default": "./dist/data-table.js"
+    },
+    "./data-table.css": "./dist/data-table.css",
+    "./repeater": {
+      "import": "./dist/repeater.esm.js",
+      "default": "./dist/repeater.js"
+    },
+    "./repeater.css": "./dist/repeater.css",
+    "./log-viewer": {
+      "import": "./dist/log-viewer.esm.js",
+      "default": "./dist/log-viewer.js"
+    },
+    "./log-viewer.css": "./dist/log-viewer.css",
+    "./prose.css": "./dist/prose.css",
+    "./description-list.css": "./dist/description-list.css",
+    "./components.json": "./components.json",
+    "./rating.css": "./dist/rating.css",
+    "./segmented-control.css": "./dist/segmented-control.css",
+    "./stat.css": "./dist/stat.css",
+    "./stepper.css": "./dist/stepper.css",
+    "./timeline.css": "./dist/timeline.css",
+    "./chart.css": "./dist/chart.css",
+    "./scroll-area.css": "./dist/scroll-area.css",
+    "./drawer.css": "./dist/drawer.css",
+    "./empty.css": "./dist/empty.css",
+    "./item.css": "./dist/item.css",
+    "./kbd.css": "./dist/kbd.css",
+    "./callout.css": "./dist/callout.css",
+    "./utilities.css": "./dist/utilities.css",
+    "./themes": "./dist/themes.css",
+    "./themes/oat.css": "./dist/themes/oat.css",
+    "./themes/doordarshan.css": "./dist/themes/doordarshan.css",
+    "./themes/forest.css": "./dist/themes/forest.css",
+    "./themes/ocean.css": "./dist/themes/ocean.css",
+    "./themes/paper.css": "./dist/themes/paper.css"
+  },
+  "scripts": {
+    "build": "make dist",
+    "build:esgun": "make dist-esgun",
+    "clean": "make clean",
+    "test": "make test",
+    "test:all": "make test-all",
+    "test:e2e": "bun scripts/playwright-test.js --project=chromium",
+    "test:e2e:all": "bun scripts/playwright-test.js",
+    "test:e2e:update": "bun scripts/playwright-test.js --update-snapshots",
+    "verify:esgun": "make verify-esgun",
+    "size": "bun scripts/report-size.js"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@knadh/oat": "0.7.2",
+    "@playwright/test": "1.61.1"
+  }
+}

@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Oatbase docs smoke test</title></head>
+<body data-test="pending">
+  <iframe src="../docs/index.html#/components/combobox" title="Documentation fixture"></iframe>
+  <script>
+    window.addEventListener('load', async () => {
+      const assert = (condition, message) => { if (!condition) throw new Error(message); };
+      try {
+        const doc = document.querySelector('iframe').contentDocument;
+        const page = doc.querySelector('[data-page="/components/combobox"]');
+        assert(page && !page.hidden, 'component route renders');
+        assert(page.querySelectorAll('.docs-meta [role="listitem"]').length === 3, 'component header renders metadata chips');
+        assert(page.querySelectorAll('.docs-meta .badge').length === 3, 'component metadata dogfoods Oat badges');
+        assert(page.querySelector('.docs-meta').getAttribute('aria-label') === 'Component metadata', 'component metadata is labeled');
+        assert(doc.querySelector('[data-page="/"]').hidden, 'inactive route is hidden');
+        assert(doc.querySelectorAll('[data-component-nav] a').length === 68, 'all component routes are listed');
+        assert(doc.querySelectorAll('[data-source="Oat core"] [data-route]').length === 34, 'Oat core components are grouped');
+        assert(doc.querySelectorAll('[data-source="Oatbase"] [data-route]').length === 34, 'Oatbase extensions are grouped');
+        assert(doc.querySelector('.docs-search-shortcut').textContent === '⌘ K', 'search shortcut is compact');
+        assert(doc.querySelector('.docs-search-shortcut').dataset.variant === 'inline', 'search shortcut dogfoods the inline Kbd variant');
+        const headerControls = [
+          doc.querySelector('.docs-header-link'),
+          doc.querySelector('.docs-palette-switcher > button'),
+          doc.querySelector('.docs-search-trigger'),
+          doc.querySelector('.docs-theme-button')
+        ];
+        const headerControlHeights = headerControls.map(control => control.getBoundingClientRect().height);
+        const visibleHeaderControls = headerControls.filter((control, index) => headerControlHeights[index] > 0);
+        assert(visibleHeaderControls.every(control => control.getBoundingClientRect().height === 36), `visible top-bar controls share one stable height: ${headerControlHeights.join(', ')}`);
+        const headerFontSizes = new Set(visibleHeaderControls.map(control => doc.defaultView.getComputedStyle(control).fontSize));
+        assert(headerFontSizes.size === 1, 'top-bar controls share one text size');
+        const componentDemo = page.querySelector('[data-demo]');
+        assert(doc.defaultView.getComputedStyle(componentDemo.querySelector('[data-code]')).display === 'none', 'inactive code panel is visually hidden');
+        assert(doc.defaultView.getComputedStyle(componentDemo.querySelector('[data-code]')).paddingInlineStart === '16px', 'code panels preserve readable inline padding');
+        assert(componentDemo.localName === 'ot-tabs', 'example switcher dogfoods Oat tabs');
+        assert(componentDemo.closest('ot-copy'), 'example copy action dogfoods Oatbase copy');
+        assert([...componentDemo.querySelector('.demo-tabs').querySelectorAll('[role="tab"]')].map(tab => tab.textContent).join(',') === 'Preview,HTML,JavaScript', 'behavioral demos separate preview, HTML, and JavaScript');
+
+        componentDemo.querySelector('[data-view="code"]').click();
+        assert(componentDemo.querySelector('[data-preview]').hidden, 'preview tab hides');
+        assert(!componentDemo.querySelector('[role="tabpanel"][data-code-kind="html"]').hidden, 'HTML tab shows markup');
+        assert(doc.defaultView.getComputedStyle(componentDemo.querySelector('[role="tabpanel"][data-code-kind="html"]')).display !== 'none', 'active HTML panel is visible');
+        componentDemo.querySelector('[data-view="javascript"]').click();
+        assert(componentDemo.querySelector('[role="tabpanel"][data-code-kind="html"]').hidden, 'JavaScript tab hides HTML');
+        assert(!componentDemo.querySelector('[role="tabpanel"][data-code-kind="javascript"]').hidden, 'JavaScript tab shows setup code');
+        assert(componentDemo.querySelector('[role="tabpanel"][data-code-kind="javascript"]').textContent.includes("import '@oddship/oatbase/combobox';"), 'JavaScript tab includes the component registration import');
+        assert(componentDemo.querySelector('[role="tabpanel"][data-code-kind="javascript"]').hasAttribute('data-copy-source'), 'copy action follows the active JavaScript panel');
+
+        const accordionTabs = [...doc.querySelectorAll('[data-page="/components/accordion"] .demo-tabs [role="tab"]')];
+        assert(accordionTabs.map(tab => tab.textContent).join(',') === 'Preview,HTML', 'CSS and native demos do not invent a JavaScript tab');
+        const repeaterCode = doc.querySelector('[data-page="/components/repeater"] [role="tabpanel"][data-code-kind="html"]').textContent;
+        assert(repeaterCode.includes('variables[__index__][key]'), 'native template contents remain visible in formatted Repeater HTML');
+
+        const logViewerPage = doc.querySelector('[data-page="/components/log-viewer"]');
+        const logViewerDemo = logViewerPage.querySelector('[data-demo]');
+        const logViewer = logViewerDemo.querySelector('ot-log-viewer');
+        logViewerDemo.querySelector('[data-log-append]').click();
+        await new Promise(resolve => doc.defaultView.requestAnimationFrame(resolve));
+        assert(logViewer.lineCount === 4, 'Log Viewer example appends a semantic line through the component API');
+        assert(logViewer.querySelector('[data-log-status]').value === '4 lines', 'Log Viewer example refreshes its accessible line count');
+        assert(logViewerDemo.querySelector('[role="tabpanel"][data-code-kind="javascript"]').textContent.includes("viewer.append('10:42:05  Worker ready')"), 'Log Viewer JavaScript tab documents its live action');
+
+        const accordionCode = doc.querySelector('[data-page="/components/accordion"] [data-code]').textContent;
+        assert(accordionCode.includes('\n  <details'), 'compact markup is formatted across readable lines');
+        const accordionTokens = doc.querySelectorAll('[data-page="/components/accordion"] [data-code] .syntax-tag');
+        assert(accordionTokens.length > 0, 'markup includes syntax-highlighted tag tokens');
+        assert(accordionTokens[0].textContent === 'div', 'syntax highlighting preserves tag text');
+
+        const buttonPage = doc.querySelector('[data-page="/components/button"]');
+        assert(buttonPage.querySelectorAll('[data-component-example]').length === 3, 'generated pages support named variant examples');
+        assert(buttonPage.querySelector('[id="button-api"]') === null, 'CSS-only pages do not invent an API section');
+        const tagInputPage = doc.querySelector('[data-page="/components/tag-input"]');
+        assert(tagInputPage.querySelector('[id="tag-input-api"]'), 'behavioral pages render their API surface');
+
+        const skeleton = doc.querySelector('[data-page="/components/skeleton"] [role="status"].skeleton');
+        assert(skeleton && doc.defaultView.getComputedStyle(skeleton).animationName === 'anim', 'Skeleton preview exercises Oat’s semantic selector');
+
+        const tooltip = doc.querySelector('[data-page="/components/tooltip"] [data-tooltip-placement="right"]');
+        await new Promise(resolve => setTimeout(resolve, 0));
+        assert(tooltip.hasAttribute('data-tooltip') && !tooltip.hasAttribute('title'), 'Tooltip preview dogfoods Oat’s title enhancement');
+
+        const search = doc.querySelector('[data-nav-search]');
+        search.value = 'drawer';
+        search.dispatchEvent(new Event('input', { bubbles: true }));
+        assert(doc.querySelector('.docs-sidebar [data-route="/components/combobox"]').closest('li').hidden, 'navigation filters non-matches');
+        assert(!doc.querySelector('.docs-sidebar [data-route="/components/drawer"]').closest('li').hidden, 'navigation keeps matches');
+
+        doc.querySelector('[data-sidebar-toggle]').click();
+        assert(doc.querySelector('.docs-layout').hasAttribute('data-sidebar-open'), 'navigation dogfoods Oat sidebar state');
+
+        const theme = doc.documentElement.style.colorScheme;
+        doc.querySelector('[data-theme-toggle]').click();
+        assert(doc.documentElement.style.colorScheme !== theme, 'theme control cycles');
+        assert(doc.querySelector('[data-theme-toggle] svg'), 'theme control uses a recognizable icon');
+        assert(doc.querySelector('[data-theme-toggle]').textContent !== 'A', 'system theme does not use an ambiguous label');
+        assert(!doc.querySelector('[data-theme-toggle]').hasAttribute('title'), 'theme control avoids an edge-overflowing native tooltip');
+        assert(!doc.querySelector('[data-theme-toggle]').hasAttribute('data-tooltip'), 'theme control has no viewport-edge hover surface');
+        assert(doc.querySelector('[data-theme-toggle]').closest('ot-theme-switcher'), 'theme control dogfoods Oatbase theme switcher');
+        assert(doc.querySelectorAll('.docs-header-actions [data-theme-toggle] [data-theme-content]:not([hidden])').length === 1, 'theme control shows only the active icon');
+
+        const pagePreset = doc.querySelector('[data-theme-preset]');
+        assert(pagePreset.closest('ot-select'), 'top-bar preset picker dogfoods Oatbase select');
+        pagePreset.value = 'ocean';
+        pagePreset.dispatchEvent(new Event('change', { bubbles: true }));
+        assert(doc.documentElement.dataset.oatTheme === 'ocean', 'top-bar picker applies a shipped theme');
+        pagePreset.value = 'oat';
+        pagePreset.dispatchEvent(new Event('change', { bubbles: true }));
+        assert(!doc.documentElement.hasAttribute('data-oat-theme'), 'Oat selection restores the unmodified foundation');
+
+        const home = doc.querySelector('[data-page="/"]');
+        assert(home.querySelector('[data-stats]'), 'homepage dogfoods Oatbase stats');
+        assert(home.querySelector('.docs-install-command').localName === 'ot-copy', 'homepage quick install dogfoods Oatbase copy');
+        assert(home.querySelectorAll('.docs-home-layers > .item').length === 2, 'homepage dogfoods Oatbase items for the Oat and Oatbase paths');
+        assert(home.querySelectorAll('[data-component-grid] > a').length === 6, 'homepage keeps component discovery curated');
+        const browseAdditions = home.querySelector('[data-catalog-preset="Oatbase"]');
+        assert(browseAdditions.getAttribute('href') === '#/components', 'collection action links to the component index');
+        browseAdditions.click();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const catalogPage = doc.querySelector('[data-page="/components"]');
+        assert(!catalogPage.hidden, 'component index route renders');
+        assert(catalogPage.querySelectorAll('[data-component-catalog] > a').length === 34, 'component index starts with Oatbase additions');
+        const catalogSearch = catalogPage.querySelector('[data-catalog-search]');
+        assert(catalogSearch.closest('fieldset.group'), 'component quick filter dogfoods Oat’s input group');
+        assert(catalogPage.querySelector('[data-component-catalog]').classList.contains('row'), 'component catalog dogfoods Oat’s responsive grid');
+        catalogSearch.value = 'lightbox';
+        catalogSearch.dispatchEvent(new Event('input', { bubbles: true }));
+        assert(catalogPage.querySelectorAll('[data-component-catalog] > a').length === 1, 'component quick filter narrows the active source');
+        assert(catalogPage.querySelector('[data-component-catalog] > a h3').textContent === 'Lightbox', 'component quick filter searches component names');
+        assert(catalogPage.querySelector('[data-catalog-count]').textContent === '1 of 34 additions', 'component quick filter updates its result count');
+        assert(catalogPage.querySelector('[data-catalog-count]').classList.contains('badge'), 'component result count uses compact metadata styling');
+        assert(doc.defaultView.getComputedStyle(catalogPage.querySelector('[data-catalog-empty]')).display === 'none', 'catalog empty state stays visually hidden while results exist');
+        catalogSearch.value = 'no-such-component';
+        catalogSearch.dispatchEvent(new Event('input', { bubbles: true }));
+        assert(!catalogPage.querySelector('[data-catalog-empty]').hidden, 'component quick filter exposes an empty state');
+        assert(doc.defaultView.getComputedStyle(catalogPage.querySelector('[data-catalog-empty]')).display !== 'none', 'catalog empty state becomes visible when no results exist');
+        catalogSearch.value = '';
+        catalogSearch.dispatchEvent(new Event('input', { bubbles: true }));
+        home.querySelector('[data-catalog-preset="Oat core"]').click();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        assert(catalogPage.querySelector('[name="catalog-source"][value="Oat core"]').checked, 'collection actions select their intended source');
+        assert(catalogPage.querySelectorAll('[data-component-catalog] > a').length === 34, 'component index can show Oat core patterns');
+        assert(doc.querySelector('[data-page="/installation"] [data-callout]'), 'documentation notes dogfood Oatbase callout');
+
+        doc.defaultView.location.hash = '/examples';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const examplesPage = doc.querySelector('[data-page="/examples"]');
+        const fullExamples = [...examplesPage.querySelectorAll('[data-full-example]')];
+        assert(!examplesPage.hidden, 'full examples route renders');
+        assert(fullExamples.length === 6, 'full examples route includes six complete pages');
+        assert(fullExamples.every(example => example.querySelector('[data-demo]').localName === 'ot-tabs'), 'full examples dogfood Oat tabs');
+        assert(fullExamples.every(example => example.querySelector('[data-demo]').closest('ot-copy')), 'full examples dogfood Oatbase copy');
+        assert(fullExamples.every(example => example.querySelector('.demo-frame').srcdoc.trim().startsWith('<!doctype html>')), 'every iframe receives a complete HTML document');
+        assert(fullExamples.every(example => example.querySelector('[data-code]').textContent.includes('<!doctype html>')), 'every full example exposes its complete source');
+        assert(fullExamples.every(example => example.querySelector('[data-code] .syntax-tag')), 'full document source is syntax highlighted');
+        const dashboardExample = examplesPage.querySelector('[data-full-example="project-dashboard"]');
+        dashboardExample.querySelector('[data-view="code"]').click();
+        assert(dashboardExample.querySelector('.demo-frame').hidden, 'full example code tab hides the iframe');
+        assert(!dashboardExample.querySelector('[data-code]').hidden, 'full example code tab exposes source');
+        dashboardExample.querySelector('[data-view="preview"]').click();
+        assert(!dashboardExample.querySelector('.demo-frame').hidden, 'full example preview tab restores the iframe');
+
+        doc.defaultView.location.hash = '/customizing';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const themeLab = doc.querySelector('.docs-theme-lab');
+        const themeSurface = themeLab.querySelector('.docs-theme-surface');
+        assert(themeSurface.dataset.oatTheme === 'oat', 'theme lab explicitly scopes the default Oat preset');
+        const labControls = [...themeLab.querySelectorAll('.docs-theme-controls > .docs-theme-control')];
+        const labControlHeights = labControls.map(control => control.querySelector('ot-select > button, [data-segmented]').getBoundingClientRect().height);
+        assert(labControls.length === 3, 'theme lab gives every control the same labeled field structure');
+        assert(labControlHeights.every(height => height === 40), 'theme lab controls share a stable control height');
+        const initialPrimary = doc.defaultView.getComputedStyle(themeSurface).getPropertyValue('--primary');
+        const labPreset = themeLab.querySelector('[data-theme-lab-preset]');
+        labPreset.value = 'forest';
+        labPreset.dispatchEvent(new Event('change', { bubbles: true }));
+        assert(themeSurface.dataset.oatTheme === 'forest', 'theme lab applies the shipped preset selector to its preview');
+        assert(doc.defaultView.getComputedStyle(themeSurface).getPropertyValue('--primary') !== initialPrimary, 'theme lab scopes an alternate palette');
+        themeLab.querySelector('[name="lab-density"][value="compact"]').click();
+        assert(doc.defaultView.getComputedStyle(themeSurface).paddingTop === '16px', 'theme lab remaps Oat spacing for compact density');
+        themeLab.querySelector('[name="lab-radius"][value="square"]').click();
+        assert(doc.defaultView.getComputedStyle(themeSurface).borderRadius === '0px', 'theme lab remaps Oat radius without component variants');
+
+        doc.querySelector('.docs-search-trigger').click();
+        assert(doc.querySelector('#docs-command-dialog').open, 'documentation search opens');
+        const docsCommandItem = doc.querySelector('#docs-command-dialog [data-command-item]');
+        assert(doc.defaultView.getComputedStyle(docsCommandItem).justifyContent === 'flex-start', 'documentation search results align as menu rows');
+        doc.querySelector('#docs-command-dialog').close();
+
+        doc.defaultView.location.hash = '/components/drawer';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const drawerControlBounds = Object.fromEntries(['top', 'right', 'bottom', 'left'].map(side => [
+          side,
+          doc.querySelector(`[data-drawer-control="${side}"]`).getBoundingClientRect()
+        ]));
+        assert(drawerControlBounds.top.top < drawerControlBounds.left.top, 'top drawer control occupies the north position');
+        assert(drawerControlBounds.left.left < drawerControlBounds.top.left, 'left drawer control occupies the west position');
+        assert(drawerControlBounds.right.left > drawerControlBounds.top.left, 'right drawer control occupies the east position');
+        assert(drawerControlBounds.bottom.top > drawerControlBounds.left.top, 'bottom drawer control occupies the south position');
+        assert(Math.abs(drawerControlBounds.top.left - drawerControlBounds.bottom.left) < 1, 'top and bottom drawer controls share the center column');
+        for (const side of ['top', 'right', 'bottom', 'left']) {
+          const drawer = doc.querySelector(`#drawer-${side}`);
+          doc.querySelector(`[commandfor="drawer-${side}"]`).click();
+          assert(drawer.open, `${side} drawer opens`);
+          drawer.querySelector('button[value="done"]').click();
+          assert(!drawer.open, `${side} drawer closes through its native dialog form`);
+        }
+
+        doc.defaultView.location.hash = '/components/select';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const selectPage = doc.querySelector('[data-page="/components/select"]');
+        assert(!selectPage.hidden, 'generated component route renders');
+        const select = selectPage.querySelector('ot-select');
+        select.button.click();
+        const selectPreviewBounds = selectPage.querySelector('[data-preview]').getBoundingClientRect();
+        const selectListBounds = select.list.getBoundingClientRect();
+        assert(selectListBounds.bottom <= selectPreviewBounds.bottom, 'select listbox stays inside its preview surface');
+        select.list.querySelector('[data-index="2"]').click();
+        assert(select.value === 'banana', 'generated interactive demo works');
+
+        doc.defaultView.location.hash = '/components/multiselect';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const multiselect = doc.querySelector('[data-page="/components/multiselect"] ot-multiselect');
+        multiselect.open();
+        const multiselectPreviewBounds = multiselect.closest('[data-preview]').getBoundingClientRect();
+        const multiselectListBounds = multiselect.list.getBoundingClientRect();
+        assert(multiselectListBounds.bottom <= multiselectPreviewBounds.bottom, 'multiselect listbox stays inside its preview surface');
+        multiselect.list.querySelector('[data-index="1"]').click();
+        assert(multiselect.value.includes('grace'), 'multiselect demo updates its native select');
+
+        doc.defaultView.location.hash = '/components/tag-input';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const tagInput = doc.querySelector('[data-page="/components/tag-input"] ot-taginput');
+        tagInput.input.value = 'semantics';
+        tagInput.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        assert(tagInput.value.includes('semantics'), 'Tag Input demo adds values through its native input');
+
+        doc.defaultView.location.hash = '/components/upload';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const upload = doc.querySelector('[data-page="/components/upload"] ot-upload');
+        assert(upload.classList.contains('card') && upload.querySelector('input[type="file"]'), 'Upload demo enhances a native file input');
+
+        doc.defaultView.location.hash = '/components/toast';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        [...doc.querySelectorAll('[data-page="/components/toast"] button')].find(button => button.textContent === 'Warning').click();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const warningToast = doc.querySelector('.toast[data-variant="warning"]');
+        assert(warningToast?.querySelector('.toast-title')?.textContent === 'Warning', 'Toast demo passes variant and title through the correct API positions');
+        doc.defaultView.ot.toast.clear();
+
+        doc.defaultView.location.hash = '/components/password-field';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const password = doc.querySelector('[data-page="/components/password-field"] ot-password');
+        password.button.click();
+        assert(password.input.type === 'text', 'password field demo reveals its value');
+
+        doc.defaultView.location.hash = '/components/splitter';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const splitter = doc.querySelector('[data-page="/components/splitter"] ot-splitter');
+        const before = splitter.value;
+        splitter.handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+        assert(splitter.value > before, 'splitter demo supports keyboard resizing');
+
+        doc.defaultView.location.hash = '/components/tree';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const treeRoot = doc.querySelector('[data-page="/components/tree"] ot-tree [role="treeitem"][aria-expanded="true"]');
+        treeRoot.firstElementChild.click();
+        assert(treeRoot.getAttribute('aria-expanded') === 'false', 'tree demo toggles disclosure');
+
+        doc.defaultView.location.hash = '/components/toggle';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const toggle = doc.querySelector('[data-page="/components/toggle"] ot-toggle');
+        toggle.button.click();
+        assert(toggle.pressed && toggle.button.getAttribute('aria-pressed') === 'true', 'toggle demo exposes pressed state');
+
+        doc.defaultView.location.hash = '/components/toolbar';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const toolbar = doc.querySelector('[data-page="/components/toolbar"] ot-toolbar');
+        toolbar.items[0].focus();
+        toolbar.items[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+        assert(doc.activeElement === toolbar.items[1], 'toolbar demo supports arrow navigation');
+
+        doc.defaultView.location.hash = '/components/otp-input';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const otp = doc.querySelector('[data-page="/components/otp-input"] ot-otp');
+        otp.input.value = '12a3456';
+        otp.input.dispatchEvent(new Event('input', { bubbles: true }));
+        assert(otp.value === '123456' && otp.hasAttribute('data-complete'), 'OTP demo preserves and validates one native input');
+
+        doc.defaultView.location.hash = '/components/lightbox';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const lightbox = doc.querySelector('[data-page="/components/lightbox"] ot-lightbox');
+        lightbox.querySelector('[data-lightbox-item]').click();
+        assert(lightbox.dialog.open && lightbox.image.alt.includes('saffron'), 'Lightbox demo composes a native dialog and image links');
+        lightbox.next();
+        assert(lightbox.currentIndex === 1, 'Lightbox demo supports gallery navigation');
+        lightbox.close();
+
+        doc.defaultView.location.hash = '/components/footnotes';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const footnotes = doc.querySelector('[data-page="/components/footnotes"] ot-footnotes');
+        footnotes.querySelector('[data-footnote-ref]').click();
+        assert(footnotes.querySelector('[data-footnote-popover]').matches(':popover-open'), 'Footnotes demo composes an Oat popover');
+        footnotes.querySelector('[data-footnote-popover]').hidePopover();
+
+        doc.defaultView.location.hash = '/components/scrollspy';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const scrollspy = doc.querySelector('[data-page="/components/scrollspy"] ot-scrollspy');
+        const scrollspyRoot = doc.querySelector('#scrollspy-demo');
+        scrollspyRoot.scrollTop = scrollspyRoot.scrollHeight;
+        scrollspyRoot.dispatchEvent(new Event('scroll'));
+        scrollspy.refresh();
+        assert(scrollspy.activeId === 'scrollspy-finish', 'Scrollspy demo follows an overflow container');
+
+        doc.defaultView.location.hash = '/components/reading-progress';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const reading = doc.querySelector('[data-page="/components/reading-progress"] ot-reading-progress');
+        const readingRoot = doc.querySelector('#reading-progress-demo');
+        readingRoot.scrollTop = readingRoot.scrollHeight;
+        readingRoot.dispatchEvent(new Event('scroll'));
+        reading.refresh();
+        assert(reading.progress.value > 95, 'Reading Progress demo updates its native progress element');
+
+        doc.defaultView.location.hash = '/components/scroll-area';
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const horizontalScrollArea = doc.querySelector('[data-page="/components/scroll-area"] [data-orientation="horizontal"]');
+        assert(doc.defaultView.getComputedStyle(horizontalScrollArea).flexWrap === 'nowrap', 'horizontal Scroll Area keeps one row');
+        assert(horizontalScrollArea.scrollWidth > horizontalScrollArea.clientWidth, 'horizontal Scroll Area produces real inline overflow');
+        horizontalScrollArea.scrollLeft = horizontalScrollArea.scrollWidth;
+        assert(horizontalScrollArea.scrollLeft > 0, 'horizontal Scroll Area can scroll along its inline axis');
+
+        const routes = [...doc.querySelectorAll('[data-component-nav] [data-route]')].map(link => link.dataset.route);
+        const ids = [...doc.querySelectorAll('[id]')].map(element => element.id);
+        assert(new Set(ids).size === ids.length, 'documentation has no duplicate ids');
+        doc.querySelectorAll('[aria-controls]').forEach(element => {
+          element.getAttribute('aria-controls').split(/\s+/).forEach(id => assert(doc.getElementById(id), `aria-controls target exists: ${id}`));
+        });
+        for (const route of routes) {
+          doc.defaultView.location.hash = route;
+          await new Promise(resolve => setTimeout(resolve, 0));
+          const active = doc.querySelector(`[data-page="${route}"]`);
+          assert(active && !active.hidden, `route renders: ${route}`);
+          assert(active.querySelector('[data-preview]')?.children.length > 0, `preview exists: ${route}`);
+          assert(active.querySelector('[data-code]')?.textContent.trim(), `code exists: ${route}`);
+          const usage = active.querySelector('h2[id$="-usage"]');
+          assert(usage && usage.closest('section').textContent.includes('import'), `usage import exists: ${route}`);
+        }
+
+        document.body.dataset.test = 'pass';
+      } catch (error) {
+        document.body.dataset.test = 'fail';
+        const output = document.createElement('pre');
+        output.id = 'test-error';
+        output.textContent = error.stack;
+        document.body.append(output);
+      }
+    });
+  </script>
+</body>
+</html>

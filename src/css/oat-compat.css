@@ -1,0 +1,39 @@
+@layer theme {
+  /* Oatbase's complete bundle keeps Oat's control and faint-text tokens AA-safe. */
+  :root:not([data-oat-theme]),
+  [data-theme="light"]:not([data-oat-theme]):not([data-oat-theme] *) {
+    --input: #8e8e98;
+    --faint-foreground: #71717a;
+    --warning-foreground: #ffffff;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-oat-theme]) {
+      --input: #71717a;
+      --faint-foreground: #a1a1aa;
+      --warning-foreground: #09090b;
+    }
+  }
+
+  :root[data-theme="dark"]:not([data-oat-theme]),
+  [data-theme="dark"]:not([data-oat-theme]):not([data-oat-theme] *) {
+    --input: #71717a;
+    --faint-foreground: #a1a1aa;
+    --warning-foreground: #09090b;
+  }
+}
+
+@layer components {
+  /* Preserve Oat semantics while repairing contrast and focus affordances. */
+  fieldset.group > legend { color: var(--foreground); }
+
+  [aria-busy="true"][data-spinner~="overlay"] > * { opacity: 0; }
+
+  ot-command [data-command-search]:focus-visible,
+  ot-dropdown [popover] [role="menuitem"]:focus-visible,
+  [role="tabpanel"]:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: -2px;
+  }
+
+}

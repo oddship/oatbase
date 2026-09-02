@@ -1,0 +1,9 @@
+@layer components {
+  ot-copy {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  ot-copy > [data-copy-source] { flex: 1; min-width: 0; }
+}

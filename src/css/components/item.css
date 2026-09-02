@@ -1,0 +1,112 @@
+@layer components {
+  .item-group {
+    display: grid;
+    gap: var(--space-2);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 0;
+    padding: var(--space-3);
+    color: var(--foreground);
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: var(--radius-medium);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .item > :where(section, div):not([data-slot]) {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item :where(h2, h3, h4, p) {
+    margin: 0;
+  }
+
+  .item :where(p, [data-description]) {
+    color: var(--muted-foreground);
+    font-size: var(--text-7);
+  }
+
+  .item [data-slot="media"] {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: calc(var(--space-8) + var(--space-1));
+    height: calc(var(--space-8) + var(--space-1));
+    color: var(--muted-foreground);
+    background: var(--muted);
+    border-radius: var(--radius-medium);
+  }
+
+  .item [data-slot="actions"] {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-inline-start: auto;
+  }
+
+  .item [data-slot="meta"] {
+    color: var(--muted-foreground);
+    font-size: var(--text-8);
+    white-space: nowrap;
+  }
+
+  .item[aria-current="page"],
+  .item[aria-selected="true"],
+  .item[data-unread] {
+    color: var(--foreground);
+    background: var(--accent);
+  }
+
+  .item[data-unread] > :where(section, div):not([data-slot])::before {
+    content: "";
+    display: inline-block;
+    width: var(--space-2);
+    height: var(--space-2);
+    margin-inline-end: var(--space-2);
+    background: var(--primary);
+    border-radius: var(--radius-full);
+  }
+
+  .item[aria-disabled="true"],
+  .item[aria-busy="true"] { opacity: 0.6; pointer-events: none; }
+
+  .item[data-variant="outline"] {
+    border-color: var(--border);
+    background: var(--card);
+  }
+
+  :is(a, button).item:hover,
+  .item[data-interactive]:hover {
+    color: var(--foreground);
+    background: var(--accent);
+  }
+
+  .item-group[data-connected] {
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    overflow: clip;
+  }
+
+  .item-group[data-connected] .item {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .item-group[data-connected] > :not(:last-child) .item,
+  .item-group[data-connected] > .item:not(:last-child) {
+    border-block-end: 1px solid var(--border);
+  }
+
+  .item-group[data-divided] { gap: 0; }
+  .item-group[data-divided] > :not(:last-child) .item,
+  .item-group[data-divided] > .item:not(:last-child) { border-block-end-color: var(--border); }
+}

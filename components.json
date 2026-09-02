@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "0.1.0",
+  "package": "@oddship/oatbase",
+  "taxonomy": {
+    "component": "A standalone Oatbase implementation.",
+    "variant": "An additional state or layout of an existing component.",
+    "recipe": "A documented composition with application-owned behavior.",
+    "block": "A complete isolated example assembled from shipped pieces.",
+    "opt-in": "A compatibility enhancement excluded from aggregate bundles."
+  },
+  "components": [
+    { "name": "callout", "kind": "component", "implementation": "css", "files": ["callout.css"] },
+    { "name": "chart", "kind": "component", "implementation": "css", "files": ["chart.css"] },
+    { "name": "choice-card", "kind": "component", "implementation": "css", "files": ["choice-card.css"] },
+    { "name": "combobox", "kind": "component", "implementation": "javascript", "files": ["combobox.css", "combobox"] },
+    { "name": "command", "kind": "component", "implementation": "javascript", "files": ["command.css", "command"] },
+    { "name": "copy-button", "kind": "component", "implementation": "javascript", "files": ["copy-button.css", "copy-button"] },
+    { "name": "data-table", "kind": "component", "implementation": "javascript", "files": ["data-table.css", "data-table"], "dependencies": [] },
+    { "name": "description-list", "kind": "component", "implementation": "css", "files": ["description-list.css"] },
+    { "name": "drawer", "kind": "component", "implementation": "css", "files": ["drawer.css"] },
+    { "name": "empty", "kind": "component", "implementation": "css", "files": ["empty.css"] },
+    { "name": "footnotes", "kind": "component", "implementation": "javascript", "files": ["footnotes.css", "footnotes"] },
+    { "name": "item", "kind": "component", "implementation": "css", "files": ["item.css"] },
+    { "name": "kbd", "kind": "component", "implementation": "css", "files": ["kbd.css"] },
+    { "name": "lightbox", "kind": "component", "implementation": "javascript", "files": ["lightbox.css", "lightbox"], "dependencies": ["toolbar"] },
+    { "name": "log-viewer", "kind": "component", "implementation": "javascript", "files": ["log-viewer.css", "log-viewer"], "dependencies": [] },
+    { "name": "multiselect", "kind": "component", "implementation": "javascript", "files": ["multiselect.css", "multiselect"] },
+    { "name": "otp-input", "kind": "component", "implementation": "javascript", "files": ["otp-input.css", "otp-input"] },
+    { "name": "password-field", "kind": "component", "implementation": "javascript", "files": ["password-field.css", "password-field"] },
+    { "name": "prose", "kind": "component", "implementation": "css", "files": ["prose.css"] },
+    { "name": "rating", "kind": "component", "implementation": "css", "files": ["rating.css"] },
+    { "name": "reading-progress", "kind": "component", "implementation": "javascript", "files": ["reading-progress.css", "reading-progress"] },
+    { "name": "repeater", "kind": "component", "implementation": "javascript", "files": ["repeater.css", "repeater"], "dependencies": [] },
+    { "name": "scroll-area", "kind": "component", "implementation": "css", "files": ["scroll-area.css"] },
+    { "name": "scrollspy", "kind": "component", "implementation": "javascript", "files": ["scrollspy.css", "scrollspy"] },
+    { "name": "segmented-control", "kind": "component", "implementation": "css", "files": ["segmented-control.css"] },
+    { "name": "select", "kind": "component", "implementation": "javascript", "files": ["select.css", "select"] },
+    { "name": "splitter", "kind": "component", "implementation": "javascript", "files": ["splitter.css", "splitter"] },
+    { "name": "stat", "kind": "component", "implementation": "css", "files": ["stat.css"] },
+    { "name": "stepper", "kind": "component", "implementation": "css", "files": ["stepper.css"] },
+    { "name": "theme-switcher", "kind": "component", "implementation": "javascript", "files": ["theme-switcher.css", "theme-switcher"] },
+    { "name": "timeline", "kind": "component", "implementation": "css", "files": ["timeline.css"] },
+    { "name": "toggle", "kind": "component", "implementation": "javascript", "files": ["toggle.css", "toggle"] },
+    { "name": "toolbar", "kind": "component", "implementation": "javascript", "files": ["toolbar.css", "toolbar"] },
+    { "name": "tree", "kind": "component", "implementation": "javascript", "files": ["tree.css", "tree"] }
+  ],
+  "optIns": [
+    { "name": "tooltip-compat", "kind": "opt-in", "files": ["tooltip-compat.css", "tooltip-compat"] }
+  ],
+  "recipes": [
+    "filter-toolbar", "row-actions", "bulk-selection", "attachment-row", "code-and-copy", "filtered-empty-state",
+    "page-header", "key-value-editor", "validation-summary", "searchable-action-rail", "schedule-form"
+  ],
+  "blocks": [
+    "project-dashboard", "account-settings", "long-form-article", "data-management", "master-detail-inbox", "workflow-execution"
+  ]
+}

@@ -1,0 +1,10 @@
+@layer components {
+  [data-rating] { display: inline-flex; flex-direction: row-reverse; justify-content: flex-end; gap: var(--space-1); }
+  [data-rating] > legend { width: 100%; margin-block-end: var(--space-1); }
+  [data-rating] > input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; }
+  [data-rating] > label { color: var(--muted-foreground); font-size: var(--oatbase-rating-size, 1.75rem); line-height: 1; cursor: pointer; }
+  [data-rating] > label:hover,
+  [data-rating] > label:hover ~ label,
+  [data-rating] > input:checked ~ label { color: var(--primary); }
+  [data-rating] > input:focus-visible + label { outline: 2px solid var(--ring); outline-offset: 2px; }
+}

@@ -1,0 +1,25 @@
+/* src/css/components/footnotes.css */
+@layer components {
+  ot-footnotes {
+    display: contents;
+  }
+
+  ot-dropdown[data-footnote-preview] {
+    display: inline;
+  }
+
+  ot-dropdown [data-footnote-popover] {
+    width: var(--oatbase-footnote-width, min(24rem, calc(100% - var(--space-8))));
+    max-height: var(--oatbase-footnote-max-height, min(18rem, calc(100dvh - var(--space-8))));
+    overflow: auto;
+    font-size: var(--text-7);
+  }
+
+  ot-dropdown [data-footnote-popover] > :first-child > :first-child {
+    margin-block-start: 0;
+  }
+
+  ot-dropdown [data-footnote-popover] > :first-child > :last-child {
+    margin-block-end: 0;
+  }
+}

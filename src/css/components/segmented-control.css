@@ -1,0 +1,9 @@
+@layer components {
+  [data-segmented] { display: inline-flex; gap: var(--space-1); padding: var(--space-1); background: var(--muted); border: 0; border-radius: var(--radius-medium); }
+  [data-segmented] > legend { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  [data-segmented] label { position: relative; margin: 0; }
+  [data-segmented] input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; }
+  [data-segmented] span { display: block; padding: var(--space-1) var(--space-3); border-radius: var(--radius-small); cursor: pointer; }
+  [data-segmented] input:checked + span { color: var(--foreground); background: var(--background); box-shadow: var(--shadow-small); }
+  [data-segmented] input:focus-visible + span { outline: 2px solid var(--ring); outline-offset: 1px; }
+}

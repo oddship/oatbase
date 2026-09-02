@@ -1,0 +1,100 @@
+@layer components {
+  dialog[data-variant="drawer"] {
+    position: fixed;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    color: var(--foreground);
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-large);
+  }
+
+  dialog[data-variant="drawer"]::backdrop {
+    background: var(--oatbase-overlay-background, rgb(0 0 0 / 0.45));
+  }
+
+  dialog[data-variant="drawer"][data-side="bottom"] {
+    inset: auto 0 0;
+    width: 100%;
+    max-height: var(--oatbase-drawer-max-height, min(85dvh, 48rem));
+    border-radius: var(--radius-large) var(--radius-large) 0 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="top"] {
+    inset: 0 0 auto;
+    width: 100%;
+    max-height: var(--oatbase-drawer-max-height, min(85dvh, 48rem));
+    border-radius: 0 0 var(--radius-large) var(--radius-large);
+  }
+
+  dialog[data-variant="drawer"]:is([data-side="left"], [data-side="right"]) {
+    inset-block: 0;
+    width: var(--oatbase-drawer-size, min(28rem, 90vw));
+    height: 100dvh;
+  }
+
+  dialog[data-variant="drawer"][data-side="left"] {
+    inset-inline: 0 auto;
+    border-radius: 0 var(--radius-large) var(--radius-large) 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="right"] {
+    inset-inline: auto 0;
+    border-radius: var(--radius-large) 0 0 var(--radius-large);
+  }
+
+  dialog[data-variant="drawer"] > :where(form, article, section) {
+    display: flex;
+    flex-direction: column;
+    max-height: inherit;
+    height: 100%;
+  }
+
+  dialog[data-variant="drawer"] :where(header, footer) {
+    flex: 0 0 auto;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  dialog[data-variant="drawer"] header {
+    border-block-end: 1px solid var(--border);
+  }
+
+  dialog[data-variant="drawer"] footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    border-block-start: 1px solid var(--border);
+  }
+
+  dialog[data-variant="drawer"] [data-drawer-body] {
+    flex: 1;
+    min-height: 0;
+    padding: var(--space-5);
+    overflow-y: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    dialog[data-variant="drawer"][open] {
+      animation: oatbase-drawer-in var(--transition) both;
+    }
+
+    dialog[data-variant="drawer"][open]::backdrop {
+      animation: oatbase-fade-in var(--transition) both;
+    }
+  }
+
+  @keyframes oatbase-drawer-in {
+    from { opacity: 0; transform: translate3d(var(--_drawer-x, 0), var(--_drawer-y, 0), 0); }
+  }
+
+  @keyframes oatbase-fade-in {
+    from { opacity: 0; }
+  }
+
+  dialog[data-variant="drawer"][data-side="bottom"] { --_drawer-y: var(--oatbase-drawer-motion-offset, 1.5rem); }
+  dialog[data-variant="drawer"][data-side="top"] { --_drawer-y: calc(-1 * var(--oatbase-drawer-motion-offset, 1.5rem)); }
+  dialog[data-variant="drawer"][data-side="left"] { --_drawer-x: calc(-1 * var(--oatbase-drawer-motion-offset, 1.5rem)); }
+  dialog[data-variant="drawer"][data-side="right"] { --_drawer-x: var(--oatbase-drawer-motion-offset, 1.5rem); }
+}

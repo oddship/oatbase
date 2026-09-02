@@ -1,0 +1,4 @@
+interface:
+  display_name: "Oatbase Development"
+  short_description: "Build and audit Oat-native Oatbase components"
+  default_prompt: "Use $oatbase-development to implement and verify an Oatbase component without duplicating Oat."

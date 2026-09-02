@@ -1,0 +1,26 @@
+@layer theme {
+  [data-oat-theme="ocean"] {
+    --background: light-dark(#f7fbfd, #08131c);
+    --foreground: light-dark(#102a3a, #eaf6fc);
+    --card: light-dark(#ffffff, #10212e);
+    --card-foreground: light-dark(#102a3a, #eaf6fc);
+    --primary: light-dark(#086b8f, #7dd3ed);
+    --primary-foreground: light-dark(#ffffff, #08202a);
+    --secondary: light-dark(#e4f1f6, #173141);
+    --secondary-foreground: light-dark(#0c5975, #d7f0f8);
+    --muted: light-dark(#e8f2f6, #172c39);
+    --muted-foreground: light-dark(#526d7c, #9eb7c4);
+    --faint: light-dark(#f0f7fa, #0d1b25);
+    --faint-foreground: light-dark(#5b7480, #748b97);
+    --accent: light-dark(#d9eef5, #1d3a4b);
+    --danger: light-dark(#bd3448, #ff8998);
+    --danger-foreground: light-dark(#ffffff, #241014);
+    --success: light-dark(#167258, #72d6b4);
+    --success-foreground: light-dark(#ffffff, #09251d);
+    --warning: light-dark(#9a6500, #f4be5b);
+    --warning-foreground: light-dark(#ffffff, #102a3a);
+    --border: light-dark(#b5ccd7, #405968);
+    --input: light-dark(#718f9e, #607986);
+    --ring: light-dark(#086b8f, #7dd3ed);
+  }
+}

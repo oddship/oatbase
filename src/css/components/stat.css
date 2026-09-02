@@ -1,0 +1,7 @@
+@layer components {
+  [data-stats] { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--space-3); margin: 0; }
+  [data-stats] > div { padding: var(--space-4); background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-medium); }
+  [data-stats] dt { color: var(--muted-foreground); font-size: var(--text-7); }
+  [data-stats] dd { margin: var(--space-1) 0 0; color: var(--foreground); font-size: var(--oatbase-stat-value-size, 1.75rem); font-weight: var(--font-semibold); }
+  [data-stats] dd > small { display: block; color: var(--muted-foreground); font-size: var(--text-8); font-weight: var(--font-normal); }
+}

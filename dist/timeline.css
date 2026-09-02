@@ -1,0 +1,114 @@
+/* src/css/components/timeline.css */
+@layer components {
+  [data-timeline] {
+    --_marker-size: var(--oatbase-timeline-marker-size, .75rem);
+    --_line-width: 1px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  [data-timeline] > li {
+    position: relative;
+    padding: 0 0 var(--space-5) var(--space-6);
+    margin: 0;
+  }
+
+  [data-timeline] > li:before {
+    content: "";
+    position: absolute;
+    width: var(--_marker-size);
+    height: var(--_marker-size);
+    background: var(--background);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-full);
+    top: .4em;
+  }
+
+  [data-timeline] > li:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))):before {
+    left: 0;
+  }
+
+  [data-timeline] > li:not(:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))):before {
+    left: 0;
+  }
+
+  [data-timeline] > li:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))):before {
+    left: 0;
+  }
+
+  [data-timeline] > li:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)):before {
+    right: 0;
+  }
+
+  [data-timeline] > li:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)):before {
+    right: 0;
+  }
+
+  [data-timeline] > li:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)):before {
+    right: 0;
+  }
+
+  [data-timeline] > li:not(:last-child):after {
+    content: "";
+    position: absolute;
+    inset-block: calc(.4em + var(--_marker-size)) 0;
+    border-inline-start: var(--_line-width) solid var(--border);
+  }
+
+  [data-timeline] > li:not(:last-child):not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))):after {
+    left: calc((var(--_marker-size)  - var(--_line-width)) / 2);
+  }
+
+  [data-timeline] > li:not(:last-child):not(:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))):after {
+    left: calc((var(--_marker-size)  - var(--_line-width)) / 2);
+  }
+
+  [data-timeline] > li:not(:last-child):not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))):after {
+    left: calc((var(--_marker-size)  - var(--_line-width)) / 2);
+  }
+
+  [data-timeline] > li:not(:last-child):-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)):after {
+    right: calc((var(--_marker-size)  - var(--_line-width)) / 2);
+  }
+
+  [data-timeline] > li:not(:last-child):-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)):after {
+    right: calc((var(--_marker-size)  - var(--_line-width)) / 2);
+  }
+
+  [data-timeline] > li:not(:last-child):is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)):after {
+    right: calc((var(--_marker-size)  - var(--_line-width)) / 2);
+  }
+
+  [data-timeline] :where(h3, p) {
+    margin: 0;
+  }
+
+  [data-timeline] time {
+    color: var(--muted-foreground);
+    font-size: var(--text-8);
+  }
+
+  [data-timeline] > li[data-status="complete"]:before {
+    background: var(--primary);
+  }
+
+  [data-timeline] > li[data-status="pending"]:before {
+    border-color: var(--border);
+  }
+
+  [data-timeline] [data-slot="header"] {
+    display: flex;
+    justify-content: space-between;
+    align-items:  center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  [data-timeline] [data-slot="actions"] {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-block-start: var(--space-2);
+  }
+}

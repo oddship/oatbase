@@ -1,0 +1,58 @@
+/* src/css/components/splitter.css */
+@layer components {
+  ot-splitter {
+    --split: 50%;
+    display: grid;
+    grid-template-columns: minmax(0, var(--split)) auto minmax(0, 1fr);
+    min-height: var(--oatbase-splitter-min-height, 14rem);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+  }
+
+  ot-splitter > :not([data-splitter]) {
+    overflow: auto;
+    padding: var(--space-4);
+    min-width: 0;
+  }
+
+  ot-splitter > [data-splitter] {
+    width: var(--oatbase-splitter-handle-size, .75rem);
+    color: var(--muted-foreground);
+    background: var(--muted);
+    border-color: var(--border);
+    cursor: col-resize;
+    touch-action: none;
+    border-block-start: 0;
+    border-block-end: 0;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  ot-splitter > [data-splitter]:before {
+    content: "";
+    height: var(--oatbase-splitter-grip-size, 2.5rem);
+    background: var(--muted-foreground);
+    border-radius: var(--radius-full);
+    width: 2px;
+  }
+
+  ot-splitter[aria-orientation="vertical"] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, var(--split)) auto minmax(0, 1fr);
+  }
+
+  ot-splitter[aria-orientation="vertical"] > [data-splitter] {
+    height: var(--oatbase-splitter-handle-size, .75rem);
+    border-inline-start: 0;
+    border-inline-end: 0;
+    border-block: 1px solid var(--border);
+    cursor: row-resize;
+    width: auto;
+  }
+
+  ot-splitter[aria-orientation="vertical"] > [data-splitter]:before {
+    width: var(--oatbase-splitter-grip-size, 2.5rem);
+    height: .125rem;
+  }
+}

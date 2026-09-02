@@ -1,0 +1,6 @@
+/* src/css/components/reading-progress.css */
+@layer components {
+  ot-reading-progress, ot-reading-progress > progress {
+    display: block;
+  }
+}

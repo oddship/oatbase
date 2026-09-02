@@ -1,0 +1,49 @@
+/* src/css/components/segmented-control.css */
+@layer components {
+  [data-segmented] {
+    display: inline-flex;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    background: var(--muted);
+    border-radius: var(--radius-medium);
+    border: 0;
+  }
+
+  [data-segmented] > legend {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    block-size: 1px;
+    inline-size: 1px;
+  }
+
+  [data-segmented] label {
+    position: relative;
+    margin: 0;
+  }
+
+  [data-segmented] input {
+    position: absolute;
+    opacity: 0;
+    block-size: 1px;
+    inline-size: 1px;
+  }
+
+  [data-segmented] span {
+    display: block;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-small);
+    cursor: pointer;
+  }
+
+  [data-segmented] input:checked + span {
+    color: var(--foreground);
+    background: var(--background);
+    box-shadow: var(--shadow-small);
+  }
+
+  [data-segmented] input:focus-visible + span {
+    outline: 2px solid var(--ring);
+    outline-offset: 1px;
+  }
+}

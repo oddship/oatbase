@@ -1,0 +1,33 @@
+@layer theme {
+  [data-oat-theme="paper"] {
+    --background: light-dark(#f8f2e5, #1c1915);
+    --foreground: light-dark(#302b24, #eee5d5);
+    --card: light-dark(#fffaf0, #262119);
+    --card-foreground: light-dark(#302b24, #eee5d5);
+    --primary: light-dark(#6d4f35, #d8b98d);
+    --primary-foreground: light-dark(#fffaf0, #241b12);
+    --secondary: light-dark(#ebe0cb, #352e24);
+    --secondary-foreground: light-dark(#5b422d, #ead9bd);
+    --muted: light-dark(#ece3d2, #302a22);
+    --muted-foreground: light-dark(#706557, #b5a997);
+    --faint: light-dark(#f4ecdc, #211d18);
+    --faint-foreground: light-dark(#796d5e, #998c7b);
+    --accent: light-dark(#e6d6ba, #403528);
+    --danger: light-dark(#a13e35, #ed8e82);
+    --danger-foreground: light-dark(#fffaf0, #251311);
+    --success: light-dark(#4e6f4e, #9ac39a);
+    --success-foreground: light-dark(#fffaf0, #142014);
+    --warning: light-dark(#8b650f, #dcb85e);
+    --warning-foreground: light-dark(#fffaf0, #302b24);
+    --border: light-dark(#cdbfa8, #554a3d);
+    --input: light-dark(#887962, #7c6e5b);
+    --ring: light-dark(#6d4f35, #d8b98d);
+    --font-sans: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    --radius-small: 0.125rem;
+    --radius-medium: 0.25rem;
+    --radius-large: 0.5rem;
+    --shadow-small: 0 1px 1px rgb(63 48 31 / 0.08);
+    --shadow-medium: 0 2px 5px rgb(63 48 31 / 0.12);
+    --shadow-large: 0 8px 18px rgb(63 48 31 / 0.14);
+  }
+}

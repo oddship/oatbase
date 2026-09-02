@@ -1,0 +1,106 @@
+/* src/css/components/chart.css */
+@layer components {
+  [data-variant="chart"] {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    color: var(--card-foreground);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    margin: 0;
+  }
+
+  [data-variant="chart"] figcaption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  [data-variant="chart"] figcaption small, [data-chart-legend] {
+    color: var(--muted-foreground);
+  }
+
+  [data-chart-bars] {
+    display: flex;
+    align-items:  end;
+    gap: var(--space-2);
+    min-height: var(--oatbase-chart-height, 12rem);
+    border-block-end: 1px solid var(--border);
+    background-image: repeating-linear-gradient(to bottom, var(--border) 0 1px, transparent 1px var(--oatbase-chart-grid-size, 3rem));
+    margin-block-end: var(--space-5);
+    padding-block-start: var(--space-4);
+  }
+
+  [data-chart-bar] {
+    position: relative;
+    height: calc(var(--value, 0) * 1%);
+    background: var(--primary);
+    border-radius: var(--radius-small) var(--radius-small) 0 0;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+    flex: 1;
+    min-height: 2px;
+  }
+
+  [data-chart-bar]:hover {
+    opacity: .8;
+    transform-origin: bottom;
+    transform: scaleY(1.015);
+  }
+
+  [data-chart-bar]:after {
+    content: attr(data-label);
+    position: absolute;
+    color: var(--muted-foreground);
+    font-size: var(--text-8);
+    white-space: nowrap;
+    top: calc(100% + var(--space-2));
+    translate: -50%;
+  }
+
+  [data-chart-bar]:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))):after {
+    left: 50%;
+    right: auto;
+  }
+
+  [data-chart-bar]:not(:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))):after {
+    left: 50%;
+    right: auto;
+  }
+
+  [data-chart-bar]:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))):after {
+    left: 50%;
+    right: auto;
+  }
+
+  [data-chart-bar]:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)):after {
+    left: auto;
+    right: 50%;
+  }
+
+  [data-chart-bar]:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)):after {
+    left: auto;
+    right: 50%;
+  }
+
+  [data-chart-bar]:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)):after {
+    left: auto;
+    right: 50%;
+  }
+
+  [data-chart-legend] {
+    display: flex;
+    align-items:  center;
+    gap: var(--space-3);
+    list-style: none;
+    font-size: var(--text-8);
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+  }
+
+  [data-chart-legend] > li {
+    margin: 0;
+  }
+}

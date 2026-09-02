@@ -1,0 +1,8 @@
+@layer components {
+  ot-scrollspy { display: block; }
+
+  ot-scrollspy a[aria-current="location"] {
+    color: var(--foreground);
+    font-weight: var(--font-semibold);
+  }
+}

@@ -1,0 +1,8 @@
+@layer components {
+  ot-toggle { display: inline-flex; }
+  ot-toggle > button[aria-pressed="true"] {
+    color: var(--primary-foreground);
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+}

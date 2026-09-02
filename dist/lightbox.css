@@ -1,0 +1,48 @@
+/* src/css/components/lightbox.css */
+@layer components {
+  ot-lightbox {
+    display: contents;
+  }
+
+  ot-lightbox > dialog[data-lightbox-dialog] {
+    width: var(--oatbase-lightbox-width, min(72rem, calc(100% - var(--space-8))));
+    max-height: calc(100dvh - var(--space-8));
+  }
+
+  ot-lightbox [data-lightbox-dialog] > figure {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    overflow: auto;
+    min-height: 0;
+    margin: 0;
+  }
+
+  ot-lightbox [data-lightbox-image] {
+    display: block;
+    max-height: var(--oatbase-lightbox-image-height, calc(100dvh - 12rem));
+    object-fit: contain;
+    width: auto;
+    max-width: 100%;
+  }
+
+  ot-lightbox [data-lightbox-caption] {
+    color: var(--muted-foreground);
+    font-size: var(--text-7);
+    text-align: center;
+    max-width: 70ch;
+  }
+
+  ot-lightbox [data-lightbox-dialog] > footer {
+    flex-wrap: wrap;
+    align-items:  center;
+    padding-block-start: var(--space-3);
+  }
+
+  ot-lightbox [data-lightbox-status] {
+    color: var(--muted-foreground);
+    font-size: var(--text-7);
+    margin-inline-end: auto;
+  }
+}

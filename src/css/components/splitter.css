@@ -1,0 +1,45 @@
+@layer components {
+  ot-splitter {
+    --split: 50%;
+    display: grid;
+    grid-template-columns: minmax(0, var(--split)) auto minmax(0, 1fr);
+    min-height: var(--oatbase-splitter-min-height, 14rem);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+  }
+  ot-splitter > :not([data-splitter]) { min-width: 0; overflow: auto; padding: var(--space-4); }
+  ot-splitter > [data-splitter] {
+    width: var(--oatbase-splitter-handle-size, 0.75rem);
+    padding: 0;
+    color: var(--muted-foreground);
+    background: var(--muted);
+    border-color: var(--border);
+    border-block: 0;
+    border-radius: 0;
+    cursor: col-resize;
+    touch-action: none;
+  }
+  ot-splitter > [data-splitter]::before {
+    content: "";
+    width: 2px;
+    height: var(--oatbase-splitter-grip-size, 2.5rem);
+    background: var(--muted-foreground);
+    border-radius: var(--radius-full);
+  }
+  ot-splitter[aria-orientation="vertical"] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, var(--split)) auto minmax(0, 1fr);
+  }
+  ot-splitter[aria-orientation="vertical"] > [data-splitter] {
+    width: auto;
+    height: var(--oatbase-splitter-handle-size, 0.75rem);
+    border-inline: 0;
+    border-block: 1px solid var(--border);
+    cursor: row-resize;
+  }
+  ot-splitter[aria-orientation="vertical"] > [data-splitter]::before {
+    width: var(--oatbase-splitter-grip-size, 2.5rem);
+    height: 0.125rem;
+  }
+}

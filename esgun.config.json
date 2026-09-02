@@ -1,0 +1,83 @@
+{
+  "root": "dist-esgun",
+  "target": "esnext",
+  "entrySets": {
+    "style-aggregates": [
+      { "input": "src/css/extensions.css", "output": "extensions" }
+    ],
+    "styles": [
+      { "input": "src/css/components/*.css", "output": "[name]" },
+      { "input": "src/css/utilities.css", "output": "utilities" }
+    ],
+    "script-aggregates": [
+      { "input": "src/js/index.js", "output": "oatbase" },
+      { "input": "src/js/extensions.js", "output": "extensions" }
+    ],
+    "scripts": [
+      { "input": "src/js/combobox.js", "output": "combobox" },
+      { "input": "src/js/command.js", "output": "command" },
+      { "input": "src/js/copy-button.js", "output": "copy-button" },
+      { "input": "src/js/data-table.js", "output": "data-table" },
+      { "input": "src/js/footnotes.js", "output": "footnotes" },
+      { "input": "src/js/lightbox.js", "output": "lightbox" },
+      { "input": "src/js/log-viewer.js", "output": "log-viewer" },
+      { "input": "src/js/multiselect.js", "output": "multiselect" },
+      { "input": "src/js/otp-input.js", "output": "otp-input" },
+      { "input": "src/js/password-field.js", "output": "password-field" },
+      { "input": "src/js/reading-progress.js", "output": "reading-progress" },
+      { "input": "src/js/repeater.js", "output": "repeater" },
+      { "input": "src/js/scrollspy.js", "output": "scrollspy" },
+      { "input": "src/js/select.js", "output": "select" },
+      { "input": "src/js/splitter.js", "output": "splitter" },
+      { "input": "src/js/theme-switcher.js", "output": "theme-switcher" },
+      { "input": "src/js/toggle.js", "output": "toggle" },
+      { "input": "src/js/toolbar.js", "output": "toolbar" },
+      { "input": "src/js/tooltip-compat.js", "output": "tooltip-compat" },
+      { "input": "src/js/tree.js", "output": "tree" }
+    ]
+  },
+  "profiles": {
+    "css-readable": {
+      "entrySets": ["style-aggregates", "styles"],
+      "outdir": "dist-esgun",
+      "format": "esm",
+      "splitting": false,
+      "minify": false
+    },
+    "css-minified": {
+      "entrySets": ["style-aggregates"],
+      "outdir": "dist-esgun",
+      "format": "esm",
+      "splitting": false,
+      "minify": true,
+      "suffix": ".min"
+    },
+    "esm-readable": {
+      "entrySets": ["script-aggregates", "scripts"],
+      "outdir": "dist-esgun",
+      "format": "esm",
+      "splitting": false,
+      "minify": false,
+      "suffix": ".esm"
+    },
+    "iife-readable": {
+      "entrySets": ["script-aggregates", "scripts"],
+      "outdir": "dist-esgun",
+      "format": "iife",
+      "splitting": false,
+      "minify": false
+    },
+    "iife-minified": {
+      "entrySets": ["script-aggregates"],
+      "outdir": "dist-esgun",
+      "format": "iife",
+      "splitting": false,
+      "minify": true,
+      "suffix": ".min"
+    }
+  },
+  "copies": [
+    { "from": "src/css/themes.css", "to": "dist-esgun/themes.css" },
+    { "from": "src/css/themes", "to": "dist-esgun/themes" }
+  ]
+}

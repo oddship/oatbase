@@ -1,0 +1,88 @@
+/* src/css/components/combobox.css */
+@layer components {
+  ot-combobox {
+    position: relative;
+    display: block;
+  }
+
+  ot-combobox:not([data-enhanced]) > :not(select), ot-combobox[data-enhanced] > select {
+    display: none;
+  }
+
+  ot-combobox:not([data-enhanced]) > select, ot-combobox > input[role="combobox"] {
+    width: 100%;
+  }
+
+  ot-combobox > [role="listbox"] {
+    position: absolute;
+    z-index: var(--z-dropdown);
+    max-height: var(--oatbase-listbox-max-height, min(18rem, 50dvh));
+    overflow-y: auto;
+    padding: var(--space-1);
+    list-style: none;
+    color: var(--foreground);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-large);
+    margin: 0;
+    top: calc(100% + var(--space-1));
+    left: 0;
+    right: 0;
+  }
+
+  ot-combobox [role="option"] {
+    display: flex;
+    align-items:  center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-small);
+    cursor: default;
+    margin: 0;
+  }
+
+  ot-combobox [role="option"]:hover {
+    background: var(--accent);
+  }
+
+  ot-combobox [role="option"]:-webkit-any([data-active], [aria-selected="true"]) {
+    background: var(--accent);
+  }
+
+  ot-combobox [role="option"]:-moz-any([data-active], [aria-selected="true"]) {
+    background: var(--accent);
+  }
+
+  ot-combobox [role="option"]:is([data-active], [aria-selected="true"]) {
+    background: var(--accent);
+  }
+
+  ot-combobox [role="option"][aria-selected="true"]:after {
+    content: "✓";
+    color: var(--primary);
+    font-weight: var(--font-semibold);
+    margin-inline-start: auto;
+  }
+
+  ot-combobox [role="option"][aria-disabled="true"] {
+    pointer-events: none;
+    opacity: .5;
+  }
+
+  ot-combobox [role="option"][data-create] {
+    color: var(--primary);
+    border-block-start: 1px solid var(--border);
+    border-radius: 0 0 var(--radius-small) var(--radius-small);
+  }
+
+  ot-combobox [role="option"][data-create]:before {
+    content: "+";
+  }
+
+  ot-combobox [data-empty] {
+    padding: var(--space-3);
+    color: var(--muted-foreground);
+    font-size: var(--text-7);
+    text-align: center;
+  }
+}

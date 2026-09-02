@@ -1,0 +1,9 @@
+@layer components {
+  [data-description-list] { display: grid; margin: 0; }
+  [data-description-list] > div { display: grid; grid-template-columns: minmax(8rem, 1fr) minmax(0, 2fr); gap: var(--space-4); padding-block: var(--space-3); border-block-end: 1px solid var(--border); }
+  [data-description-list] > div:first-child { border-block-start: 1px solid var(--border); }
+  [data-description-list] :where(dt, dd) { margin: 0; }
+  [data-description-list] dt { color: var(--muted-foreground); }
+  [data-description-list][data-layout="stacked"] > div { grid-template-columns: 1fr; gap: var(--space-1); }
+  @media (max-width: 36rem) { [data-description-list] > div { grid-template-columns: 1fr; gap: var(--space-1); } }
+}

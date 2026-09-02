@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    :root {
+      --foreground: #111; --background: #fff; --card: #fff; --muted: #eee;
+      --muted-foreground: #666; --faint: #fafafa; --primary: #543; --primary-foreground: #fff; --accent: #eee;
+      --border: #ccc; --input: #ccc; --ring: #543; --space-1: .25rem; --space-2: .5rem;
+      --space-3: .75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
+      --space-8: 2rem; --radius-small: .125rem; --radius-medium: .375rem;
+      --radius-large: .75rem; --radius-full: 9999px; --text-7: .875rem; --text-8: .75rem;
+      --font-mono: monospace; --font-semibold: 600; --shadow-small: none;
+      --shadow-large: 0 2px 8px #0002; --transition-fast: 100ms ease; --transition: 150ms ease;
+      --z-dropdown: 50;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+  </style>
+  <script>
+    const buildDirectory = new URLSearchParams(location.search).get('build') || 'dist';
+    if (!/^[a-zA-Z0-9._-]+$/.test(buildDirectory)) throw new Error(`Invalid build directory: ${buildDirectory}`);
+
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = `../${buildDirectory}/oatbase.css`;
+    document.head.append(stylesheet);
+
+    window.oatbaseBuildReady = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = `../${buildDirectory}/oatbase.js`;
+      script.async = false;
+      script.addEventListener('load', resolve, { once: true });
+      script.addEventListener('error', () => reject(new Error(`Unable to load ${script.src}`)), { once: true });
+      document.head.append(script);
+    });
+  </script>
+</head>
+<body data-test="pending">
+  <ot-combobox id="combo" data-allow-custom>
+    <select name="framework" aria-label="Framework">
+      <option value="" disabled selected>Choose</option>
+      <option value="rails">Ruby on Rails</option>
+      <option value="django" data-keywords="python">Django</option>
+    </select>
+  </ot-combobox>
+
+  <ot-command id="command">
+    <button data-command-open>Open</button>
+    <dialog>
+      <input data-command-search>
+      <ul data-command-list>
+        <li data-command-group>Navigation</li>
+        <li><button type="button" data-command-item data-value="home">Home</button></li>
+        <li><button type="button" data-command-item data-value="settings">Settings</button></li>
+        <li data-command-empty hidden>Empty</li>
+      </ul>
+    </dialog>
+  </ot-command>
+
+  <ot-select id="select">
+    <select name="fruit" aria-label="Fruit">
+      <option value="" disabled selected>Choose</option>
+      <option value="apple">Apple</option>
+      <option value="banana">Banana</option>
+    </select>
+  </ot-select>
+
+  <ot-theme-switcher id="theme" data-storage-key="oatbase-test-theme">
+    <button type="button" data-theme-value="system">System</button>
+    <button type="button" data-theme-value="light">Light</button>
+    <button type="button" data-theme-value="dark">Dark</button>
+  </ot-theme-switcher>
+
+  <ot-theme-switcher id="theme-cycle" data-storage-key="oatbase-test-cycle-theme">
+    <button type="button"><span data-theme-content="system">◐</span><span data-theme-content="light" hidden>☀</span><span data-theme-content="dark" hidden>☾</span><span class="visually-hidden" data-theme-label>System</span></button>
+  </ot-theme-switcher>
+
+  <dialog id="drawer" data-variant="drawer" data-side="right"><form method="dialog"><div data-drawer-body>Drawer</div><button value="close">Close</button></form></dialog>
+
+  <ot-copy id="copy"><input data-copy-source value="copy me"><button type="button" data-copy-button>Copy</button></ot-copy>
+
+  <ot-multiselect id="multi">
+    <select multiple aria-label="People"><option value="ada" selected>Ada</option><option value="grace">Grace</option></select>
+  </ot-multiselect>
+
+  <ot-password id="password"><input type="password" value="secret"><button data-password-toggle>Show</button></ot-password>
+
+  <ot-splitter id="splitter"><section>One</section><button data-splitter aria-label="Resize"></button><section>Two</section></ot-splitter>
+
+  <ot-tree id="tree"><ul><li aria-expanded="false"><button>src</button><ul><li><button>index.js</button></li></ul></li></ul></ot-tree>
+
+  <ot-toggle id="toggle"><button type="button" aria-pressed="false">Pin</button></ot-toggle>
+
+  <ot-toolbar id="toolbar" role="toolbar" aria-label="Formatting">
+    <button type="button">Bold</button>
+    <ot-toggle><button type="button" aria-pressed="false">Italic</button></ot-toggle>
+    <button type="button">Undo</button>
+  </ot-toolbar>
+
+  <ot-data-table id="data-table">
+    <input type="search" data-table-filter aria-label="Filter projects">
+    <output data-table-status></output><output data-table-selected></output>
+    <table><thead><tr><th><input type="checkbox" data-table-select-all aria-label="Select all rows"></th><th data-sort="text">Project</th><th data-sort="number">Issues</th></tr></thead><tbody>
+      <tr><td><input type="checkbox" data-table-select-row value="beacon" aria-label="Select Beacon"></td><th scope="row">Beacon</th><td>4</td></tr>
+      <tr><td><input type="checkbox" data-table-select-row value="atlas" aria-label="Select Atlas"></td><th scope="row">Atlas</th><td>12</td></tr>
+    </tbody></table>
+    <section data-variant="empty" data-table-empty hidden>No matches</section>
+  </ot-data-table>
+
+  <form id="repeater-form"><ot-repeater id="repeater" data-min="1" data-max="2"><div data-repeater-list><fieldset data-repeater-item><legend>Variable <output data-repeater-position>1</output></legend><input name="vars[0]" value="A"><button type="button" data-repeater-remove>Remove</button></fieldset></div><button type="button" data-repeater-add>Add</button><button type="reset">Reset repeater</button><template data-repeater-template><fieldset data-repeater-item><legend>Variable <output data-repeater-position></output></legend><input name="vars[__index__]" data-repeater-focus><button type="button" data-repeater-remove>Remove</button></fieldset></template></ot-repeater></form>
+
+  <ot-log-viewer id="log-viewer"><label><input type="checkbox" data-log-follow checked>Follow</label><output data-log-status></output><pre role="log" aria-label="Test output" tabindex="0"><code data-log-content><span data-log-line>one</span><span data-log-line>two</span></code></pre></ot-log-viewer>
+
+  <fieldset data-choice-cards id="choices"><legend>Plan</legend><label data-choice-card><input type="radio" name="plan" value="starter" checked><span><strong>Starter</strong><small>Personal</small></span></label><label data-choice-card><input type="radio" name="plan" value="team"><span><strong>Team</strong><small>Shared</small></span></label></fieldset>
+
+  <form id="otp-form"><label for="otp-input">Code</label><ot-otp id="otp" data-length="6"><input id="otp-input" name="code" inputmode="numeric" maxlength="6" value="12"></ot-otp></form>
+
+  <script>
+    window.addEventListener('load', async () => {
+      const assert = (condition, message) => { if (!condition) throw new Error(message); };
+      try {
+        await window.oatbaseBuildReady;
+        await Promise.all([
+          'ot-combobox', 'ot-command', 'ot-select', 'ot-theme-switcher', 'ot-copy',
+          'ot-multiselect', 'ot-password', 'ot-splitter', 'ot-tree', 'ot-toggle',
+          'ot-toolbar', 'ot-otp', 'ot-data-table', 'ot-repeater', 'ot-log-viewer'
+        ].map(name => customElements.whenDefined(name)));
+
+        const combo = document.querySelector('#combo');
+        const comboInput = combo.input;
+        let comboChanges = 0;
+        combo.addEventListener('change', () => comboChanges++);
+        comboInput.value = 'py';
+        comboInput.dispatchEvent(new Event('input', { bubbles: true }));
+        assert(combo.options[0].hidden && !combo.options[1].hidden, 'combobox filtering');
+        comboInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+        comboInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        assert(combo.value === 'django' && comboChanges === 1, 'combobox selection');
+        comboInput.value = 'Canary';
+        comboInput.dispatchEvent(new Event('input', { bubbles: true }));
+        comboInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        assert(combo.value === 'Canary' && combo.select.querySelector('option[data-custom]'), 'combobox creates a native option');
+
+        const command = document.querySelector('#command');
+        let commandValue = '';
+        command.addEventListener('oatbase:select', event => { commandValue = event.detail.value; });
+        command.open();
+        command.search.value = 'settings';
+        command.search.dispatchEvent(new Event('input', { bubbles: true }));
+        command.search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        assert(commandValue === 'settings' && !command.dialog.open, 'command activation');
+
+        const select = document.querySelector('#select');
+        let selectChanges = 0;
+        select.addEventListener('oatbase:change', () => selectChanges++);
+        select.open();
+        select.list.querySelector('[data-index="2"]').click();
+        assert(select.value === 'banana' && selectChanges === 1, 'select synchronization');
+
+        const theme = document.querySelector('#theme');
+        theme.querySelector('[data-theme-value="dark"]').click();
+        assert(theme.value === 'dark' && document.documentElement.style.colorScheme === 'dark', 'theme switcher applies');
+        assert(document.documentElement.dataset.theme === 'dark', 'theme switcher exposes explicit theme selectors');
+        theme.querySelector('[data-theme-value="system"]').click();
+        assert(!document.documentElement.hasAttribute('data-theme') && document.documentElement.style.colorScheme === 'light dark', 'system theme follows color scheme without a stale selector');
+
+        const themeCycle = document.querySelector('#theme-cycle');
+        themeCycle.value = 'system';
+        themeCycle.querySelector('button').click();
+        assert(themeCycle.value === 'light', 'single-button theme switcher cycles');
+        assert(!themeCycle.querySelector('[data-theme-content="light"]').hidden, 'single-button theme switcher preserves and selects custom content');
+        assert(themeCycle.querySelector('[data-theme-label]').textContent === 'Light', 'single-button theme switcher updates its accessible label');
+
+        const drawer = document.querySelector('#drawer');
+        drawer.showModal();
+        assert(drawer.open, 'drawer opens natively');
+        drawer.querySelector('button').click();
+        assert(!drawer.open && drawer.returnValue === 'close', 'drawer closes natively');
+
+        const copy = document.querySelector('#copy');
+        let copied = '';
+        copy.addEventListener('oatbase:copy', event => { copied = event.detail.value; });
+        const copyButtonSize = copy.button.getBoundingClientRect();
+        await copy.copy();
+        assert(copied === 'copy me', 'copy button reads its semantic source');
+        const copiedButtonSize = copy.button.getBoundingClientRect();
+        assert(Math.abs(copyButtonSize.width - copiedButtonSize.width) < 1 && Math.abs(copyButtonSize.height - copiedButtonSize.height) < 1, 'copy feedback preserves button dimensions');
+
+        const multi = document.querySelector('#multi');
+        multi.open();
+        multi.list.querySelector('[data-index="1"]').click();
+        assert(multi.value.join(',') === 'ada,grace', 'multiselect synchronizes native options');
+
+        const password = document.querySelector('#password');
+        password.button.click();
+        assert(password.input.type === 'text' && password.button.getAttribute('aria-pressed') === 'true', 'password visibility toggles accessibly');
+
+        const splitter = document.querySelector('#splitter');
+        splitter.handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+        assert(splitter.value === 55, 'splitter supports keyboard resizing');
+
+        const tree = document.querySelector('#tree');
+        tree.querySelector('[role="treeitem"] > button').click();
+        assert(tree.querySelector('[role="treeitem"]').getAttribute('aria-expanded') === 'true', 'tree disclosure toggles');
+
+        const toggle = document.querySelector('#toggle');
+        let toggleChanges = 0;
+        toggle.addEventListener('oatbase:change', () => toggleChanges++);
+        toggle.button.click();
+        assert(toggle.pressed && toggle.button.getAttribute('aria-pressed') === 'true' && toggleChanges === 1, 'toggle synchronizes pressed state');
+
+        const toolbar = document.querySelector('#toolbar');
+        toolbar.items[0].focus();
+        toolbar.items[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+        assert(document.activeElement === toolbar.items[1], 'toolbar moves focus with arrow keys');
+        assert(toolbar.items.filter(item => item.tabIndex === 0).length === 1, 'toolbar maintains one tab stop');
+
+        const dataTable = document.querySelector('#data-table');
+        const nameSort = dataTable.querySelector('th[data-sort="text"] [data-table-sort]');
+        nameSort.click();
+        assert(dataTable.rows[0].textContent.includes('Atlas'), 'data table sorts text cells');
+        dataTable.filter.value = 'beacon';
+        dataTable.filter.dispatchEvent(new Event('input', { bubbles: true }));
+        assert(dataTable.visibleRows.length === 1 && dataTable.status.value === '1 of 2 rows', 'data table filters native rows');
+        let selected = [];
+        dataTable.addEventListener('oatbase:select', event => { selected = event.detail.values; });
+        dataTable.selectAll.click();
+        assert(selected.join(',') === 'beacon' && dataTable.selectedRows.length === 1, 'data table select-all affects visible rows');
+        dataTable.filter.value = 'missing';
+        dataTable.filter.dispatchEvent(new Event('input', { bubbles: true }));
+        assert(!dataTable.empty.hidden, 'data table exposes its native empty state');
+
+        const repeater = document.querySelector('#repeater');
+        repeater.add();
+        assert(repeater.items.length === 2 && repeater.querySelector('[name="vars[1]"]'), 'repeater clones indexed native fields');
+        assert(repeater.querySelector('[data-repeater-add]').disabled, 'repeater enforces max items');
+        repeater.remove(repeater.items[1]);
+        assert(repeater.items.length === 1, 'repeater removes native fields');
+
+        const logViewer = document.querySelector('#log-viewer');
+        assert(logViewer.lineCount === 2 && logViewer.status.value === '2 lines', 'log viewer counts source lines');
+        let updatedLines = 0;
+        logViewer.addEventListener('oatbase:update', event => { updatedLines = event.detail.lines; }, { once: true });
+        logViewer.append('\nthree');
+        logViewer.refresh();
+        assert(logViewer.lineCount === 3 && logViewer.status.value === '3 lines' && updatedLines === 3, 'log viewer refreshes appended output');
+
+        const choices = document.querySelector('#choices');
+        choices.querySelector('input[value="team"]').click();
+        assert(choices.querySelector('input[value="team"]').checked, 'choice card remains a native radio');
+
+        const otp = document.querySelector('#otp');
+        let completed = '';
+        otp.addEventListener('oatbase:complete', event => { completed = event.detail.value; });
+        otp.input.value = '12a3456';
+        otp.input.dispatchEvent(new Event('input', { bubbles: true }));
+        assert(otp.value === '123456' && completed === '123456', 'OTP sanitizes numeric input and emits completion');
+        assert(new FormData(document.querySelector('#otp-form')).get('code') === '123456', 'OTP submits its native input');
+
+        document.body.dataset.test = 'pass';
+      } catch (error) {
+        document.body.dataset.test = 'fail';
+        const output = document.createElement('pre');
+        output.id = 'test-error';
+        output.textContent = error.stack;
+        document.body.append(output);
+      }
+    });
+  </script>
+</body>
+</html>

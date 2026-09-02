@@ -1,0 +1,38 @@
+/* src/css/components/scroll-area.css */
+@layer components {
+  .scroll-area {
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: var(--input) transparent;
+    scrollbar-width: thin;
+  }
+
+  .scroll-area::-webkit-scrollbar {
+    width: var(--oatbase-scrollbar-size, .625rem);
+    height: var(--oatbase-scrollbar-size, .625rem);
+  }
+
+  .scroll-area::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  .scroll-area::-webkit-scrollbar-thumb {
+    background: var(--input);
+    border: calc(var(--oatbase-scrollbar-size, .625rem) * .3) solid transparent;
+    border-radius: var(--radius-full);
+    background-clip: padding-box;
+  }
+
+  .scroll-area[data-orientation="horizontal"] {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-3);
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+  }
+
+  .scroll-area[data-orientation="horizontal"] > * {
+    flex: none;
+  }
+}

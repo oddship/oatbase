@@ -1,0 +1,27 @@
+/* src/css/components/tooltip-compat.css */
+@layer components {
+  [data-tooltip] {
+    --oatbase-tooltip-shift: 0px;
+  }
+
+  [data-tooltip]:not([data-tooltip-placement="left"]):not([data-tooltip-placement="right"]) {
+    --_c: translateX(calc(-50% + var(--oatbase-tooltip-shift)));
+  }
+
+  [data-tooltip]:after {
+    max-inline-size: min(20rem, calc(100vw - var(--space-8)));
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: start;
+  }
+
+  [data-tooltip]:before, [data-tooltip]:after {
+    pointer-events: auto;
+  }
+
+  [data-tooltip][data-tooltip-dismissed]:before, [data-tooltip][data-tooltip-dismissed]:after {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition-delay: 0s !important;
+  }
+}

@@ -1,0 +1,12 @@
+@layer components {
+  [data-timeline] { --_marker-size: var(--oatbase-timeline-marker-size, 0.75rem); --_line-width: 1px; padding: 0; margin: 0; list-style: none; }
+  [data-timeline] > li { position: relative; padding: 0 0 var(--space-5) var(--space-6); margin: 0; }
+  [data-timeline] > li::before { content: ""; position: absolute; inset-block-start: 0.4em; inset-inline-start: 0; width: var(--_marker-size); height: var(--_marker-size); background: var(--background); border: 2px solid var(--primary); border-radius: var(--radius-full); }
+  [data-timeline] > li:not(:last-child)::after { content: ""; position: absolute; inset-block: calc(0.4em + var(--_marker-size)) 0; inset-inline-start: calc((var(--_marker-size) - var(--_line-width)) / 2); border-inline-start: var(--_line-width) solid var(--border); }
+  [data-timeline] :where(h3, p) { margin: 0; }
+  [data-timeline] time { color: var(--muted-foreground); font-size: var(--text-8); }
+  [data-timeline] > li[data-status="complete"]::before { background: var(--primary); }
+  [data-timeline] > li[data-status="pending"]::before { border-color: var(--border); }
+  [data-timeline] [data-slot="header"] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); }
+  [data-timeline] [data-slot="actions"] { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-block-start: var(--space-2); }
+}

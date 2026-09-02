@@ -1,0 +1,33 @@
+@layer components {
+  .scroll-area {
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: var(--input) transparent;
+    scrollbar-width: thin;
+  }
+
+  .scroll-area::-webkit-scrollbar {
+    width: var(--oatbase-scrollbar-size, 0.625rem);
+    height: var(--oatbase-scrollbar-size, 0.625rem);
+  }
+
+  .scroll-area::-webkit-scrollbar-track { background: transparent; }
+
+  .scroll-area::-webkit-scrollbar-thumb {
+    background: var(--input);
+    border: calc(var(--oatbase-scrollbar-size, 0.625rem) * 0.3) solid transparent;
+    border-radius: var(--radius-full);
+    background-clip: padding-box;
+  }
+
+  .scroll-area[data-orientation="horizontal"] {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: var(--space-3);
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .scroll-area[data-orientation="horizontal"] > * { flex: 0 0 auto; }
+}

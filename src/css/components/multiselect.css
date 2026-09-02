@@ -1,0 +1,43 @@
+@layer components {
+  ot-multiselect { position: relative; display: block; }
+  ot-multiselect:not([data-enhanced]) > :not(select),
+  ot-multiselect[data-enhanced] > select { display: none; }
+  ot-multiselect:not([data-enhanced]) > select,
+  ot-multiselect > button[aria-haspopup="listbox"] { width: 100%; }
+  ot-multiselect > button[aria-haspopup="listbox"] {
+    justify-content: space-between;
+    color: var(--foreground);
+    background: var(--background);
+    border-color: var(--input);
+  }
+  ot-multiselect > button[aria-haspopup="listbox"]::after { content: "⌄"; color: var(--muted-foreground); }
+  ot-multiselect > [role="listbox"] {
+    position: absolute;
+    z-index: var(--z-dropdown);
+    inset-block-start: calc(100% + var(--space-1));
+    inset-inline: 0;
+    max-height: var(--oatbase-listbox-max-height, min(18rem, 50dvh));
+    overflow-y: auto;
+    padding: var(--space-1);
+    margin: 0;
+    list-style: none;
+    color: var(--foreground);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-large);
+  }
+  ot-multiselect [role="option"] {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    margin: 0;
+    border-radius: var(--radius-small);
+    cursor: default;
+  }
+  ot-multiselect [role="option"]:is(:hover, [data-active]) { background: var(--accent); }
+  ot-multiselect [role="option"]::before { content: "□"; color: var(--muted-foreground); }
+  ot-multiselect [role="option"][aria-selected="true"]::before { content: "☑"; color: var(--primary); }
+  ot-multiselect [role="option"][aria-disabled="true"] { pointer-events: none; opacity: 0.5; }
+}

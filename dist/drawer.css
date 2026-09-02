@@ -1,0 +1,190 @@
+/* src/css/components/drawer.css */
+@layer components {
+  dialog[data-variant="drawer"] {
+    position: fixed;
+    color: var(--foreground);
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-large);
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  dialog[data-variant="drawer"]::backdrop {
+    background: var(--oatbase-overlay-background, #00000073);
+  }
+
+  dialog[data-variant="drawer"][data-side="bottom"] {
+    max-height: var(--oatbase-drawer-max-height, min(85dvh, 48rem));
+    border-radius: var(--radius-large) var(--radius-large) 0 0;
+    width: 100%;
+    inset: auto 0 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="top"] {
+    max-height: var(--oatbase-drawer-max-height, min(85dvh, 48rem));
+    border-radius: 0 0 var(--radius-large) var(--radius-large);
+    width: 100%;
+    inset: 0 0 auto;
+  }
+
+  dialog[data-variant="drawer"]:-webkit-any([data-side="left"], [data-side="right"]) {
+    width: var(--oatbase-drawer-size, min(28rem, 90vw));
+    height: 100dvh;
+    top: 0;
+    bottom: 0;
+  }
+
+  dialog[data-variant="drawer"]:-moz-any([data-side="left"], [data-side="right"]) {
+    width: var(--oatbase-drawer-size, min(28rem, 90vw));
+    height: 100dvh;
+    top: 0;
+    bottom: 0;
+  }
+
+  dialog[data-variant="drawer"]:is([data-side="left"], [data-side="right"]) {
+    width: var(--oatbase-drawer-size, min(28rem, 90vw));
+    height: 100dvh;
+    top: 0;
+    bottom: 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="left"] {
+    border-radius: 0 var(--radius-large) var(--radius-large) 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="left"]:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
+    left: 0;
+    right: auto;
+  }
+
+  dialog[data-variant="drawer"][data-side="left"]:not(:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
+    left: 0;
+    right: auto;
+  }
+
+  dialog[data-variant="drawer"][data-side="left"]:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
+    left: 0;
+    right: auto;
+  }
+
+  dialog[data-variant="drawer"][data-side="left"]:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
+    left: auto;
+    right: 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="left"]:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
+    left: auto;
+    right: 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="left"]:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
+    left: auto;
+    right: 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="right"] {
+    border-radius: var(--radius-large) 0 0 var(--radius-large);
+  }
+
+  dialog[data-variant="drawer"][data-side="right"]:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
+    left: auto;
+    right: 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="right"]:not(:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
+    left: auto;
+    right: 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="right"]:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
+    left: auto;
+    right: 0;
+  }
+
+  dialog[data-variant="drawer"][data-side="right"]:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
+    left: 0;
+    right: auto;
+  }
+
+  dialog[data-variant="drawer"][data-side="right"]:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
+    left: 0;
+    right: auto;
+  }
+
+  dialog[data-variant="drawer"][data-side="right"]:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
+    left: 0;
+    right: auto;
+  }
+
+  dialog[data-variant="drawer"] > :where(form, article, section) {
+    display: flex;
+    max-height: inherit;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  dialog[data-variant="drawer"] :where(header, footer) {
+    padding: var(--space-4) var(--space-5);
+    flex: none;
+  }
+
+  dialog[data-variant="drawer"] header {
+    border-block-end: 1px solid var(--border);
+  }
+
+  dialog[data-variant="drawer"] footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    border-block-start: 1px solid var(--border);
+  }
+
+  dialog[data-variant="drawer"] [data-drawer-body] {
+    padding: var(--space-5);
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    dialog[data-variant="drawer"][open] {
+      animation: oatbase-drawer-in var(--transition) both;
+    }
+
+    dialog[data-variant="drawer"][open]::backdrop {
+      animation: oatbase-fade-in var(--transition) both;
+    }
+  }
+
+  @keyframes oatbase-drawer-in {
+    from {
+      opacity: 0;
+      transform: translate3d(var(--_drawer-x, 0), var(--_drawer-y, 0), 0);
+    }
+  }
+
+  @keyframes oatbase-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  dialog[data-variant="drawer"][data-side="bottom"] {
+    --_drawer-y: var(--oatbase-drawer-motion-offset, 1.5rem);
+  }
+
+  dialog[data-variant="drawer"][data-side="top"] {
+    --_drawer-y: calc(-1 * var(--oatbase-drawer-motion-offset, 1.5rem));
+  }
+
+  dialog[data-variant="drawer"][data-side="left"] {
+    --_drawer-x: calc(-1 * var(--oatbase-drawer-motion-offset, 1.5rem));
+  }
+
+  dialog[data-variant="drawer"][data-side="right"] {
+    --_drawer-x: var(--oatbase-drawer-motion-offset, 1.5rem);
+  }
+}

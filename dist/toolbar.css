@@ -1,0 +1,48 @@
+/* src/css/components/toolbar.css */
+@layer components {
+  ot-toolbar {
+    display: inline-flex;
+    align-items:  center;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+  }
+
+  ot-toolbar[aria-orientation="vertical"] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  ot-toolbar > [role="separator"] {
+    margin: var(--space-1);
+    border: 0;
+    border-inline-start: 1px solid var(--border);
+    align-self: stretch;
+  }
+
+  ot-toolbar[aria-orientation="vertical"] > [role="separator"] {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--border);
+  }
+
+  ot-toolbar[data-sticky] {
+    position: sticky;
+    z-index: var(--z-dropdown);
+    top: var(--oatbase-toolbar-offset, var(--space-3));
+  }
+
+  ot-toolbar[data-floating] {
+    box-shadow: var(--shadow-large);
+  }
+
+  ot-toolbar[data-full] {
+    display: flex;
+    width: 100%;
+  }
+
+  ot-toolbar[data-full] > [data-slot="spacer"] {
+    flex: 1;
+  }
+}

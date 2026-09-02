@@ -1,0 +1,38 @@
+@layer components {
+  kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--space-6);
+    min-height: var(--space-6);
+    padding: 0 var(--space-1);
+    font-family: var(--font-mono);
+    font-size: var(--text-8);
+    line-height: 1;
+    color: var(--muted-foreground);
+    background: var(--faint);
+    border: 1px solid var(--border);
+    border-block-end-width: 2px;
+    border-radius: var(--radius-small);
+    box-shadow: var(--shadow-small);
+    white-space: nowrap;
+  }
+
+  kbd[data-variant="inline"] {
+    min-width: auto;
+    min-height: auto;
+    padding: 0;
+    color: var(--muted-foreground);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    letter-spacing: normal;
+  }
+
+  .kbd-group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+}

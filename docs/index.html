@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Oatbase documentation and interactive component demos for Oat UI.">
+  <title>Oatbase — extensions for Oat UI</title>
+  <link rel="stylesheet" href="../dist/oatbase.css?v=0.1.0">
+  <link rel="stylesheet" href="../dist/tooltip-compat.css?v=0.1.0">
+  <link rel="stylesheet" href="../dist/themes.css?v=0.1.0">
+  <link rel="stylesheet" href="./docs.css?v=0.1.0">
+  <script>try{const preset=localStorage.getItem('oatbase-preset');const mode=localStorage.getItem('oatbase-theme');if(preset)document.documentElement.dataset.oatTheme=preset;if(['system','light','dark'].includes(mode)){document.documentElement.style.colorScheme=mode==='system'?'light dark':mode;if(mode==='system')document.documentElement.removeAttribute('data-theme');else document.documentElement.dataset.theme=mode}}catch{}</script>
+  <script src="../dist/oatbase.js?v=0.1.0" defer></script>
+  <script src="../dist/tooltip-compat.js?v=0.1.0" defer></script>
+  <script src="./components.js?v=0.1.0" defer></script>
+  <script src="./examples.js?v=0.1.0" defer></script>
+  <script src="./docs.js?v=0.1.0" defer></script>
+</head>
+<body>
+  <div class="docs-layout" data-sidebar-layout>
+  <nav class="docs-header" data-topnav aria-label="Primary navigation">
+    <button type="button" class="ghost icon small docs-mobile-toggle" data-sidebar-toggle aria-label="Toggle documentation navigation">☰</button>
+    <a class="docs-brand" href="#/">
+      <span class="docs-brand-mark">o.</span>
+      <span>oatbase</span>
+    </a>
+    <span class="badge docs-version" data-variant="secondary">v0.1.0</span>
+
+    <div class="hstack gap-2 docs-header-actions">
+      <a class="button ghost small docs-header-link" href="https://oat.ink" target="_blank" rel="noreferrer">Oat UI <span aria-hidden="true">↗</span></a>
+      <ot-select class="docs-palette-switcher">
+        <select data-theme-preset aria-label="Color theme">
+          <option value="oat">Oat</option>
+          <option value="doordarshan">Doordarshan</option>
+          <option value="forest">Forest</option>
+          <option value="ocean">Ocean</option>
+          <option value="paper">Paper</option>
+        </select>
+      </ot-select>
+      <ot-command data-shortcut="mod+k" id="docs-command">
+        <button type="button" class="outline small docs-search-trigger" data-command-open commandfor="docs-command-dialog" command="show-modal">
+          <svg class="docs-search-icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg><span class="docs-search-label">Search documentation…</span><kbd data-variant="inline" class="docs-search-shortcut">⌘ K</kbd>
+        </button>
+        <dialog id="docs-command-dialog" class="docs-command-dialog" closedby="any" aria-label="Search documentation">
+          <input data-command-search type="search" placeholder="Search pages and components…" aria-label="Search documentation">
+          <ul data-command-list>
+            <li data-command-group>Getting started</li>
+            <li><button type="button" data-command-item data-route="/" data-value="introduction">Introduction</button></li>
+            <li><button type="button" data-command-item data-route="/components" data-value="components" data-keywords="catalog extensions oat core">Components</button></li>
+            <li><button type="button" data-command-item data-route="/recipes" data-value="recipes" data-keywords="compositions patterns">Recipes</button></li>
+            <li><button type="button" data-command-item data-route="/examples" data-value="blocks" data-keywords="full pages iframe examples">Blocks</button></li>
+            <li><button type="button" data-command-item data-route="/installation" data-value="installation">Installation</button></li>
+            <li><button type="button" data-command-item data-route="/principles" data-value="principles" data-keywords="semantic native philosophy">Principles</button></li>
+            <li><button type="button" data-command-item data-route="/customizing" data-value="customizing" data-keywords="theme tokens palette density radius css variables">Customizing</button></li>
+            <li data-command-group id="docs-command-components">Components</li>
+            <li><button type="button" data-command-item data-route="/components/combobox" data-value="combobox" data-keywords="search select">Combobox</button></li>
+            <li><button type="button" data-command-item data-route="/components/command" data-value="command" data-keywords="palette search menu">Command</button></li>
+            <li><button type="button" data-command-item data-route="/components/drawer" data-value="drawer" data-keywords="dialog sheet panel">Drawer</button></li>
+            <li><button type="button" data-command-item data-route="/components/item" data-value="item" data-keywords="list row">Item</button></li>
+            <li><button type="button" data-command-item data-route="/components/empty" data-value="empty" data-keywords="blank state">Empty state</button></li>
+            <li><button type="button" data-command-item data-route="/components/kbd" data-value="kbd" data-keywords="keyboard shortcut">Keyboard hints</button></li>
+            <li data-command-empty hidden>No documentation found.</li>
+          </ul>
+        </dialog>
+      </ot-command>
+      <ot-theme-switcher data-storage-key="oatbase-theme">
+        <button type="button" class="outline icon small docs-theme-button" data-theme-toggle aria-label="Change theme">
+          <span data-theme-content="system"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M12 4a8 8 0 0 0 0 16Z"></path></svg></span>
+          <span data-theme-content="light" hidden><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path></svg></span>
+          <span data-theme-content="dark" hidden><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 15.3A8.5 8.5 0 0 1 8.7 4a8.5 8.5 0 1 0 11.3 11.3Z"></path></svg></span>
+          <span class="visually-hidden" data-theme-label>System</span>
+        </button>
+      </ot-theme-switcher>
+    </div>
+  </nav>
+
+    <aside class="docs-sidebar" data-sidebar aria-label="Documentation navigation">
+      <header class="docs-sidebar-search">
+      <label>
+        <span class="visually-hidden">Filter navigation</span>
+        <input type="search" data-nav-search placeholder="Filter components…">
+      </label>
+      </header>
+
+      <nav>
+        <section class="docs-nav-group">
+          <h2>Getting started</h2>
+          <ul>
+            <li><a href="#/" data-route="/">Introduction</a></li>
+            <li><a href="#/components" data-route="/components">Components</a></li>
+            <li><a href="#/recipes" data-route="/recipes">Recipes</a></li>
+            <li><a href="#/examples" data-route="/examples">Blocks</a></li>
+            <li><a href="#/installation" data-route="/installation">Installation</a></li>
+            <li><a href="#/principles" data-route="/principles">Principles</a></li>
+            <li><a href="#/customizing" data-route="/customizing">Customizing</a></li>
+          </ul>
+        </section>
+        <section class="docs-nav-group" data-source="Oatbase">
+          <h2>Oatbase extensions <span class="badge docs-source-count" data-variant="secondary" data-source-count="Oatbase">34</span></h2>
+          <ul id="docs-oatbase-nav" data-component-nav></ul>
+        </section>
+        <section class="docs-nav-group" data-source="Oat core">
+          <h2>Oat core patterns <span class="badge docs-source-count" data-variant="secondary" data-source-count="Oat core">34</span></h2>
+          <ul id="docs-oat-nav" data-component-nav></ul>
+        </section>
+        <p class="docs-nav-empty" hidden>No matching pages.</p>
+      </nav>
+    </aside>
+
+    <main class="docs-viewport">
+    <div class="docs-shell">
+    <div class="docs-main">
+      <article class="docs-page" data-page="/" data-title="Introduction">
+        <header class="vstack gap-6 docs-home-header">
+          <div class="hstack docs-home-kicker">
+            <span class="badge">Oatbase</span>
+            <span>Extensions for Oat UI</span>
+          </div>
+          <h1>Advanced components for Oat UI.</h1>
+          <p class="docs-lead">Keep Oat’s semantic HTML, tiny footprint, and token system. Add Oatbase when a product needs richer selection, navigation, content, or application patterns. The complete Oat-inclusive CSS and JavaScript stays under 28&nbsp;kB gzipped; the extension-only layer stays under 18&nbsp;kB. Individual entries let applications pay only for the pieces they use.</p>
+          <div class="hstack">
+            <a class="button" href="#/components" data-catalog-preset="Oatbase">Browse additions</a>
+            <a class="button outline" href="#/installation">Install Oatbase</a>
+          </div>
+        </header>
+
+        <section class="card row gap-6 items-center docs-home-install" aria-labelledby="quick-install">
+          <div class="col-6">
+            <span class="docs-eyebrow">Local package</span>
+            <h2 id="quick-install">Use the source checkout today.</h2>
+            <p>Oatbase is not published yet. Install the local folder to use its complete Oat-inclusive bundle in another project.</p>
+          </div>
+          <ot-copy class="col-6 hstack gap-2 docs-install-command">
+            <pre data-copy-source><code>npm install ../oatbase</code></pre>
+            <button type="button" class="outline small" data-copy-button>Copy</button>
+          </ot-copy>
+        </section>
+
+        <dl data-stats class="docs-library-stats" aria-label="Library coverage">
+          <div><dt>Oat core patterns</dt><dd data-source-count="Oat core">34</dd></div>
+          <div><dt>Oatbase additions</dt><dd data-source-count="Oatbase">34</dd></div>
+          <div><dt>Documented patterns</dt><dd data-component-count>68</dd></div>
+        </dl>
+
+        <section class="docs-section">
+          <h2 id="choose-a-layer">Choose the smallest useful layer</h2>
+          <p>Oat remains the foundation. Oatbase fills deliberate gaps without replacing Oat’s components or creating another theme contract.</p>
+          <div class="row gap-2 mt-6 docs-home-layers">
+            <a class="item col-6" data-variant="outline" href="#/components" data-catalog-preset="Oat core">
+              <span data-slot="media">O</span>
+              <section><h3>Start with Oat core</h3><p>Buttons, fields, dialogs, tables, tabs, alerts, and other common interface primitives.</p></section>
+              <span aria-hidden="true">›</span>
+            </a>
+            <a class="item col-6" data-variant="outline" href="#/components" data-catalog-preset="Oatbase">
+              <span data-slot="media">+</span>
+              <section><h3>Add Oatbase where needed</h3><p>Richer selection, navigation, content, and product-oriented compositions.</p></section>
+              <span aria-hidden="true">›</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="docs-section">
+          <h2 id="popular-additions">Useful starting points</h2>
+          <p>A short cross-section of the extension layer. Use the navigation or search to reach the complete catalog.</p>
+          <div class="row gap-2 docs-component-grid" data-component-grid data-components="combobox,command,tree,lightbox,footnotes,reading-progress">
+            <a class="item col-6" href="#/components/combobox"><span data-slot="media">⌕</span><section><h3>Combobox</h3><p>Searchable selection backed by a native select.</p></section><span aria-hidden="true">›</span></a>
+            <a class="item col-6" href="#/components/command"><span data-slot="media">⌘</span><section><h3>Command</h3><p>Fast filtering and keyboard access.</p></section><span aria-hidden="true">›</span></a>
+            <a class="item col-6" href="#/components/tree"><span data-slot="media">⌘</span><section><h3>Tree</h3><p>Hierarchical navigation with native disclosure.</p></section><span aria-hidden="true">›</span></a>
+            <a class="item col-6" href="#/components/lightbox"><span data-slot="media">▣</span><section><h3>Lightbox</h3><p>An image viewer composed from Oat primitives.</p></section><span aria-hidden="true">›</span></a>
+            <a class="item col-6" href="#/components/footnotes"><span data-slot="media">¹</span><section><h3>Footnotes</h3><p>Readable previews without hiding source notes.</p></section><span aria-hidden="true">›</span></a>
+            <a class="item col-6" href="#/components/reading-progress"><span data-slot="media">↧</span><section><h3>Reading progress</h3><p>A native progress element tied to long content.</p></section><span aria-hidden="true">›</span></a>
+          </div>
+        </section>
+      </article>
+
+      <article class="docs-page" data-page="/components" data-title="Components" hidden>
+        <header>
+          <span class="docs-eyebrow">Reference</span>
+          <h1>Components</h1>
+          <p class="docs-lead">Browse Oatbase additions and the Oat core patterns available through the complete bundle. The source filter makes the ownership boundary explicit.</p>
+        </header>
+        <section class="docs-section">
+          <h2 id="component-catalog">Browse by source</h2>
+          <div class="docs-catalog-toolbar">
+            <fieldset data-segmented aria-label="Component source">
+              <legend>Component source</legend>
+              <label><input type="radio" name="catalog-source" value="Oatbase" checked><span>Oatbase</span></label>
+              <label><input type="radio" name="catalog-source" value="Oat core"><span>Oat core</span></label>
+              <label><input type="radio" name="catalog-source" value="All"><span>All</span></label>
+            </fieldset>
+            <fieldset class="group docs-catalog-search">
+              <legend><span aria-hidden="true">⌕</span><span class="visually-hidden">Quick filter components</span></legend>
+              <input type="search" data-catalog-search placeholder="Quick filter…" autocomplete="off" aria-label="Quick filter components">
+            </fieldset>
+            <output class="badge docs-catalog-count" data-variant="secondary" data-catalog-count aria-live="polite">34 additions</output>
+          </div>
+          <div class="row gap-2 docs-component-grid" data-component-catalog></div>
+          <section data-variant="empty" data-catalog-empty hidden>
+            <span data-slot="media">⌕</span>
+            <h3>No components found</h3>
+            <p>Try another term or broaden the source filter.</p>
+          </section>
+        </section>
+      </article>
+
+      <article class="docs-page" data-page="/recipes" data-title="Recipes" hidden>
+        <header><span class="docs-eyebrow">Compositions</span><h1>Recipes</h1><p class="docs-lead">Application patterns composed from Oat and Oatbase components. Recipes show ownership boundaries without growing the component bundle.</p></header>
+        <aside data-callout><strong>Copyable compositions:</strong> these snippets assume the complete Oatbase bundle from the installation guide. Follow the linked component pages when using individual imports. Fetching, validation, permissions, persistence, and mutations stay in application code.</aside>
+        <section class="docs-section"><h2 id="data-recipes">Data management</h2><div class="row gap-2 docs-component-grid">
+          <article class="card col-6"><header><h3>Filter toolbar</h3><p>Compose an Oat field, <a href="#/components/toolbar">Toolbar</a>, and <a href="#/components/data-table">Data Table</a>. Filtering coordinates rows already in the document.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-code data-code-kind="html" data-copy-source><code>&lt;ot-data-table&gt;
+  &lt;div data-table-toolbar&gt;
+    &lt;label data-field&gt;Filter
+      &lt;input type="search" data-table-filter&gt;
+    &lt;/label&gt;
+    &lt;ot-toolbar role="toolbar" aria-label="Table actions"&gt;
+      &lt;button type="button"&gt;Add project&lt;/button&gt;
+    &lt;/ot-toolbar&gt;
+  &lt;/div&gt;
+  &lt;table&gt;…&lt;/table&gt;
+&lt;/ot-data-table&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+          <article class="card col-6"><header><h3>Bulk selection</h3><p>Reveal application-owned actions from Data Table’s <code>oatbase:select</code> event. Destructive confirmation remains native application behavior.</p></header><details><summary>HTML and JavaScript</summary><ot-copy class="vstack"><pre data-copy-source><code>&lt;ot-data-table id="projects"&gt;
+  &lt;div data-bulk-actions hidden&gt;
+    &lt;button type="button"&gt;Archive selected&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;table&gt;…&lt;/table&gt;
+&lt;/ot-data-table&gt;
+
+&lt;script&gt;
+  const projects = document.querySelector('#projects');
+  projects.addEventListener('oatbase:select', event =&gt; {
+    projects.querySelector('[data-bulk-actions]').hidden =
+      event.detail.values.length === 0;
+  });
+&lt;/script&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+          <article class="card col-6"><header><h3>Row actions</h3><p>Place an Oat dropdown in a native table cell without turning the entire row into a button.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-code data-code-kind="html" data-copy-source><code>&lt;tr&gt;
+  &lt;th scope="row"&gt;Atlas&lt;/th&gt;
+  &lt;td&gt;Active&lt;/td&gt;
+  &lt;td&gt;
+    &lt;ot-dropdown&gt;
+      &lt;button popovertarget="atlas-actions" aria-label="Actions for Atlas"&gt;⋯&lt;/button&gt;
+      &lt;menu id="atlas-actions" popover&gt;
+        &lt;button role="menuitem"&gt;Open&lt;/button&gt;
+        &lt;button role="menuitem"&gt;Archive&lt;/button&gt;
+      &lt;/menu&gt;
+    &lt;/ot-dropdown&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+          <article class="card col-6"><header><h3>Filtered empty state</h3><p>Pair <code>data-table-empty</code> with the compact <a href="#/components/empty">Empty</a> variant. The table component owns visibility; the application owns recovery actions.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-code data-code-kind="html" data-copy-source><code>&lt;ot-data-table&gt;
+  &lt;input type="search" data-table-filter aria-label="Filter projects"&gt;
+  &lt;table&gt;…&lt;/table&gt;
+  &lt;section data-variant="empty" data-size="compact" data-table-empty hidden&gt;
+    &lt;h3&gt;No projects found&lt;/h3&gt;
+    &lt;p&gt;Try another filter.&lt;/p&gt;
+  &lt;/section&gt;
+&lt;/ot-data-table&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+        </div></section>
+        <section class="docs-section"><h2 id="content-recipes">Content and files</h2><div class="row gap-2 docs-component-grid">
+          <article class="card col-6"><header><h3>Attachment row</h3><p>Combine <a href="#/components/item">Item</a> media, metadata, actions, and Oat Upload. Upload transport remains application code.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-code data-code-kind="html" data-copy-source><code>&lt;article class="item" data-variant="outline"&gt;
+  &lt;span data-slot="media" aria-hidden="true"&gt;PDF&lt;/span&gt;
+  &lt;section&gt;&lt;h3&gt;Report.pdf&lt;/h3&gt;&lt;p&gt;2.4 MB&lt;/p&gt;&lt;/section&gt;
+  &lt;span data-slot="actions"&gt;
+    &lt;button type="button" class="ghost"&gt;Remove&lt;/button&gt;
+  &lt;/span&gt;
+&lt;/article&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+          <article class="card col-6"><header><h3>Code and copy</h3><p>Compose native preformatted source with <a href="#/components/copy-button">Copy Button</a>. Oatbase copies text; syntax rendering remains optional.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-code data-code-kind="html" data-copy-source><code>&lt;ot-copy&gt;
+  &lt;pre data-copy-source&gt;&lt;code&gt;npm install @oddship/oatbase&lt;/code&gt;&lt;/pre&gt;
+  &lt;button type="button" class="outline" data-copy-button&gt;Copy&lt;/button&gt;
+&lt;/ot-copy&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+        </div></section>
+        <section class="docs-section"><h2 id="workflow-recipes">Workflow applications</h2><div class="row gap-2 docs-component-grid">
+          <article class="card col-6"><header><h3>Key/value editor</h3><p>Compose <a href="#/components/repeater">Repeater</a> with native fields. Parsing and domain validation remain application logic.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-copy-source><code>&lt;ot-repeater data-min="1"&gt;
+  &lt;div data-repeater-list&gt;…&lt;/div&gt;
+  &lt;button type="button" data-repeater-add&gt;Add variable&lt;/button&gt;
+  &lt;template data-repeater-template&gt;
+    &lt;fieldset data-repeater-item&gt;…&lt;/fieldset&gt;
+  &lt;/template&gt;
+&lt;/ot-repeater&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+          <article class="card col-6"><header><h3>Validation summary</h3><p>Link an Oat alert or <a href="#/components/callout">Callout</a> to invalid native fields instead of creating parallel error state.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-code data-code-kind="html" data-copy-source><code>&lt;aside role="alert" aria-labelledby="validation-title"&gt;
+  &lt;strong id="validation-title"&gt;Fix two fields&lt;/strong&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#email"&gt;Enter a valid email address&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#timezone"&gt;Choose a timezone&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/aside&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+          <article class="card col-6"><header><h3>Page header</h3><p>Combine semantic headings, an Oat Badge, and <a href="#/components/toolbar">Toolbar</a> actions in a responsive stack.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-code data-code-kind="html" data-copy-source><code>&lt;header class="hstack justify-between"&gt;
+  &lt;div&gt;&lt;span class="badge"&gt;Draft&lt;/span&gt;&lt;h1&gt;Release notes&lt;/h1&gt;&lt;/div&gt;
+  &lt;ot-toolbar role="toolbar" aria-label="Page actions"&gt;
+    &lt;button type="button" class="outline"&gt;Preview&lt;/button&gt;
+    &lt;button type="button"&gt;Publish&lt;/button&gt;
+  &lt;/ot-toolbar&gt;
+&lt;/header&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+          <article class="card col-6"><header><h3>Searchable action rail</h3><p>Filter <a href="#/components/item">Item</a> rows beside a <a href="#/components/splitter">Splitter</a>-managed work surface. Selection state remains in the application.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-code data-code-kind="html" data-copy-source><code>&lt;ot-splitter&gt;
+  &lt;aside&gt;
+    &lt;label data-field&gt;Filter&lt;input type="search"&gt;&lt;/label&gt;
+    &lt;nav class="item-group" aria-label="Actions"&gt;…&lt;/nav&gt;
+  &lt;/aside&gt;
+  &lt;button type="button" data-splitter aria-label="Resize action rail"&gt;&lt;/button&gt;
+  &lt;main&gt;…&lt;/main&gt;
+&lt;/ot-splitter&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+          <article class="card col-6"><header><h3>Schedule form</h3><p>Use native date/time controls and Oat fields. Cron parsing, timezone conversion, and persistence stay in application code.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-code data-code-kind="html" data-copy-source><code>&lt;fieldset&gt;
+  &lt;legend&gt;Schedule&lt;/legend&gt;
+  &lt;label data-field&gt;Date&lt;input type="date" name="date" required&gt;&lt;/label&gt;
+  &lt;label data-field&gt;Time&lt;input type="time" name="time" required&gt;&lt;/label&gt;
+  &lt;label data-field&gt;Timezone
+    &lt;select name="timezone"&gt;&lt;option&gt;Asia/Kolkata&lt;/option&gt;&lt;/select&gt;
+  &lt;/label&gt;
+&lt;/fieldset&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy</button></ot-copy></details></article>
+        </div></section>
+      </article>
+
+      <article class="docs-page" data-page="/examples" data-title="Blocks" hidden>
+        <header><span class="docs-eyebrow">Blocks</span><h1>Isolated full examples</h1><p class="docs-lead">Complete pages assembled from shipped Oat and Oatbase primitives. Each preview runs in an opaque-origin sandbox with no access to the documentation page; switch to Code for the full document.</p></header>
+        <aside data-callout><strong>Local paths:</strong> these runnable documents load the current checkout’s <code>dist/</code> files. Package imports remain documented on each component page.</aside>
+        <div data-full-examples></div>
+      </article>
+
+      <article class="docs-page" data-page="/installation" data-title="Installation" hidden>
+        <header><span class="docs-eyebrow">Getting started</span><h1>Installation</h1><p class="docs-lead">Oatbase has not been published to a package registry or CDN yet. Use the current source checkout locally while the first release is prepared.</p></header>
+
+        <section class="docs-section">
+          <h2 id="local-package">Local package</h2>
+          <aside data-callout><strong>Release status:</strong> Oatbase has not been pushed to npm or a CDN. It will publish as <code>@oddship/oatbase</code>; the commands below use your local source checkout before that first release.</aside>
+          <p>Enter <code>nix develop</code> to use the checked-in development shell, or install Bun, Node.js/npm, and GNU Make. Then install dependencies and build the distribution from the Oatbase directory:</p>
+          <pre><code>npm ci
+make dist</code></pre>
+          <p>Then install that directory from your application. Adjust the relative path to match your checkout:</p>
+          <pre><code>npm install ../oatbase</code></pre>
+          <pre><code>import '@oddship/oatbase/css';
+import '@oddship/oatbase';</code></pre>
+        </section>
+
+        <section class="docs-section">
+          <h2 id="static-files">Static files</h2>
+          <p>After building, copy <code>dist/</code> into your site and reference the complete bundle. Oat’s CSS and JavaScript are already included.</p>
+          <pre><code>cp -R ../oatbase/dist ./public/vendor/oatbase</code></pre>
+          <pre><code>&lt;link rel="stylesheet" href="/vendor/oatbase/oatbase.min.css"&gt;
+
+&lt;script src="/vendor/oatbase/oatbase.min.js" defer&gt;&lt;/script&gt;</code></pre>
+        </section>
+
+        <section class="docs-section">
+          <h2 id="individual-imports">Individual imports</h2>
+          <p>Projects that already load Oat can add only the extensions they use. The extension-only aggregate is also available as <code>@oddship/oatbase/extensions.css</code> and <code>@oddship/oatbase/extensions</code>.</p>
+          <pre><code>import '@knadh/oat/oat.min.css';
+import '@knadh/oat/oat.min.js';
+
+import '@oddship/oatbase/combobox.css';
+import '@oddship/oatbase/combobox';
+
+// CSS-only additions need no JavaScript import.
+import '@oddship/oatbase/drawer.css';
+import '@oddship/oatbase/item.css';</code></pre>
+          <aside data-callout><strong>Avoid duplicate Oat:</strong> use either the default Oatbase bundle or an existing Oat installation plus extension-only imports, not both aggregate paths together.</aside>
+        </section>
+      </article>
+
+      <article class="docs-page" data-page="/principles" data-title="Principles" hidden>
+        <header><span class="docs-eyebrow">Getting started</span><h1>Principles</h1><p class="docs-lead">Oatbase extends Oat without creating a second component system on top of it.</p></header>
+        <section class="docs-section"><h2 id="native-first">Native first</h2><p>If an Oat or native HTML element solves the problem, use it. The drawer is CSS around <code>&lt;dialog&gt;</code>; the combobox keeps a real <code>&lt;select&gt;</code> as its form control and fallback.</p></section>
+        <section class="docs-section"><h2 id="progressive-enhancement">Progressive enhancement</h2><p>Forms still submit and essential controls remain usable before JavaScript loads. JavaScript adds search, keyboard movement, and richer interaction rather than basic access.</p></section>
+        <section class="docs-section"><h2 id="small-pieces">Small pieces</h2><p>Every component is independently loadable. The aggregate bundle is a convenience, not a requirement.</p></section>
+        <section class="docs-section"><h2 id="oat-tokens">Oat tokens</h2><p>Oatbase introduces no parallel theme. It consumes variables such as <code>--card</code>, <code>--border</code>, <code>--accent</code>, Oat’s spacing scale, and its <code>--radius-*</code> scale. The documentation intentionally preserves those radius defaults.</p></section>
+      </article>
+
+      <article class="docs-page" data-page="/customizing" data-title="Customizing" hidden>
+        <header><span class="docs-eyebrow">Getting started</span><h1>Customizing</h1><p class="docs-lead">Oat owns the visual language. Oatbase inherits it and exposes only the component geometry that Oat cannot describe.</p></header>
+
+        <section class="docs-section">
+          <h2 id="theme-contract">Theme contract</h2>
+          <p>Override Oat’s semantic variables after the default Oatbase stylesheet. With extension-only imports, place the overrides after Oat and before or after the extensions. The same palette, type, spacing, radius, shadow, and motion values flow through both layers.</p>
+          <pre><code>:root {
+  --primary: light-dark(#315c45, #9bd4b4);
+  --primary-foreground: light-dark(#fff, #102117);
+  --background: light-dark(#faf8f2, #10110f);
+  --card: light-dark(#fff, #181a17);
+  --radius-medium: 0.25rem;
+}</code></pre>
+          <aside data-callout><strong>No parallel theme:</strong> Oatbase does not redefine Oat’s global variables or ship a JavaScript theme provider.</aside>
+        </section>
+
+        <section class="docs-section">
+          <h2 id="included-themes">Included themes</h2>
+          <p>Oatbase ships four alternative token maps plus an explicit Oat reset for nested scopes. The top-bar theme picker provides five choices. Presets contain no component selectors or JavaScript.</p>
+          <table class="docs-api"><thead><tr><th>Theme</th><th>Character</th></tr></thead><tbody>
+            <tr><td>Oat</td><td>The unchanged Oat foundation.</td></tr>
+            <tr><td>Doordarshan</td><td>Monospace, terracotta, saffron, peacock, and warm terminal surfaces.</td></tr>
+            <tr><td>Forest</td><td>Quiet greens and natural neutral surfaces.</td></tr>
+            <tr><td>Ocean</td><td>Cool blue surfaces with cyan accents.</td></tr>
+            <tr><td>Paper</td><td>Warm editorial surfaces with a serif stack and restrained corners.</td></tr>
+          </tbody></table>
+          <pre><code>/* All presets, including the scoped Oat reset */
+import '@oddship/oatbase/themes';
+
+/* Or one independently */
+import '@oddship/oatbase/themes/doordarshan.css';
+
+document.documentElement.dataset.oatTheme = 'doordarshan';</code></pre>
+          <aside data-callout><strong>Doordarshan:</strong> This preset maps the palette and typography of <a href="https://github.com/oddship/doordarshan-zola" target="_blank" rel="noreferrer">oddship/doordarshan-zola</a> into Oat’s semantic variables. Load IBM Plex Mono separately for the exact typeface; the preset falls back to the system monospace stack.</aside>
+        </section>
+
+        <section class="docs-section">
+          <h2 id="theme-lab">Scoped theme lab</h2>
+          <p>The preset select and native radio controls apply the shipped variables only to the preview. The rest of the documentation keeps its top-bar selection.</p>
+          <form class="docs-theme-lab">
+            <div class="docs-theme-controls">
+              <label class="docs-theme-control docs-theme-preset-field"><span class="docs-theme-control-label">Preset</span>
+                <ot-select><select data-theme-lab-preset aria-label="Preview theme"><option value="oat">Oat</option><option value="doordarshan">Doordarshan</option><option value="forest">Forest</option><option value="ocean">Ocean</option><option value="paper">Paper</option></select></ot-select>
+              </label>
+              <div class="docs-theme-control">
+                <span class="docs-theme-control-label" aria-hidden="true">Density</span>
+                <fieldset data-segmented>
+                  <legend>Density</legend>
+                  <label><input type="radio" name="lab-density" value="comfortable" checked><span>Comfortable</span></label>
+                  <label><input type="radio" name="lab-density" value="compact"><span>Compact</span></label>
+                </fieldset>
+              </div>
+              <div class="docs-theme-control">
+                <span class="docs-theme-control-label" aria-hidden="true">Radius</span>
+                <fieldset data-segmented>
+                  <legend>Radius</legend>
+                  <label><input type="radio" name="lab-radius" value="soft" checked><span>Soft</span></label>
+                  <label><input type="radio" name="lab-radius" value="square"><span>Square</span></label>
+                </fieldset>
+              </div>
+            </div>
+
+            <section class="docs-theme-surface" aria-label="Scoped theme preview">
+              <header><div><small>Workspace</small><h3>Design review</h3></div><span class="badge" data-variant="success">Ready</span></header>
+              <aside data-callout><strong>Theme inherited.</strong> This callout uses the same Oat tokens as every control around it.</aside>
+              <fieldset data-choice-cards><legend>Review mode</legend><label data-choice-card><input type="radio" name="lab-mode" checked><span><strong>Focused</strong><small>Show the essential controls.</small></span></label><label data-choice-card><input type="radio" name="lab-mode"><span><strong>Complete</strong><small>Show every available option.</small></span></label></fieldset>
+              <footer><ot-toolbar role="toolbar" aria-label="Theme preview actions"><ot-toggle><button type="button" aria-pressed="true">Pin</button></ot-toggle><button type="button">Share</button><span role="separator" aria-orientation="vertical"></span><button type="button" class="outline">Finish</button></ot-toolbar></footer>
+            </section>
+          </form>
+        </section>
+
+        <section class="docs-section">
+          <h2 id="component-hooks">Component geometry hooks</h2>
+          <p>Oatbase variables are prefixed and have local fallbacks. Override them globally, within a subtree, or on one component.</p>
+          <table class="docs-api"><thead><tr><th>Hook</th><th>Purpose</th></tr></thead><tbody>
+            <tr><td>--oatbase-overlay-background</td><td>Shared command and drawer backdrop.</td></tr>
+            <tr><td>--oatbase-drawer-size</td><td>Inline size of left and right drawers.</td></tr>
+            <tr><td>--oatbase-drawer-max-height</td><td>Top and bottom drawer height limit.</td></tr>
+            <tr><td>--oatbase-drawer-motion-offset</td><td>Drawer entrance and exit distance.</td></tr>
+            <tr><td>--oatbase-command-width</td><td>Command dialog width.</td></tr>
+            <tr><td>--oatbase-command-max-height</td><td>Command dialog height limit.</td></tr>
+            <tr><td>--oatbase-command-list-max-height</td><td>Command results height limit.</td></tr>
+            <tr><td>--oatbase-listbox-max-height</td><td>Shared popup limit for selection controls.</td></tr>
+            <tr><td>--oatbase-otp-cell-size</td><td>OTP presentation cell size.</td></tr>
+            <tr><td>--oatbase-otp-gap</td><td>Gap between OTP presentation cells.</td></tr>
+            <tr><td>--oatbase-chart-height</td><td>Minimum chart plotting height.</td></tr>
+            <tr><td>--oatbase-chart-grid-size</td><td>Chart grid interval.</td></tr>
+            <tr><td>--oatbase-splitter-min-height</td><td>Minimum splitter block size.</td></tr>
+            <tr><td>--oatbase-splitter-handle-size</td><td>Splitter handle hit area.</td></tr>
+            <tr><td>--oatbase-splitter-grip-size</td><td>Splitter grip length.</td></tr>
+            <tr><td>--oatbase-empty-min-height</td><td>Minimum empty-state block size.</td></tr>
+            <tr><td>--oatbase-empty-compact-min-height</td><td>Compact empty-state minimum height.</td></tr>
+            <tr><td>--oatbase-empty-content-width</td><td>Empty-state content width limit.</td></tr>
+            <tr><td>--oatbase-scrollbar-size</td><td>Scroll Area scrollbar thickness.</td></tr>
+            <tr><td>--oatbase-toolbar-offset</td><td>Sticky toolbar offset.</td></tr>
+            <tr><td>--oatbase-stepper-marker-size</td><td>Stepper marker size.</td></tr>
+            <tr><td>--oatbase-stepper-track-size</td><td>Stepper progress-track thickness.</td></tr>
+            <tr><td>--oatbase-timeline-marker-size</td><td>Timeline marker size.</td></tr>
+            <tr><td>--oatbase-rating-size</td><td>Rating symbol size.</td></tr>
+            <tr><td>--oatbase-stat-value-size</td><td>Prominent statistic value size.</td></tr>
+            <tr><td>--oatbase-lightbox-width</td><td>Lightbox dialog width.</td></tr>
+            <tr><td>--oatbase-lightbox-image-height</td><td>Lightbox image height limit.</td></tr>
+            <tr><td>--oatbase-footnote-width</td><td>Footnote preview width.</td></tr>
+            <tr><td>--oatbase-footnote-max-height</td><td>Footnote preview height limit.</td></tr>
+            <tr><td>--oatbase-prose-width</td><td>Prose measure.</td></tr>
+            <tr><td>--oatbase-log-min-height</td><td>Log output minimum height.</td></tr>
+            <tr><td>--oatbase-log-max-height</td><td>Log output maximum height.</td></tr>
+          </tbody></table>
+          <pre><code>.verification-code {
+  --oatbase-otp-cell-size: 2.75rem;
+  --oatbase-otp-gap: var(--space-1);
+}</code></pre>
+        </section>
+
+        <section class="docs-section">
+          <h2 id="appearance-mode">Appearance mode</h2>
+          <p><code>&lt;ot-theme-switcher&gt;</code> selects system, light, or dark appearance by setting <code>color-scheme</code>. Explicit light and dark choices also set <code>data-theme</code> on the document root so scoped Oat overrides work as documented.</p>
+        </section>
+      </article>
+
+      <article class="docs-page" data-page="/components/command" data-title="Command" hidden>
+        <header><span class="docs-eyebrow">Component · JavaScript</span><h1>Command</h1><p class="docs-lead">A filterable command palette with keyboard navigation and an optional global shortcut.</p></header>
+        <section class="docs-section">
+          <h2 id="command-preview">Preview</h2>
+          <ot-copy class="demo-copy">
+          <ot-tabs class="demo" data-demo>
+            <div class="demo-tabs" role="tablist" aria-label="Command example"><button type="button" class="ghost small" role="tab" data-view="preview" aria-selected="true">Preview</button><button type="button" class="ghost small" role="tab" data-view="code" data-code-kind="html" aria-selected="false">HTML</button><button type="button" class="ghost small" role="tab" data-view="javascript" data-code-kind="javascript" aria-selected="false">JavaScript</button></div><button type="button" class="ghost small demo-copy-button" data-copy-button>Copy</button>
+            <div class="demo-preview" role="tabpanel" data-preview>
+              <ot-command id="component-command-demo">
+                <button type="button" class="outline" data-command-open commandfor="component-command-dialog" command="show-modal">Open command menu <span class="kbd-group"><kbd>⌘</kbd><kbd>K</kbd></span></button>
+                <dialog id="component-command-dialog" closedby="any" aria-label="Command menu">
+                  <input data-command-search type="search" placeholder="Type a command…" aria-label="Search commands">
+                  <ul data-command-list>
+                    <li data-command-group>Navigation</li>
+                    <li><button type="button" data-command-item data-value="home">⌂ <span>Go home</span><kbd>G H</kbd></button></li>
+                    <li><button type="button" data-command-item data-value="projects">◫ <span>View projects</span><kbd>G P</kbd></button></li>
+                    <li data-command-group>Actions</li>
+                    <li><button type="button" data-command-item data-value="new">＋ <span>Create project</span><kbd>N</kbd></button></li>
+                    <li data-command-empty hidden>No commands found.</li>
+                  </ul>
+                </dialog>
+              </ot-command>
+            </div>
+            <pre class="demo-code" role="tabpanel" data-code data-code-kind="html" data-copy-source hidden><code>&lt;ot-command data-shortcut="mod+k"&gt;
+  &lt;button data-command-open commandfor="commands" command="show-modal"&gt;Open&lt;/button&gt;
+  &lt;dialog id="commands" closedby="any"&gt;
+    &lt;input data-command-search type="search" placeholder="Type a command…"&gt;
+    &lt;ul data-command-list&gt;
+      &lt;li data-command-group&gt;Navigation&lt;/li&gt;
+      &lt;li&gt;&lt;button data-command-item data-value="home"&gt;Go home&lt;/button&gt;&lt;/li&gt;
+      &lt;li data-command-empty hidden&gt;No commands found.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/dialog&gt;
+&lt;/ot-command&gt;</code></pre>
+            <pre class="demo-code" role="tabpanel" data-code data-code-kind="javascript" hidden><code>import '@oddship/oatbase/command';
+
+const command = document.querySelector('ot-command');
+command.addEventListener('oatbase:select', event =&gt; {
+  console.log(event.detail.value);
+});</code></pre>
+          </ot-tabs>
+          </ot-copy>
+        </section>
+        <section class="docs-section"><h2 id="command-usage">Usage</h2><pre><code>import '@oddship/oatbase/command.css';
+import '@oddship/oatbase/command';</code></pre></section>
+        <section class="docs-section"><h2 id="command-events">Handling selection</h2><pre><code>command.addEventListener('oatbase:select', (event) =&gt; {
+  console.log(event.detail.value);
+});</code></pre><p>Call <code>event.preventDefault()</code> to keep the palette open after selection.</p></section>
+        <section class="docs-section"><h2 id="command-shortcut">Global shortcut</h2><p>Add <code>data-shortcut="mod+k"</code> to open with Command-K on macOS or Control-K elsewhere.</p></section>
+        <section class="docs-section"><h2 id="command-api">API</h2><table class="docs-api"><thead><tr><th>Surface</th><th>Purpose</th></tr></thead><tbody>
+          <tr><td><code>data-shortcut="mod+k"</code></td><td>Registers the optional global Command-K or Control-K shortcut.</td></tr>
+          <tr><td><code>data-command-open / data-command-close</code></td><td>Opt existing buttons into opening or closing the palette.</td></tr>
+          <tr><td><code>data-command-search / data-command-list</code></td><td>Identify the search input and semantic result list.</td></tr>
+          <tr><td><code>data-command-item</code></td><td>Marks a selectable result. Use <code>aria-disabled="true"</code> for an unavailable result.</td></tr>
+          <tr><td><code>data-value / data-keywords</code></td><td>Provide the emitted value and additional searchable text.</td></tr>
+          <tr><td><code>data-keep-open</code></td><td>Keeps the dialog open after that item is accepted.</td></tr>
+          <tr><td><code>items / visibleItems</code></td><td>Expose all result elements or the currently available filtered results.</td></tr>
+          <tr><td><code>open() / close()</code></td><td>Control the native dialog programmatically.</td></tr>
+          <tr><td><code>oatbase:select</code></td><td>Cancelable event with <code>{ value, item }</code>; preventing default keeps the palette open.</td></tr>
+          <tr><td><code>oatbase:open / oatbase:close</code></td><td>Report palette lifecycle changes.</td></tr>
+        </tbody></table></section>
+      </article>
+
+      <article class="docs-page" data-page="/components/drawer" data-title="Drawer" hidden>
+        <header><span class="docs-eyebrow">Component · CSS only</span><h1>Drawer</h1><p class="docs-lead">A native dialog styled as a sheet from the top, right, bottom, or left edge.</p></header>
+        <section class="docs-section">
+          <h2 id="drawer-preview">Preview</h2>
+          <ot-copy class="demo-copy">
+          <ot-tabs class="demo" data-demo>
+            <div class="demo-tabs" role="tablist" aria-label="Drawer example"><button type="button" class="ghost small" role="tab" data-view="preview" aria-selected="true">Preview</button><button type="button" class="ghost small" role="tab" data-view="code" aria-selected="false">HTML</button></div><button type="button" class="ghost small demo-copy-button" data-copy-button>Copy</button>
+            <div class="demo-preview" role="tabpanel" data-preview>
+              <div class="docs-drawer-controls" aria-label="Open drawer by side">
+                <button commandfor="drawer-top" command="show-modal" class="outline" data-drawer-control="top">Top</button>
+                <button commandfor="drawer-left" command="show-modal" class="outline" data-drawer-control="left">Left</button>
+                <button commandfor="drawer-right" command="show-modal" class="outline" data-drawer-control="right">Right</button>
+                <button commandfor="drawer-bottom" command="show-modal" class="outline" data-drawer-control="bottom">Bottom</button>
+              </div>
+              <dialog id="drawer-top" data-variant="drawer" data-side="top" closedby="any"><form method="dialog"><header><h3>Top drawer</h3><p>Native dialog behavior, Oatbase positioning.</p></header><div data-drawer-body>Use drawers for focused, temporary tasks.</div><footer><button value="done">Done</button></footer></form></dialog>
+              <dialog id="drawer-right" data-variant="drawer" data-side="right" closedby="any"><form method="dialog"><header><h3>Right drawer</h3><p>Native dialog behavior, Oatbase positioning.</p></header><div data-drawer-body>Use drawers for focused, temporary tasks.</div><footer><button value="done">Done</button></footer></form></dialog>
+              <dialog id="drawer-bottom" data-variant="drawer" data-side="bottom" closedby="any"><form method="dialog"><header><h3>Bottom drawer</h3><p>Native dialog behavior, Oatbase positioning.</p></header><div data-drawer-body>Use drawers for focused, temporary tasks.</div><footer><button value="done">Done</button></footer></form></dialog>
+              <dialog id="drawer-left" data-variant="drawer" data-side="left" closedby="any"><form method="dialog"><header><h3>Left drawer</h3><p>Native dialog behavior, Oatbase positioning.</p></header><div data-drawer-body>Use drawers for focused, temporary tasks.</div><footer><button value="done">Done</button></footer></form></dialog>
+            </div>
+            <pre class="demo-code" role="tabpanel" data-code data-copy-source hidden><code>&lt;button commandfor="settings" command="show-modal"&gt;Open drawer&lt;/button&gt;
+&lt;dialog id="settings" data-variant="drawer" data-side="right" closedby="any"&gt;
+  &lt;form method="dialog"&gt;
+    &lt;header&gt;&lt;h3&gt;Settings&lt;/h3&gt;&lt;/header&gt;
+    &lt;div data-drawer-body&gt;Drawer content&lt;/div&gt;
+    &lt;footer&gt;&lt;button value="done"&gt;Done&lt;/button&gt;&lt;/footer&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;</code></pre>
+          </ot-tabs>
+          </ot-copy>
+        </section>
+        <section class="docs-section"><h2 id="drawer-usage">Usage</h2><pre><code>import '@oddship/oatbase/drawer.css';</code></pre><p>No Oatbase JavaScript is involved. Oat’s <code>commandfor</code> compatibility layer and native dialog behavior handle interaction.</p></section>
+        <section class="docs-section"><h2 id="drawer-sides">Sides</h2><p>Set <code>data-side</code> to <code>top</code>, <code>right</code>, <code>bottom</code>, or <code>left</code>.</p></section>
+      </article>
+
+      <article class="docs-page" data-page="/components/item" data-title="Item" hidden>
+        <header><span class="docs-eyebrow">Component · CSS only</span><h1>Item</h1><p class="docs-lead">Composable rows for navigation, settings, results, and compact content lists.</p></header>
+        <section class="docs-section">
+          <h2 id="item-preview">Preview</h2>
+          <ot-copy class="demo-copy">
+          <ot-tabs class="demo" data-demo>
+            <div class="demo-tabs" role="tablist" aria-label="Item example"><button type="button" class="ghost small" role="tab" data-view="preview" aria-selected="true">Preview</button><button type="button" class="ghost small" role="tab" data-view="code" aria-selected="false">HTML</button></div><button type="button" class="ghost small demo-copy-button" data-copy-button>Copy</button>
+            <div class="demo-preview" role="tabpanel" data-preview data-wide>
+              <div class="vstack">
+                <section class="vstack"><strong>Connected navigation</strong><ul class="item-group" data-connected>
+                  <li><a class="item" href="#/components/item"><span data-slot="media">◫</span><section><h3>Design system</h3><p>12 components · Updated <time datetime="2026-09-01">Sep 1</time></p></section><span class="badge" data-variant="success">Active</span></a></li>
+                  <li><a class="item" href="#/components/item"><span data-slot="media">⌁</span><section><h3>Website refresh</h3><p>8 components · Updated <time datetime="2026-08-31">Aug 31</time></p></section><span aria-hidden="true">›</span></a></li>
+                </ul></section>
+                <section class="vstack"><strong>Outline with actions</strong><article class="item" data-variant="outline" data-interactive tabindex="0"><span data-slot="media">◇</span><section><h3>Mobile app</h3><p>3 components · Updated <time datetime="2026-08-25">Aug 25</time></p></section><span data-slot="actions"><button type="button" class="ghost small">Archive</button><button type="button" class="small">Open</button></span></article></section>
+              </div>
+            </div>
+            <pre class="demo-code" role="tabpanel" data-code data-copy-source hidden><code>&lt;ul class="item-group" data-connected&gt;
+  &lt;li&gt;&lt;a class="item" href="/project"&gt;…&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a class="item" href="/project"&gt;…&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;article class="item" data-variant="outline" data-interactive tabindex="0"&gt;
+  &lt;span data-slot="media"&gt;◇&lt;/span&gt;
+  &lt;section&gt;&lt;h3&gt;Mobile app&lt;/h3&gt;&lt;p&gt;Updated &lt;time datetime="2026-08-25"&gt;Aug 25&lt;/time&gt;&lt;/p&gt;&lt;/section&gt;
+  &lt;span data-slot="actions"&gt;&lt;button&gt;Archive&lt;/button&gt;&lt;button&gt;Open&lt;/button&gt;&lt;/span&gt;
+&lt;/article&gt;</code></pre>
+          </ot-tabs>
+          </ot-copy>
+        </section>
+        <section class="docs-section"><h2 id="item-usage">Usage</h2><pre><code>import '@oddship/oatbase/item.css';</code></pre></section>
+        <section class="docs-section"><h2 id="item-structure">Structure</h2><p>Use <code>data-slot="media"</code> for a leading icon or avatar and <code>data-slot="actions"</code> for trailing controls. Items can be links, buttons, or articles.</p></section>
+        <section class="docs-section"><h2 id="item-variants">Variants</h2><p>Add <code>data-variant="outline"</code> to an individual item, or <code>data-connected</code> to an item group for a shared border.</p></section>
+      </article>
+
+      <article class="docs-page" data-page="/components/empty" data-title="Empty" hidden>
+        <header><span class="docs-eyebrow">Component · CSS only</span><h1>Empty</h1><p class="docs-lead">A centered state for collections or views that do not have content yet.</p></header>
+        <section class="docs-section">
+          <h2 id="empty-preview">Preview</h2>
+          <ot-copy class="demo-copy">
+          <ot-tabs class="demo" data-demo>
+            <div class="demo-tabs" role="tablist" aria-label="Empty state example"><button type="button" class="ghost small" role="tab" data-view="preview" aria-selected="true">Preview</button><button type="button" class="ghost small" role="tab" data-view="code" aria-selected="false">HTML</button></div><button type="button" class="ghost small demo-copy-button" data-copy-button>Copy</button>
+            <div class="demo-preview" role="tabpanel" data-preview>
+              <section data-variant="empty"><span data-slot="media">◇</span><h3>No projects yet</h3><p>Create your first project to start organizing work.</p><div data-slot="actions"><button class="small">Create project</button><button class="small outline">Import</button></div></section>
+            </div>
+            <pre class="demo-code" role="tabpanel" data-code data-copy-source hidden><code>&lt;section data-variant="empty"&gt;
+  &lt;span data-slot="media"&gt;◇&lt;/span&gt;
+  &lt;h3&gt;No projects yet&lt;/h3&gt;
+  &lt;p&gt;Create your first project to start organizing work.&lt;/p&gt;
+  &lt;div data-slot="actions"&gt;
+    &lt;button&gt;Create project&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+          </ot-tabs>
+          </ot-copy>
+        </section>
+        <section class="docs-section"><h2 id="empty-usage">Usage</h2><pre><code>import '@oddship/oatbase/empty.css';</code></pre></section>
+        <section class="docs-section"><h2 id="empty-guidance">Guidance</h2><p>Explain why the view is empty and offer one clear next action. Use semantic headings and paragraphs; the component only supplies layout.</p></section>
+      </article>
+
+      <article class="docs-page" data-page="/components/kbd" data-title="Kbd" hidden>
+        <header><span class="docs-eyebrow">Component · CSS only</span><h1>Kbd</h1><p class="docs-lead">Compact labels for documenting keyboard shortcuts using the native <code>&lt;kbd&gt;</code> element.</p></header>
+        <section class="docs-section">
+          <h2 id="kbd-preview">Preview</h2>
+          <ot-copy class="demo-copy">
+          <ot-tabs class="demo" data-demo>
+            <div class="demo-tabs" role="tablist" aria-label="Keyboard hints example"><button type="button" class="ghost small" role="tab" data-view="preview" aria-selected="true">Preview</button><button type="button" class="ghost small" role="tab" data-view="code" aria-selected="false">HTML</button></div><button type="button" class="ghost small demo-copy-button" data-copy-button>Copy</button>
+            <div class="demo-preview" role="tabpanel" data-preview>
+              <div class="vstack"><div class="hstack justify-between"><span>Open search</span><span class="kbd-group"><kbd>⌘</kbd><kbd>K</kbd></span></div><div class="hstack justify-between"><span>Create project</span><kbd>C</kbd></div><div class="hstack justify-between"><span>Move between items</span><span class="kbd-group"><kbd>J</kbd><kbd>K</kbd></span></div><div class="hstack justify-between"><span>Inside a compact control</span><button type="button" class="outline small">Search <kbd data-variant="inline">⌘ K</kbd></button></div></div>
+            </div>
+            <pre class="demo-code" role="tabpanel" data-code data-copy-source hidden><code>&lt;p&gt;Open search &lt;span class="kbd-group"&gt;&lt;kbd&gt;⌘&lt;/kbd&gt;&lt;kbd&gt;K&lt;/kbd&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Create project &lt;kbd&gt;C&lt;/kbd&gt;&lt;/p&gt;
+&lt;button class="outline small"&gt;Search &lt;kbd data-variant="inline"&gt;⌘ K&lt;/kbd&gt;&lt;/button&gt;</code></pre>
+          </ot-tabs>
+          </ot-copy>
+        </section>
+        <section class="docs-section"><h2 id="kbd-usage">Usage</h2><pre><code>import '@oddship/oatbase/kbd.css';</code></pre><p>Use <code>&lt;kbd&gt;</code> for each physical key and wrap combinations in <code>.kbd-group</code>. Set <code>data-variant="inline"</code> when a shortcut is embedded inside another compact control and should not create a nested keycap surface. Keyboard hints are documentation; wire the actual shortcut separately.</p></section>
+      </article>
+    </div>
+
+    <aside class="docs-toc" aria-label="On this page"><strong>On this page</strong><ot-scrollspy data-target=".docs-main"><nav><ul></ul></nav></ot-scrollspy></aside>
+    </div>
+    </main>
+  </div>
+</body>
+</html>

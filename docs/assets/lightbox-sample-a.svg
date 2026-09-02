@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-labelledby="title description">
+  <title id="title">Saffron sunset</title>
+  <desc id="description">An abstract saffron sun setting over layered blue water.</desc>
+  <rect width="640" height="400" fill="#f4ead7"/>
+  <circle cx="320" cy="170" r="92" fill="#e69a18"/>
+  <path d="M0 245 Q130 205 260 245 T520 245 T780 245 V400 H0Z" fill="#2f7184"/>
+  <path d="M0 302 Q120 262 250 302 T510 302 T770 302 V400 H0Z" fill="#174956"/>
+</svg>

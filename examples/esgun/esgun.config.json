@@ -1,0 +1,16 @@
+{
+  "root": "dist",
+  "outdir": "dist/assets",
+  "entry": [
+    "src/app.js"
+  ],
+  "resolve": [
+    "vendor/node_modules"
+  ],
+  "copies": [
+    {
+      "from": "index.html",
+      "to": "dist/index.html"
+    }
+  ]
+}

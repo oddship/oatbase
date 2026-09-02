@@ -1,0 +1,25 @@
+@layer components {
+  ot-tree :where(ul) { padding-inline-start: var(--space-5); margin: 0; list-style: none; }
+  ot-tree > ul { padding-inline-start: 0; }
+  ot-tree [role="treeitem"] { margin: 0; }
+  ot-tree [role="treeitem"] > :where(button, a, span):first-child {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-2);
+    width: 100%;
+    padding: var(--space-1) var(--space-2);
+    color: var(--foreground);
+    text-align: start;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-small);
+  }
+  ot-tree [role="treeitem"] > :where(button, a, span):first-child:hover,
+  ot-tree [role="treeitem"] > :where(button, a, span):first-child:focus-visible { background: var(--accent); }
+  ot-tree [role="treeitem"][aria-expanded="false"] > [role="group"] { display: none; }
+  ot-tree [role="treeitem"] > :first-child::before { content: ""; flex: 0 0 1em; width: 1em; color: var(--muted-foreground); text-align: center; }
+  ot-tree [role="treeitem"][aria-expanded] > :first-child::before { content: "⌄"; }
+  ot-tree [role="treeitem"][aria-expanded="false"] > :first-child::before { content: "›"; }
+}

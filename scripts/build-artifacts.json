@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "javascript": {
+    "aggregates": [
+      { "name": "oatbase", "source": "src/js/index.js", "minified": true },
+      { "name": "extensions", "source": "src/js/extensions.js", "minified": true }
+    ],
+    "components": [
+      { "name": "combobox", "source": "src/js/combobox.js" },
+      { "name": "command", "source": "src/js/command.js" },
+      { "name": "copy-button", "source": "src/js/copy-button.js" },
+      { "name": "data-table", "source": "src/js/data-table.js" },
+      { "name": "footnotes", "source": "src/js/footnotes.js" },
+      { "name": "lightbox", "source": "src/js/lightbox.js" },
+      { "name": "log-viewer", "source": "src/js/log-viewer.js" },
+      { "name": "multiselect", "source": "src/js/multiselect.js" },
+      { "name": "otp-input", "source": "src/js/otp-input.js" },
+      { "name": "password-field", "source": "src/js/password-field.js" },
+      { "name": "reading-progress", "source": "src/js/reading-progress.js" },
+      { "name": "repeater", "source": "src/js/repeater.js" },
+      { "name": "scrollspy", "source": "src/js/scrollspy.js" },
+      { "name": "select", "source": "src/js/select.js" },
+      { "name": "splitter", "source": "src/js/splitter.js" },
+      { "name": "theme-switcher", "source": "src/js/theme-switcher.js" },
+      { "name": "toggle", "source": "src/js/toggle.js" },
+      { "name": "toolbar", "source": "src/js/toolbar.js" },
+      { "name": "tooltip-compat", "source": "src/js/tooltip-compat.js", "sideEffectOnly": true },
+      { "name": "tree", "source": "src/js/tree.js" }
+    ]
+  },
+  "stylesheets": {
+    "aggregates": [
+      { "name": "extensions", "source": "src/css/extensions.css", "minified": true },
+      { "name": "oatbase", "assembly": "oat-inclusive", "minified": true }
+    ],
+    "components": [
+      "callout", "chart", "choice-card", "combobox", "command", "copy-button",
+      "data-table", "description-list", "drawer", "empty", "footnotes", "item",
+      "kbd", "lightbox", "log-viewer", "multiselect", "otp-input", "password-field",
+      "prose", "rating", "reading-progress", "repeater", "scroll-area", "scrollspy",
+      "segmented-control", "select", "splitter", "stat", "stepper", "theme-switcher",
+      "timeline", "toggle", "toolbar", "tooltip-compat", "tree", "utilities"
+    ]
+  },
+  "copies": [
+    { "source": "src/css/themes.css", "output": "themes.css" },
+    { "source": "src/css/themes/doordarshan.css", "output": "themes/doordarshan.css" },
+    { "source": "src/css/themes/forest.css", "output": "themes/forest.css" },
+    { "source": "src/css/themes/oat.css", "output": "themes/oat.css" },
+    { "source": "src/css/themes/ocean.css", "output": "themes/ocean.css" },
+    { "source": "src/css/themes/paper.css", "output": "themes/paper.css" }
+  ]
+}

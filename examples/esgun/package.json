@@ -1,0 +1,11 @@
+{
+  "name": "oatbase-esgun-example",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@knadh/oat": "0.7.2"
+  },
+  "scripts": {
+    "build": "esgun build"
+  }
+}

@@ -1,0 +1,77 @@
+/* src/css/components/data-table.css */
+@layer components {
+  ot-data-table {
+    display: grid;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+
+  ot-data-table > [data-table-toolbar] {
+    display: flex;
+    align-items:  center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  ot-data-table > [data-table-toolbar] > :where([data-table-status], [data-table-selected]) {
+    color: var(--muted-foreground);
+    font-size: var(--text-7);
+    margin-inline-start: auto;
+  }
+
+  ot-data-table table {
+    width: 100%;
+  }
+
+  ot-data-table th[data-sort] {
+    padding: 0;
+  }
+
+  ot-data-table th[data-sort] > [data-table-sort] {
+    padding: var(--space-3);
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    border: 0;
+    border-radius: 0;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  ot-data-table th[data-sort] > [data-table-sort]:after {
+    content: "↕";
+    color: var(--muted-foreground);
+    margin-inline-start: auto;
+  }
+
+  ot-data-table th[data-sort][aria-sort="ascending"] > [data-table-sort]:after {
+    content: "↑";
+  }
+
+  ot-data-table th[data-sort][aria-sort="descending"] > [data-table-sort]:after {
+    content: "↓";
+  }
+
+  ot-data-table tr[data-selected] > * {
+    background: var(--accent);
+  }
+
+  ot-data-table tr[hidden], ot-data-table [data-table-empty][hidden] {
+    display: none;
+  }
+
+  ot-data-table[data-sticky] thead th {
+    position: sticky;
+    z-index: 1;
+    background: var(--card);
+    top: 0;
+  }
+
+  ot-data-table[data-density="compact"] :where(th, td) {
+    padding: var(--space-2);
+  }
+
+  ot-data-table [data-table-select-all], ot-data-table [data-table-select-row] {
+    margin: 0;
+  }
+}

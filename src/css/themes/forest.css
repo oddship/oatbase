@@ -1,0 +1,26 @@
+@layer theme {
+  [data-oat-theme="forest"] {
+    --background: light-dark(#faf8f2, #10110f);
+    --foreground: light-dark(#17251d, #edf7f0);
+    --card: light-dark(#ffffff, #181f1a);
+    --card-foreground: light-dark(#17251d, #edf7f0);
+    --primary: light-dark(#315c45, #9bd4b4);
+    --primary-foreground: light-dark(#ffffff, #102117);
+    --secondary: light-dark(#e8eee8, #263128);
+    --secondary-foreground: light-dark(#294c39, #d8eee0);
+    --muted: light-dark(#e8eee8, #263128);
+    --muted-foreground: light-dark(#596b5e, #a9baae);
+    --faint: light-dark(#f1f5f0, #151a16);
+    --faint-foreground: light-dark(#67766b, #7b8a7f);
+    --accent: light-dark(#dfe9e1, #2b392e);
+    --danger: light-dark(#b23838, #ff8b87);
+    --danger-foreground: light-dark(#ffffff, #201312);
+    --success: light-dark(#26734b, #82d7a8);
+    --success-foreground: light-dark(#ffffff, #102117);
+    --warning: light-dark(#956400, #edba55);
+    --warning-foreground: light-dark(#ffffff, #17251d);
+    --border: light-dark(#b9c8bc, #536357);
+    --input: light-dark(#809486, #6d7e71);
+    --ring: light-dark(#315c45, #9bd4b4);
+  }
+}

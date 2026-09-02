@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oatbase component harness</title>
+  <style>
+    @layer theme {
+    :root {
+      color-scheme: light;
+      --foreground: #191817; --background: #ffffff; --card: #ffffff; --muted: #f2f0ee;
+      --muted-foreground: #625f5b; --faint: #faf9f8; --primary: #51413d;
+      --primary-foreground: #ffffff; --accent: #e8e4e1; --border: #cbc5c1;
+      --input: #9d9691; --ring: #765e57; --space-1: .25rem; --space-2: .5rem;
+      --space-3: .75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
+      --space-8: 2rem; --radius-small: .125rem; --radius-medium: .375rem;
+      --radius-large: .75rem; --radius-full: 9999px; --text-7: .875rem; --text-8: .75rem;
+      --font-mono: ui-monospace, monospace; --font-semibold: 600;
+      --shadow-small: 0 1px 2px #0001; --shadow-large: 0 3px 12px #0002;
+      --transition-fast: 100ms ease; --transition: 150ms ease; --z-dropdown: 50;
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --foreground: #f4f1ef; --background: #121110; --card: #1c1a19; --muted: #292624;
+      --muted-foreground: #b8b1ad; --faint: #171514; --primary: #e0d6d1;
+      --primary-foreground: #211c1a; --accent: #342f2c; --border: #554e4a;
+      --input: #746b66; --ring: #e0d6d1;
+    }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--foreground); background: var(--background); font: 16px/1.5 system-ui, sans-serif; }
+    button, input { font: inherit; }
+    button { padding: .5rem .75rem; color: var(--foreground); background: var(--background); border: 1px solid var(--input); border-radius: var(--radius-small); }
+    fieldset { min-width: 0; }
+    main { width: min(52rem, calc(100% - 2rem)); margin: 2rem auto; }
+    h1 { margin-block: 0 2rem; }
+    .fixture-grid { display: grid; gap: 2rem; }
+    .fixture-panel { display: grid; gap: 1rem; padding: 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-large); }
+    .fixture-panel h2 { margin: 0; font-size: 1.1rem; }
+    #otp-field { display: grid; justify-items: start; gap: .5rem; }
+    .visually-hidden { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  </style>
+  <link rel="stylesheet" href="../dist/oatbase.css">
+  <link rel="stylesheet" href="../dist/tooltip-compat.css">
+  <link rel="stylesheet" href="../dist/themes.css">
+  <script src="../dist/oatbase.js" defer></script>
+  <script src="../dist/tooltip-compat.js" defer></script>
+</head>
+<body>
+  <main id="fixture">
+    <h1>Component contract harness</h1>
+    <div class="fixture-grid">
+      <section class="fixture-panel" aria-labelledby="toggle-heading">
+        <h2 id="toggle-heading">Toggle</h2>
+        <ot-toggle id="fixture-toggle"><button type="button" class="outline" aria-pressed="false">Pin sidebar</button></ot-toggle>
+      </section>
+
+      <section class="fixture-panel" aria-labelledby="toolbar-heading">
+        <h2 id="toolbar-heading">Toolbar</h2>
+        <ot-toolbar id="fixture-toolbar" role="toolbar" aria-label="Text formatting">
+          <ot-toggle><button type="button" aria-pressed="false"><strong>B</strong><span class="visually-hidden">Bold</span></button></ot-toggle>
+          <ot-toggle><button type="button" aria-pressed="false"><em>I</em><span class="visually-hidden">Italic</span></button></ot-toggle>
+          <span role="separator" aria-orientation="vertical"></span>
+          <button type="button">Undo</button>
+          <button type="button">Redo</button>
+        </ot-toolbar>
+      </section>
+
+      <section class="fixture-panel" aria-labelledby="data-table-heading">
+        <h2 id="data-table-heading">Data table</h2>
+        <ot-data-table id="fixture-data-table" data-density="compact">
+          <div data-table-toolbar><input type="search" data-table-filter aria-label="Filter projects"><output data-table-status aria-live="polite"></output><output data-table-selected aria-live="polite"></output></div>
+          <table><thead><tr><th><input type="checkbox" data-table-select-all aria-label="Select all projects"></th><th data-sort="text">Project</th><th data-sort="number">Issues</th></tr></thead><tbody><tr><td><input type="checkbox" data-table-select-row value="beacon" aria-label="Select Beacon"></td><th scope="row">Beacon</th><td>4</td></tr><tr><td><input type="checkbox" data-table-select-row value="atlas" aria-label="Select Atlas"></td><th scope="row">Atlas</th><td>12</td></tr></tbody></table>
+          <section data-variant="empty" data-size="compact" data-table-empty hidden><h3>No projects</h3></section>
+        </ot-data-table>
+      </section>
+
+      <section class="fixture-panel" aria-labelledby="creatable-heading">
+        <h2 id="creatable-heading">Creatable combobox</h2>
+        <label data-field>Environment<ot-combobox id="fixture-creatable" data-allow-custom><select name="environment" aria-label="Environment"><option value="" disabled selected>Choose</option><option>Development</option><option>Production</option></select></ot-combobox></label>
+      </section>
+
+      <form id="fixture-repeater-form" class="fixture-panel">
+        <h2>Repeater</h2>
+        <ot-repeater id="fixture-repeater" data-min="1" data-max="3" data-layout="key-value">
+          <div data-repeater-list><fieldset data-repeater-item><legend>Variable <output data-repeater-position>1</output></legend><label data-field>Key<input name="variables[0][key]" value="REGION"></label><span data-repeater-separator aria-hidden="true">=</span><label data-field>Value<input name="variables[0][value]" value="us-east-1"></label><button type="button" data-repeater-remove>Remove</button></fieldset></div>
+          <div data-repeater-actions><button type="button" data-repeater-add>Add variable</button><button type="reset">Reset variables</button></div>
+          <template data-repeater-template><fieldset data-repeater-item><legend>Variable <output data-repeater-position></output></legend><label data-field>Key<input name="variables[__index__][key]" data-repeater-focus></label><span data-repeater-separator aria-hidden="true">=</span><label data-field>Value<input name="variables[__index__][value]"></label><button type="button" data-repeater-remove>Remove</button></fieldset></template>
+        </ot-repeater>
+      </form>
+
+      <section class="fixture-panel" aria-labelledby="log-heading">
+        <h2 id="log-heading">Log viewer</h2>
+        <ot-log-viewer id="fixture-log"><header data-log-toolbar><label><input type="checkbox" data-log-follow checked> Follow</label><output data-log-status aria-live="polite"></output></header><pre class="scroll-area" role="log" aria-label="Build output" tabindex="0"><code data-log-content><span data-log-line>Preparing</span><span data-log-line>Building</span></code></pre></ot-log-viewer>
+      </section>
+
+      <form id="fixture-form" class="fixture-panel">
+        <h2>Native form controls</h2>
+        <fieldset data-choice-cards id="fixture-choices">
+          <legend>Choose a plan</legend>
+          <label data-choice-card><input type="radio" name="plan" value="starter" checked><span><strong>Starter</strong><small>For personal projects.</small></span></label>
+          <label data-choice-card><input type="radio" name="plan" value="team"><span><strong>Team</strong><small>For collaborating groups.</small></span></label>
+          <label data-choice-card><input type="radio" name="plan" value="business" disabled><span><strong>Business</strong><small>Currently unavailable.</small></span></label>
+        </fieldset>
+
+        <div id="otp-field">
+          <label for="fixture-otp-input">Verification code</label>
+          <ot-otp id="fixture-otp" data-length="6">
+            <input id="fixture-otp-input" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" value="12" required aria-describedby="fixture-otp-hint">
+          </ot-otp>
+          <small id="fixture-otp-hint">Enter the six-digit code sent to your device.</small>
+        </div>
+        <div><button type="reset">Reset form</button><button type="submit">Submit form</button></div>
+        <output id="form-output" aria-live="polite"></output>
+      </form>
+
+    </div>
+  </main>
+  <section id="document-fixtures" aria-label="Document component fixtures">
+    <section class="fixture-panel" aria-labelledby="input-group-heading">
+      <h2 id="input-group-heading">Input group</h2>
+      <fieldset class="group"><legend>Email</legend><input type="email" aria-label="Email address" value="hello@example.com"></fieldset>
+    </section>
+
+    <article class="fixture-panel" aria-busy="true" data-spinner="overlay" aria-label="Loading project">
+      <div><h2>Project</h2><p>Content awaiting an update.</p></div>
+    </article>
+
+    <section class="fixture-panel" aria-labelledby="tooltip-heading">
+      <h2 id="tooltip-heading">Tooltip</h2>
+      <button id="fixture-tooltip" type="button" title="Helpful tooltip content">Help</button>
+    </section>
+    <ot-lightbox id="fixture-lightbox">
+      <a href="../docs/assets/lightbox-sample-a.svg" data-lightbox-item><img src="../docs/assets/lightbox-sample-a.svg" alt="Saffron sunset"></a>
+      <a href="../docs/assets/lightbox-sample-b.svg" data-lightbox-item><img src="../docs/assets/lightbox-sample-b.svg" alt="Quiet hills"></a>
+      <dialog data-lightbox-dialog closedby="any" aria-label="Image viewer">
+        <figure><img data-lightbox-image alt=""><figcaption data-lightbox-caption></figcaption></figure>
+        <footer><span data-lightbox-status aria-live="polite"></span><ot-toolbar role="toolbar" aria-label="Image controls"><button type="button" data-lightbox-previous>Previous</button><button type="button" data-lightbox-next>Next</button><button type="button" data-lightbox-close>Close</button></ot-toolbar></footer>
+      </dialog>
+    </ot-lightbox>
+
+    <div>
+      <ot-scrollspy id="fixture-scrollspy" data-target="#fixture-scroll-root" data-scroll-root="#fixture-scroll-root"><nav aria-label="Fixture sections"><a href="#fixture-section-one">One</a><a href="#fixture-section-two">Two</a></nav></ot-scrollspy>
+      <article id="fixture-scroll-root" class="scroll-area" role="region" aria-label="Fixture sections" tabindex="0" style="height:8rem;overflow:auto"><section id="fixture-section-one" style="height:12rem"><h2>One</h2></section><section id="fixture-section-two" style="height:12rem"><h2>Two</h2></section></article>
+    </div>
+
+    <ot-footnotes id="fixture-footnotes"><p>A native footnote<sup class="footnote-reference"><a href="#fixture-note" data-footnote-ref>1</a></sup>.</p><ol><li id="fixture-note" data-footnote><p>The original definition remains available.</p></li></ol></ot-footnotes>
+
+    <ot-reading-progress id="fixture-reading" data-target="#fixture-reading-content" data-scroll-root="#fixture-reading-root">
+      <label>Reading progress <progress value="0" max="100">0%</progress></label>
+      <div id="fixture-reading-root" class="scroll-area" role="region" aria-label="Reading fixture" tabindex="0" style="height:8rem;overflow:auto"><article id="fixture-reading-content" style="height:24rem"><h2>Reading</h2><p>Scrollable content.</p></article></div>
+    </ot-reading-progress>
+  </section>
+  <script>
+    document.querySelector('#fixture-form').addEventListener('submit', event => {
+      event.preventDefault();
+      document.querySelector('#form-output').value = JSON.stringify(Object.fromEntries(new FormData(event.currentTarget)));
+    });
+  </script>
+</body>
+</html>

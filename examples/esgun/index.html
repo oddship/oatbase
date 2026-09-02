@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Selective Oatbase build</title>
+  <link rel="stylesheet" href="./assets/app.css">
+  <script type="module" src="./assets/app.js"></script>
+</head>
+<body>
+  <main class="container">
+    <h1>Selective application bundle</h1>
+    <output data-selection aria-live="polite">0 selected</output>
+    <ot-data-table><table><thead><tr><th><input type="checkbox" data-table-select-all aria-label="Select all rows"></th><th data-sort="text">Project</th></tr></thead><tbody><tr><td><input type="checkbox" data-table-select-row value="atlas" aria-label="Select Atlas"></td><th scope="row">Atlas</th></tr></tbody></table></ot-data-table>
+  </main>
+</body>
+</html>

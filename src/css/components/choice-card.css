@@ -1,0 +1,32 @@
+@layer components {
+  [data-choice-cards] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: var(--space-3);
+    padding: 0;
+    border: 0;
+  }
+  [data-choice-card] {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-3);
+    margin: 0;
+    padding: var(--space-4);
+    color: var(--foreground);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    cursor: pointer;
+  }
+  [data-choice-card] > input { margin-block-start: var(--space-1); }
+  [data-choice-card] :where(strong, small) { display: block; }
+  [data-choice-card] small { margin-block-start: var(--space-1); color: var(--muted-foreground); }
+  [data-choice-card]:hover { border-color: var(--input); }
+  [data-choice-card]:has(> input:checked) {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary);
+  }
+  [data-choice-card]:has(> input:focus-visible) { outline: 2px solid var(--ring); outline-offset: 2px; }
+  [data-choice-card]:has(> input:disabled) { cursor: not-allowed; opacity: .55; }
+}
