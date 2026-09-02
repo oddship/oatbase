@@ -14,9 +14,9 @@
         assert(page.querySelectorAll('.docs-meta .badge').length === 3, 'component metadata dogfoods Oat badges');
         assert(page.querySelector('.docs-meta').getAttribute('aria-label') === 'Component metadata', 'component metadata is labeled');
         assert(doc.querySelector('[data-page="/"]').hidden, 'inactive route is hidden');
-        assert(doc.querySelectorAll('[data-component-nav] a').length === 68, 'all component routes are listed');
+        assert(doc.querySelectorAll('[data-component-nav] a').length === 69, 'all component routes are listed');
         assert(doc.querySelectorAll('[data-source="Oat core"] [data-route]').length === 34, 'Oat core components are grouped');
-        assert(doc.querySelectorAll('[data-source="Oatbase"] [data-route]').length === 34, 'Oatbase extensions are grouped');
+        assert(doc.querySelectorAll('[data-source="Oatbase"] [data-route]').length === 35, 'Oatbase extensions are grouped');
         assert(doc.querySelector('.docs-search-shortcut').textContent === '⌘ K', 'search shortcut is compact');
         assert(doc.querySelector('.docs-search-shortcut').dataset.variant === 'inline', 'search shortcut dogfoods the inline Kbd variant');
         const headerControls = [
@@ -119,7 +119,7 @@
         await new Promise(resolve => setTimeout(resolve, 0));
         const catalogPage = doc.querySelector('[data-page="/components"]');
         assert(!catalogPage.hidden, 'component index route renders');
-        assert(catalogPage.querySelectorAll('[data-component-catalog] > a').length === 34, 'component index starts with Oatbase additions');
+        assert(catalogPage.querySelectorAll('[data-component-catalog] > a').length === 35, 'component index starts with Oatbase additions');
         const catalogSearch = catalogPage.querySelector('[data-catalog-search]');
         assert(catalogSearch.closest('fieldset.group'), 'component quick filter dogfoods Oat’s input group');
         assert(catalogPage.querySelector('[data-component-catalog]').classList.contains('row'), 'component catalog dogfoods Oat’s responsive grid');
@@ -127,7 +127,7 @@
         catalogSearch.dispatchEvent(new Event('input', { bubbles: true }));
         assert(catalogPage.querySelectorAll('[data-component-catalog] > a').length === 1, 'component quick filter narrows the active source');
         assert(catalogPage.querySelector('[data-component-catalog] > a h3').textContent === 'Lightbox', 'component quick filter searches component names');
-        assert(catalogPage.querySelector('[data-catalog-count]').textContent === '1 of 34 additions', 'component quick filter updates its result count');
+        assert(catalogPage.querySelector('[data-catalog-count]').textContent === '1 of 35 additions', 'component quick filter updates its result count');
         assert(catalogPage.querySelector('[data-catalog-count]').classList.contains('badge'), 'component result count uses compact metadata styling');
         assert(doc.defaultView.getComputedStyle(catalogPage.querySelector('[data-catalog-empty]')).display === 'none', 'catalog empty state stays visually hidden while results exist');
         catalogSearch.value = 'no-such-component';

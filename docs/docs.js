@@ -26,7 +26,7 @@ labPreset.addEventListener('change', () => applyPreset(labPreset.value, labSurfa
 
 function componentIcon(component) {
   const icons = {
-    callout: '!', chart: '▥', command: '⌘', drawer: '▤', empty: '◇', item: '☷', kbd: 'K',
+    'action-field': '→', callout: '!', chart: '▥', command: '⌘', drawer: '▤', empty: '◇', item: '☷', kbd: 'K',
     combobox: '⌕', select: '⌄', 'theme-switcher': '◐', 'copy-button': '⧉',
     multiselect: '☑', 'password-field': '●', rating: '★',
     'segmented-control': '▦', splitter: '↔', stat: '#', stepper: '①',

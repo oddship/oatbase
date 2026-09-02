@@ -79,6 +79,7 @@
   <dialog id="drawer" data-variant="drawer" data-side="right"><form method="dialog"><div data-drawer-body>Drawer</div><button value="close">Close</button></form></dialog>
 
   <ot-copy id="copy"><input data-copy-source value="copy me"><button type="button" data-copy-button>Copy</button></ot-copy>
+  <ot-action-field id="action-field" role="group" aria-labelledby="action-field-label" data-copied="Copied address"><span id="action-field-label" data-action-field-label>Email address</span><div data-action-field-body><span data-action-field-value data-copy-source>hello@example.com</span><div data-action-field-actions><a href="mailto:hello@example.com">Email me</a><button type="button" data-copy-button>Copy</button></div></div></ot-action-field>
 
   <ot-multiselect id="multi">
     <select multiple aria-label="People"><option value="ada" selected>Ada</option><option value="grace">Grace</option></select>
@@ -122,7 +123,7 @@
       try {
         await window.oatbaseBuildReady;
         await Promise.all([
-          'ot-combobox', 'ot-command', 'ot-select', 'ot-theme-switcher', 'ot-copy',
+          'ot-action-field', 'ot-combobox', 'ot-command', 'ot-select', 'ot-theme-switcher', 'ot-copy',
           'ot-multiselect', 'ot-password', 'ot-splitter', 'ot-tree', 'ot-toggle',
           'ot-toolbar', 'ot-otp', 'ot-data-table', 'ot-repeater', 'ot-log-viewer'
         ].map(name => customElements.whenDefined(name)));
@@ -186,6 +187,16 @@
         assert(copied === 'copy me', 'copy button reads its semantic source');
         const copiedButtonSize = copy.button.getBoundingClientRect();
         assert(Math.abs(copyButtonSize.width - copiedButtonSize.width) < 1 && Math.abs(copyButtonSize.height - copiedButtonSize.height) < 1, 'copy feedback preserves button dimensions');
+
+        const actionField = document.querySelector('#action-field');
+        assert(actionField.hasAttribute('data-enhanced'), 'action field reveals copying only after enhancement');
+        assert(actionField.value === 'hello@example.com', 'action field exposes its semantic value');
+        assert(actionField.querySelector('a').getAttribute('href') === 'mailto:hello@example.com', 'action field preserves its native contextual action');
+        await actionField.copy();
+        assert(actionField.querySelector('[data-copy-status]').textContent === 'Copied address', 'action field announces copy feedback through a polite status');
+        actionField.remove();
+        document.body.append(actionField);
+        assert(actionField.button.textContent === 'Copy' && actionField.querySelector('[data-copy-status]').textContent === '', 'copy feedback resets across reconnects');
 
         const multi = document.querySelector('#multi');
         multi.open();

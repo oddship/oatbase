@@ -175,7 +175,7 @@ describe('source', () => {
   test('registers each custom element defensively', async () => {
     const bundle = await readFile(new URL('dist/oatbase.js', root), 'utf8');
     for (const element of [
-      'ot-combobox', 'ot-command', 'ot-select', 'ot-theme-switcher', 'ot-copy',
+      'ot-action-field', 'ot-combobox', 'ot-command', 'ot-select', 'ot-theme-switcher', 'ot-copy',
       'ot-multiselect', 'ot-password', 'ot-splitter', 'ot-tree', 'ot-toggle',
       'ot-toolbar', 'ot-otp', 'ot-lightbox', 'ot-scrollspy', 'ot-footnotes',
       'ot-reading-progress', 'ot-data-table', 'ot-repeater', 'ot-log-viewer'
@@ -200,6 +200,19 @@ describe('source', () => {
     expect(source).toContain('#reserveFeedbackWidth(feedback)');
     expect(source).toContain("this.#reserveFeedbackWidth(this.dataset.copied || 'Copied')");
     expect(source.indexOf('this.#reserveFeedbackWidth(feedback)')).toBeLessThan(source.indexOf('this.button.textContent = feedback'));
+  });
+
+  test('composes action fields from copy behavior with a useful no-JavaScript fallback', async () => {
+    const [source, css, copy] = await Promise.all([
+      readFile(new URL('src/js/action-field.js', root), 'utf8'),
+      readFile(new URL('src/css/components/action-field.css', root), 'utf8'),
+      readFile(new URL('src/js/copy-button.js', root), 'utf8')
+    ]);
+    expect(source).toContain('class OtActionField extends OtCopy');
+    expect(source).toContain("define('ot-action-field', OtActionField)");
+    expect(css).toContain('overflow-wrap: anywhere');
+    expect(css).toContain('ot-action-field:not([data-enhanced]) [data-copy-button]');
+    expect(copy).toContain("status.setAttribute('aria-live', 'polite')");
   });
 
   test('keeps drawers native and CSS-only', async () => {

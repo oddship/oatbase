@@ -99,6 +99,11 @@ class OtCopy extends HTMLElement {
   }
 }
 define("ot-copy", OtCopy);
+
+// src/js/action-field.js
+class OtActionField extends OtCopy {
+}
+define("ot-action-field", OtActionField);
 export {
-  OtCopy
+  OtActionField
 };

@@ -13,7 +13,7 @@ const basecoatSlugs = [
   'textarea', 'theme-switcher', 'toast', 'tooltip'
 ];
 const expandedSlugs = [
-  'callout', 'copy-button', 'multiselect', 'password-field', 'rating', 'segmented-control',
+  'action-field', 'callout', 'copy-button', 'multiselect', 'password-field', 'rating', 'segmented-control',
   'splitter', 'stat', 'stepper', 'timeline', 'tree', 'toggle', 'toolbar', 'choice-card',
   'otp-input', 'grid', 'tag-input', 'upload', 'lightbox', 'scrollspy', 'footnotes',
   'reading-progress', 'data-table', 'description-list', 'prose', 'log-viewer', 'repeater'
@@ -26,8 +26,8 @@ const documentedMarkup = component => [
 
 describe('component coverage', () => {
   test('covers every Basecoat 1.0 component exactly once', () => {
-    expect(components).toHaveLength(68);
-    expect(new Set(components.map(component => component.slug)).size).toBe(68);
+    expect(components).toHaveLength(69);
+    expect(new Set(components.map(component => component.slug)).size).toBe(69);
     for (const slug of basecoatSlugs) expect(components.some(component => component.slug === slug)).toBe(true);
     expect(components.map(component => component.slug).sort()).toEqual([...basecoatSlugs, ...expandedSlugs].sort());
   });
@@ -49,7 +49,7 @@ describe('component coverage', () => {
       .filter(component => component.source === 'Oatbase' && component.js)
       .map(component => component.slug);
     expect(oatbaseWebComponents).toEqual([
-      'combobox', 'command', 'select', 'theme-switcher', 'copy-button',
+      'action-field', 'combobox', 'command', 'select', 'theme-switcher', 'copy-button',
       'multiselect', 'password-field', 'splitter', 'log-viewer', 'repeater', 'tree', 'toggle', 'toolbar', 'otp-input',
       'lightbox', 'scrollspy', 'footnotes', 'reading-progress', 'data-table'
     ]);
@@ -57,7 +57,7 @@ describe('component coverage', () => {
 
   test('maps core components instead of duplicating them', () => {
     expect(components.filter(component => component.source === 'Oat core')).toHaveLength(34);
-    expect(components.filter(component => component.source === 'Oatbase')).toHaveLength(34);
+    expect(components.filter(component => component.source === 'Oatbase')).toHaveLength(35);
   });
 
   test('maps every component stylesheet and custom element shipped by Oat', async () => {
@@ -142,6 +142,9 @@ describe('component coverage', () => {
     expect(surface('choice-card')).toContain('type="checkbox"');
     expect(surface('choice-card')).toContain('disabled');
     expect(surface('toast')).toContain("{ variant: 'warning'");
+    expect(surface('action-field')).toContain('href="mailto:');
+    expect(surface('action-field')).toContain('data-action-field-actions');
+    expect(surface('action-field')).toContain('data-copy-button');
   });
 
   test('supports named examples and generated API sections', async () => {

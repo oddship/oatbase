@@ -43,6 +43,9 @@ dist:
 	bun build src/css/components/copy-button.css --outfile $(DIST)/copy-button.css
 	bun build src/js/copy-button.js --format=iife --outfile $(DIST)/copy-button.js
 	bun build src/js/copy-button.js --format=esm --outfile $(DIST)/copy-button.esm.js
+	bun build src/css/components/action-field.css --outfile $(DIST)/action-field.css
+	bun build src/js/action-field.js --format=iife --outfile $(DIST)/action-field.js
+	bun build src/js/action-field.js --format=esm --outfile $(DIST)/action-field.esm.js
 	bun build src/css/components/multiselect.css --outfile $(DIST)/multiselect.css
 	bun build src/js/multiselect.js --format=iife --outfile $(DIST)/multiselect.js
 	bun build src/js/multiselect.js --format=esm --outfile $(DIST)/multiselect.esm.js

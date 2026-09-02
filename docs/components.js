@@ -5,6 +5,54 @@ window.OATBASE_COMPONENTS = [
     markup: `<div><details name="faq"><summary>What is Oatbase?</summary><p class="p-4">A focused extension collection for Oat UI.</p></details><details name="faq"><summary>Does it need a framework?</summary><p class="p-4">No. It works with plain semantic HTML.</p></details></div>`
   },
   {
+    slug: 'action-field', name: 'Action Field', source: 'Oatbase', js: true,
+    description: 'A prominent, copyable value with native contextual actions.',
+    examples: [
+      {
+        title: 'Contact action', slug: 'preview',
+        description: 'The address and mail link remain useful without JavaScript; copying appears after enhancement.',
+        markup: `<ot-action-field role="group" aria-labelledby="contact-address-label" data-copied="Copied address">
+  <span id="contact-address-label" data-action-field-label>Email address</span>
+  <div data-action-field-body>
+    <span data-action-field-value data-copy-source>hello@example.com</span>
+    <div data-action-field-actions>
+      <a class="button" href="mailto:hello@example.com">Email me</a>
+      <button type="button" class="outline" data-copy-button>Copy</button>
+    </div>
+  </div>
+  <small data-action-field-hint>Replies usually arrive within two working days.</small>
+</ot-action-field>`
+      },
+      {
+        title: 'Long value', slug: 'long-value',
+        description: 'Long values wrap while actions move onto another line when space is limited.',
+        markup: `<ot-action-field role="group" aria-labelledby="repository-url-label" data-copied="Copied URL">
+  <span id="repository-url-label" data-action-field-label>Repository clone URL</span>
+  <div data-action-field-body>
+    <code data-action-field-value data-copy-source>https://github.com/example/a-project-with-a-deliberately-long-name.git</code>
+    <div data-action-field-actions>
+      <a class="button" href="https://github.com/example/a-project-with-a-deliberately-long-name">Open repository</a>
+      <button type="button" class="outline" data-copy-button>Copy URL</button>
+    </div>
+  </div>
+</ot-action-field>`
+      }
+    ],
+    usageNote: 'Action Field composes Oat’s native links and buttons with Oatbase copy behavior. The application owns action destinations and the value’s meaning.',
+    api: [
+      ['data-action-field-label', 'Labels the value; reference its id from aria-labelledby on the host.'],
+      ['data-action-field-body', 'Groups the prominent value and its contextual actions.'],
+      ['data-action-field-value / data-copy-source', 'Marks readable content as both the displayed value and clipboard source.'],
+      ['data-action-field-actions', 'Contains any native links or buttons associated with the value.'],
+      ['data-copy-button', 'Marks the progressively enhanced copy action; hidden until enhancement succeeds.'],
+      ['data-action-field-hint', 'Adds optional supporting text below the value.'],
+      ['data-copied', 'Customizes the temporary button label and polite live-region announcement.'],
+      ['value / copy()', 'Reads the normalized source text or copies it programmatically.'],
+      ['oatbase:copy', 'Emits the copied value after success.'],
+      ['--oatbase-action-field-value-size', 'Overrides the prominent value size.']
+    ]
+  },
+  {
     slug: 'alert', name: 'Alert', source: 'Oat core', js: false,
     description: 'Semantic feedback messages with status variants.',
     markup: `<div class="vstack"><div role="alert"><strong>Heads up.</strong> This is an informational alert.</div><div role="alert" data-variant="success"><strong>Saved.</strong> Your changes are live.</div><div role="alert" data-variant="warning"><strong>Check this.</strong> Review before continuing.</div><div role="alert" data-variant="danger"><strong>Error.</strong> Something went wrong.</div></div>`

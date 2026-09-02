@@ -58,7 +58,8 @@
     OtDataTable: () => OtDataTable,
     OtCopy: () => OtCopy,
     OtCommand: () => OtCommand,
-    OtCombobox: () => OtCombobox
+    OtCombobox: () => OtCombobox,
+    OtActionField: () => OtActionField
   });
 
   // node_modules/@knadh/oat/oat.min.js
@@ -1016,22 +1017,44 @@
     #abort;
     #feedbackTimer;
     #label;
+    #status;
     connectedCallback() {
       this.#abort?.abort();
       this.#abort = new AbortController;
       this.button = this.querySelector("[data-copy-button]");
       this.source = this.#source();
-      this.#label = this.button?.textContent || "";
+      this.#label = this.button?.textContent?.trim() || "";
+      this.#status = this.#ensureStatus();
+      this.toggleAttribute("data-enhanced", Boolean(this.button && this.source));
       this.#reserveFeedbackWidth(this.dataset.copied || "Copied");
       this.button?.addEventListener("click", () => this.copy(), { signal: this.#abort.signal });
     }
     disconnectedCallback() {
       this.#abort?.abort();
       clearTimeout(this.#feedbackTimer);
+      if (this.button)
+        this.button.textContent = this.#label;
+      if (this.#status)
+        this.#status.textContent = "";
     }
     #source() {
       const id2 = this.button?.dataset.copyTarget || this.dataset.copyTarget;
       return id2 && document.getElementById(id2) || this.querySelector("[data-copy-source]");
+    }
+    #ensureStatus() {
+      if (!this.button || !this.source)
+        return;
+      let status = this.querySelector("[data-copy-status]");
+      if (!status) {
+        status = document.createElement("span");
+        status.dataset.copyStatus = "";
+        this.append(status);
+      }
+      status.classList.add("visually-hidden");
+      status.setAttribute("aria-live", "polite");
+      status.setAttribute("aria-atomic", "true");
+      status.textContent = "";
+      return status;
     }
     get value() {
       const source = this.#source();
@@ -1064,15 +1087,23 @@
       const feedback = this.dataset.copied || "Copied";
       this.#reserveFeedbackWidth(feedback);
       this.button.textContent = feedback;
+      if (this.#status)
+        this.#status.textContent = feedback;
       emit(this, "oatbase:copy", { value });
       clearTimeout(this.#feedbackTimer);
       this.#feedbackTimer = setTimeout(() => {
         if (this.button)
           this.button.textContent = this.#label;
+        if (this.#status)
+          this.#status.textContent = "";
       }, 1200);
     }
   }
   define("ot-copy", OtCopy);
+  // src/js/action-field.js
+  class OtActionField extends OtCopy {
+  }
+  define("ot-action-field", OtActionField);
   // src/js/multiselect.js
   class OtMultiselect extends HTMLElement {
     #abort;
