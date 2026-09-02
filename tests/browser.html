@@ -95,7 +95,12 @@
 
   <ot-password id="password"><input type="password" value="secret"><button data-password-toggle>Show</button></ot-password>
 
-  <ot-splitter id="splitter"><section>One</section><button data-splitter aria-label="Resize"></button><section>Two</section></ot-splitter>
+  <script>
+    localStorage.setItem('oatbase-test-splitter', '92');
+    localStorage.setItem('oatbase-test-splitter-invalid', 'not-a-size');
+  </script>
+  <ot-splitter id="splitter" data-min="30" data-max="70" data-storage-key="oatbase-test-splitter"><section>One</section><button data-splitter aria-label="Resize"></button><section>Two</section></ot-splitter>
+  <ot-splitter id="splitter-invalid" data-value="43" data-storage-key="oatbase-test-splitter-invalid"><section>One</section><button data-splitter aria-label="Resize fallback"></button><section>Two</section></ot-splitter>
 
   <ot-tree id="tree"><ul><li aria-expanded="false"><button>src</button><ul><li><button>index.js</button></li></ul></li></ul></ot-tree>
 
@@ -242,8 +247,11 @@
         assert(password.input.type === 'text' && password.button.getAttribute('aria-pressed') === 'true', 'password visibility toggles accessibly');
 
         const splitter = document.querySelector('#splitter');
-        splitter.handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
-        assert(splitter.value === 55, 'splitter supports keyboard resizing');
+        assert(splitter.value === 70, 'splitter clamps a restored value to its current limits');
+        splitter.handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
+        assert(splitter.value === 65, 'splitter supports keyboard resizing');
+        assert(localStorage.getItem(splitter.storageKey) === '65', 'splitter persists an opted-in value');
+        assert(document.querySelector('#splitter-invalid').value === 43, 'splitter ignores malformed stored values');
 
         const tree = document.querySelector('#tree');
         tree.querySelector('[role="treeitem"] > button').click();

@@ -190,6 +190,29 @@ test('OTP uses one native input for filtering, completion, forms, and reset', as
   await expect(page.locator('[data-otp-slots] > span').nth(2)).toHaveText('\u00a0');
 });
 
+test('splitter persistence is opt-in, validated, clamped, and storage-safe', async ({ page }) => {
+  const splitter = page.locator('#fixture-splitter');
+  await splitter.evaluate(element => {
+    localStorage.setItem(element.storageKey, '200');
+    const parent = element.parentNode;
+    const next = element.nextSibling;
+    element.remove();
+    parent.insertBefore(element, next);
+  });
+  await expect(splitter.locator('[data-splitter]')).toHaveAttribute('aria-valuenow', '75');
+  await splitter.locator('[data-splitter]').press('Home');
+  await expect(splitter.locator('[data-splitter]')).toHaveAttribute('aria-valuenow', '25');
+  expect(await splitter.evaluate(element => localStorage.getItem(element.storageKey))).toBe('25');
+
+  await splitter.evaluate(element => {
+    const setItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = () => { throw new DOMException('Storage disabled'); };
+    element.value = 47;
+    Storage.prototype.setItem = setItem;
+  });
+  await expect(splitter.locator('[data-splitter]')).toHaveAttribute('aria-valuenow', '47');
+});
+
 test('lightbox composes native links, dialog, toolbar controls, and focus restoration', async ({ page }) => {
   const lightbox = page.locator('#fixture-lightbox');
   const items = lightbox.locator('[data-lightbox-item]');

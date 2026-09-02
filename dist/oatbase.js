@@ -1337,16 +1337,19 @@
         const next = event.key === "Home" ? this.min : event.key === "End" ? this.max : this.value + (backward ? -5 : 5);
         this.value = next;
       }, { signal });
-      this.value = Number(this.dataset.value || 50);
+      this.value = this.#storedValue() ?? this.#number(this.dataset.value || 50, 50);
     }
     disconnectedCallback() {
       this.#abort?.abort();
     }
     get min() {
-      return Number(this.dataset.min || 20);
+      return this.#number(this.dataset.min || 20, 20);
     }
     get max() {
-      return Number(this.dataset.max || 80);
+      return Math.max(this.min, this.#number(this.dataset.max || 80, 80));
+    }
+    get storageKey() {
+      return this.dataset.storageKey || "";
     }
     get vertical() {
       return this.getAttribute("aria-orientation") === "vertical";
@@ -1358,10 +1361,35 @@
       return Number(this.handle?.getAttribute("aria-valuenow") || 50);
     }
     set value(value) {
-      const next = Math.min(this.max, Math.max(this.min, Math.round(Number(value))));
+      const number = Number(value);
+      if (!Number.isFinite(number))
+        return;
+      const next = Math.min(this.max, Math.max(this.min, Math.round(number)));
       this.style.setProperty("--split", `${next}%`);
       this.handle?.setAttribute("aria-valuenow", String(next));
+      if (this.storageKey) {
+        try {
+          localStorage.setItem(this.storageKey, String(next));
+        } catch {}
+      }
       emit(this, "oatbase:resize", { value: next });
+    }
+    #number(value, fallback) {
+      const number = Number(value);
+      return Number.isFinite(number) ? number : fallback;
+    }
+    #storedValue() {
+      if (!this.storageKey)
+        return;
+      try {
+        const stored = localStorage.getItem(this.storageKey);
+        if (stored === null || !stored.trim())
+          return;
+        const value = Number(stored);
+        return Number.isFinite(value) ? value : undefined;
+      } catch {
+        return;
+      }
     }
     #setFromPointer(event) {
       const bounds = this.getBoundingClientRect();

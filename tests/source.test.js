@@ -336,13 +336,14 @@ describe('source', () => {
   });
 
   test('ships CSS-only document components and compositional variants', async () => {
-    const [prose, descriptions, item, empty, toolbar, splitter] = await Promise.all([
+    const [prose, descriptions, item, empty, toolbar, splitter, splitterJavaScript] = await Promise.all([
       readFile(new URL('src/css/components/prose.css', root), 'utf8'),
       readFile(new URL('src/css/components/description-list.css', root), 'utf8'),
       readFile(new URL('src/css/components/item.css', root), 'utf8'),
       readFile(new URL('src/css/components/empty.css', root), 'utf8'),
       readFile(new URL('src/css/components/toolbar.css', root), 'utf8'),
-      readFile(new URL('src/css/components/splitter.css', root), 'utf8')
+      readFile(new URL('src/css/components/splitter.css', root), 'utf8'),
+      readFile(new URL('src/js/splitter.js', root), 'utf8')
     ]);
     expect(prose).toContain('[data-prose]');
     expect(descriptions).toContain('[data-description-list]');
@@ -350,6 +351,10 @@ describe('source', () => {
     expect(empty).toContain('[data-layout="inline"]');
     expect(toolbar).toContain('[data-floating]');
     expect(splitter).toContain('[aria-orientation="vertical"]');
+    expect(splitterJavaScript).toContain('get storageKey()');
+    expect(splitterJavaScript).toContain('localStorage.getItem(this.storageKey)');
+    expect(splitterJavaScript).toContain('localStorage.setItem(this.storageKey');
+    expect(splitterJavaScript).toContain('Number.isFinite');
   });
 
   test('keeps document helpers composed from useful native elements', async () => {
