@@ -90,7 +90,7 @@ cp -R ../oatbase/dist ./public/vendor/oatbase
 
 CSS-only applications can use `@oddship/oatbase/css` without loading JavaScript. For an application that already loads Oat, `@oddship/oatbase/extensions.css` and `@oddship/oatbase/extensions` provide the extension-only aggregates. Every Oatbase addition also has an independent entry point, such as `@oddship/oatbase/chart.css`, `@oddship/oatbase/drawer.css`, or `@oddship/oatbase/select` plus `@oddship/oatbase/select.css`.
 
-The v0.1.0 complete Oat-inclusive browser payload is 28.1 kB gzipped, and the extension-only aggregate is 18.3 kB gzipped. Individual entry points and `components.json` support selective application bundles; `examples/esgun/` demonstrates that path without making EsGun a library dependency.
+The v0.1.0 complete Oat-inclusive browser payload is 28.6 kB gzipped, and the extension-only aggregate is 18.8 kB gzipped. Individual entry points and `components.json` support selective application bundles; `examples/esgun/` demonstrates that path without making EsGun a library dependency.
 
 The Flowctl audit added only the reusable boundaries: Repeater coordinates repeated native fields, Log Viewer coordinates a semantic live log, Combobox can create native options, and Stepper has a compact status track. Page headers, validation summaries, action rails, schedule forms, and workflow workspaces remain recipes or blocks. CodeMirror, graph layout, cron/timezone conversion, ANSI parsing, streaming, and virtualization remain application or specialist-library concerns.
 
