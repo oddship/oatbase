@@ -21,6 +21,7 @@ test('retains useful native controls without JavaScript', async ({ browser }) =>
   await expect(page.locator('#fixture-lightbox [data-lightbox-item]')).toHaveCount(2);
   await expect(page.locator('#fixture-scrollspy a')).toHaveCount(2);
   await expect(page.locator('#fixture-note')).toBeVisible();
+  await expect(page.locator('#fixture-footnotes [data-footnote-ref]')).toHaveAttribute('href', '#fixture-note');
   await expect(page.locator('#fixture-reading progress')).toBeVisible();
   await expect(page.locator('#fixture-creatable select')).toBeVisible();
   await expect(page.locator('#fixture-repeater [data-repeater-item]')).toHaveCount(1);
@@ -220,12 +221,53 @@ test('scrollspy and reading progress follow a supplied scroll container', async 
 
 test('footnotes compose Oat popovers while preserving their original definitions', async ({ page }) => {
   const footnotes = page.locator('#fixture-footnotes');
+  await footnotes.evaluate(element => {
+    window.footnoteLifecycle = [];
+    element.addEventListener('oatbase:render', event => {
+      window.footnoteLifecycle.push({
+        type: 'render',
+        enhanced: event.detail.enhanced,
+        entries: event.detail.entries.map(entry => ({
+          reference: entry.reference.getAttribute('href'),
+          definition: entry.definition.id,
+          popover: entry.popover?.dataset.footnoteFor
+        }))
+      });
+    });
+    element.addEventListener('oatbase:toggle', event => {
+      window.footnoteLifecycle.push({ type: 'toggle', state: event.detail.state, definition: event.detail.definition.id });
+    });
+    element.refresh();
+  });
+  await expect.poll(() => page.evaluate(() => window.footnoteLifecycle[0])).toEqual({
+    type: 'render',
+    enhanced: true,
+    entries: [{ reference: '#fixture-note', definition: 'fixture-note', popover: 'fixture-note' }]
+  });
+  await expect(footnotes.locator('[data-footnote-popover]')).toHaveAttribute('data-footnote-for', 'fixture-note');
   await footnotes.locator('[data-footnote-ref]').click();
   await expect(footnotes.locator('[data-footnote-popover]')).toBeVisible();
   await expect(footnotes.locator('[data-footnote-popover]')).toContainText('original definition remains available');
+  await expect.poll(() => page.evaluate(() => window.footnoteLifecycle.some(event => event.type === 'toggle' && event.state === 'open'))).toBe(true);
   await page.keyboard.press('Escape');
   await expect(footnotes.locator('[data-footnote-popover]')).not.toBeVisible();
   await expect(page.locator('#fixture-note')).toBeVisible();
+
+  await footnotes.evaluate(element => {
+    element.querySelector('#fixture-note p').textContent = 'The refreshed source definition.';
+    const paragraph = document.createElement('p');
+    paragraph.innerHTML = 'A later note<sup><a href="#fixture-note-two" data-footnote-ref>2</a></sup>.';
+    const definition = document.createElement('li');
+    definition.id = 'fixture-note-two';
+    definition.dataset.footnote = '';
+    definition.innerHTML = '<p>A dynamically inserted definition.</p>';
+    element.prepend(paragraph);
+    element.querySelector('ol').append(definition);
+    element.refresh();
+  });
+  await expect(footnotes.locator('[data-footnote-popover]')).toHaveCount(2);
+  await expect(footnotes.locator('[data-footnote-for="fixture-note"]')).toContainText('The refreshed source definition.');
+  await expect.poll(() => footnotes.evaluate(element => element.entries.length)).toBe(2);
 });
 
 test('exposes a stable accessible tree', async ({ page }) => {

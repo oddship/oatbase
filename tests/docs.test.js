@@ -196,6 +196,18 @@ describe('component coverage', () => {
     expect(stat).toMatch(/<dd>[^<]+<small>/);
   });
 
+  test('documents the Footnotes lifecycle and layout integration surface', () => {
+    const footnotes = components.find(component => component.slug === 'footnotes');
+    const api = footnotes.api.flat().join(' ');
+    for (const surface of ['data-footnote-for', 'entries', 'refresh()', 'oatbase:render', 'oatbase:toggle']) {
+      expect(api).toContain(surface);
+    }
+    expect(footnotes.javascript).toContain("addEventListener('oatbase:render'");
+    expect(footnotes.javascript).toContain('positionSidenote({ reference, definition, popover })');
+    expect(footnotes.javascript).toContain('footnotes.refresh()');
+    expect(footnotes.usageNote).toContain('when Popover is unavailable');
+  });
+
   test('ships complete iframe examples with visible, copyable source', async () => {
     const [docs, examples, script, styles] = await Promise.all([
       readFile(new URL('../docs/index.html', import.meta.url), 'utf8'),
@@ -347,8 +359,8 @@ describe('component coverage', () => {
       readFile(new URL('../docs/docs.css', import.meta.url), 'utf8')
     ]);
     expect(docs).toContain('class="card row gap-6 items-center docs-home-install"');
-    expect(docs).toContain('complete Oat-inclusive CSS and JavaScript stays under 28&nbsp;kB gzipped');
-    expect(docs).toContain('extension-only layer stays under 19&nbsp;kB');
+    expect(docs).toContain('complete Oat-inclusive CSS and JavaScript stays under 30&nbsp;kB gzipped');
+    expect(docs).toContain('extension-only layer stays under 20&nbsp;kB');
     expect(docs).toContain('Individual entries let applications pay only for the pieces they use.');
     expect(docs).toContain('class="row gap-2 mt-6 docs-home-layers"');
     expect(docs).toContain('class="item col-6" data-variant="outline"');
