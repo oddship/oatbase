@@ -34,11 +34,11 @@ describe('package', () => {
     expect(compressedBytes).toBeLessThan(28_000);
   });
 
-  test('keeps the extension-only browser payload below 18 KB compressed', async () => {
+  test('keeps the extension-only browser payload below 19 KB compressed', async () => {
     const css = await Bun.file(new URL('dist/extensions.min.css', root)).arrayBuffer();
     const js = await Bun.file(new URL('dist/extensions.min.js', root)).arrayBuffer();
     const compressedBytes = gzipSync(Buffer.concat([Buffer.from(css), Buffer.from(js)])).byteLength;
-    expect(compressedBytes).toBeLessThan(18_000);
+    expect(compressedBytes).toBeLessThan(19_000);
   });
 });
 

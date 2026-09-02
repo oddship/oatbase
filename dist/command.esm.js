@@ -133,8 +133,7 @@ class OtCommand extends HTMLElement {
   refresh() {
     if (!this.list || !this.search)
       return;
-    if (this.dataset.filter !== "manual")
-      this.#filter();
+    this.#filter();
     this.#sync();
   }
   #query() {
@@ -144,17 +143,19 @@ class OtCommand extends HTMLElement {
       cancelable: true,
       detail: { query: this.query }
     }));
-    if (this.dataset.filter !== "manual" && accepted)
+    if (accepted)
       this.#filter();
     this.#sync();
   }
   #filter() {
-    const query = this.query.toLocaleLowerCase();
-    this.items.forEach((item) => {
-      const terms = `${item.textContent} ${item.dataset.keywords || ""}`.toLocaleLowerCase();
-      const row = item.closest("li") || item;
-      row.hidden = !terms.includes(query);
-    });
+    if (this.dataset.filter !== "manual") {
+      const query = this.query.toLocaleLowerCase();
+      this.items.forEach((item) => {
+        const terms = `${item.textContent} ${item.dataset.keywords || ""}`.toLocaleLowerCase();
+        const row = item.closest("li") || item;
+        row.hidden = !terms.includes(query);
+      });
+    }
   }
   #sync() {
     this.items.forEach((item) => {
@@ -171,9 +172,10 @@ class OtCommand extends HTMLElement {
       }
       group.hidden = !hasVisibleItem;
     });
-    this.querySelector("[data-command-empty]")?.toggleAttribute("hidden", this.visibleItems.length > 0);
-    const current = this.visibleItems.findIndex((item) => item.hasAttribute("data-active"));
-    this.#setActive(current >= 0 ? current : this.visibleItems.length ? 0 : -1);
+    const items = this.visibleItems;
+    this.querySelector("[data-command-empty]")?.toggleAttribute("hidden", items.length > 0);
+    const current = items.findIndex((item) => item.hasAttribute("data-active"));
+    this.#setActive(current >= 0 ? current : items.length ? 0 : -1);
   }
   #onKeydown(event) {
     if (["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) {

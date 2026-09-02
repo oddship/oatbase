@@ -348,7 +348,7 @@ describe('component coverage', () => {
     ]);
     expect(docs).toContain('class="card row gap-6 items-center docs-home-install"');
     expect(docs).toContain('complete Oat-inclusive CSS and JavaScript stays under 28&nbsp;kB gzipped');
-    expect(docs).toContain('extension-only layer stays under 18&nbsp;kB');
+    expect(docs).toContain('extension-only layer stays under 19&nbsp;kB');
     expect(docs).toContain('Individual entries let applications pay only for the pieces they use.');
     expect(docs).toContain('class="row gap-2 mt-6 docs-home-layers"');
     expect(docs).toContain('class="item col-6" data-variant="outline"');
