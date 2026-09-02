@@ -247,7 +247,14 @@ OTP uses one real input for mobile keyboards, password-manager autofill, constra
 
 Lightbox, Scrollspy, Footnotes, and Reading Progress compose existing Oat controls around useful native fallbacks. Image links still navigate, table-of-contents links still work, footnote references still reach their definitions, and reading progress remains a native `<progress>` element when JavaScript is unavailable.
 
+Lightbox can use explicit `data-lightbox-item` markers or an opt-in selector for generated content. Matching bare images receive keyboard button semantics after enhancement; native image links keep their navigation fallback and modified-click behavior.
+
 ```html
+<ot-lightbox data-item-selector="article img">
+  <article>…generated images…</article>
+  <dialog data-lightbox-dialog aria-label="Image viewer">…</dialog>
+</ot-lightbox>
+
 <ot-scrollspy data-target="#article">
   <nav aria-label="On this page">
     <a href="#introduction">Introduction</a>

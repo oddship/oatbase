@@ -4,6 +4,10 @@
     display: contents;
   }
 
+  ot-lightbox [data-lightbox-trigger] {
+    cursor: zoom-in;
+  }
+
   ot-lightbox > dialog[data-lightbox-dialog] {
     width: var(--oatbase-lightbox-width, min(72rem, calc(100% - var(--space-8))));
     max-height: calc(100dvh - var(--space-8));

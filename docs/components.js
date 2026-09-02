@@ -506,7 +506,8 @@ appendButton.addEventListener('click', () => {
   {
     slug: 'lightbox', name: 'Lightbox', source: 'Oatbase', js: true,
     description: 'An image viewer composed from native links, Dialog, Toolbar, and Buttons.',
-    markup: `<ot-lightbox>
+    examples: [
+      { title: 'Marked links', slug: 'preview', markup: `<ot-lightbox>
   <div class="row">
     <figure class="card col-6">
       <a href="./assets/lightbox-sample-a.svg" data-lightbox-item>
@@ -535,8 +536,35 @@ appendButton.addEventListener('click', () => {
       </ot-toolbar>
     </footer>
   </dialog>
-</ot-lightbox>`,
-    api: [['data-lightbox-item', 'Marks a native link or image as a viewable item.'], ['data-lightbox-dialog', 'Marks the composed native dialog.'], ['data-lightbox-image / data-lightbox-caption', 'Receive the active item’s accessible image and caption.'], ['data-lightbox-previous / next / close', 'Opt existing buttons into gallery controls.'], ['open(), close(), next(), previous()', 'Control the viewer without replacing native dialog behavior.'], ['oatbase:open / change / close', 'Expose lifecycle and active-item detail.']]
+</ot-lightbox>` },
+      { title: 'Generated content selector', slug: 'selector', description: 'An opt-in selector discovers CMS images without marking each one. Call refresh() after inserting new bare images so they receive keyboard button semantics.', markup: `<ot-lightbox data-item-selector="[data-gallery] img">
+  <article class="row" data-gallery>
+    <figure class="card col-6">
+      <img src="./assets/lightbox-sample-a.svg" alt="Abstract saffron sun over blue water" style="display:block;width:100%;height:8rem;object-fit:cover">
+      <figcaption>Saffron sunset</figcaption>
+    </figure>
+    <figure class="card col-6">
+      <img src="./assets/lightbox-sample-b.svg" alt="Abstract green hills under a pale sky" style="display:block;width:100%;height:8rem;object-fit:cover">
+      <figcaption>Quiet hills</figcaption>
+    </figure>
+  </article>
+  <dialog data-lightbox-dialog closedby="any" aria-label="Image viewer">
+    <figure>
+      <img data-lightbox-image alt="">
+      <figcaption data-lightbox-caption></figcaption>
+    </figure>
+    <footer>
+      <span data-lightbox-status aria-live="polite"></span>
+      <ot-toolbar role="toolbar" aria-label="Image controls">
+        <button type="button" class="ghost" data-lightbox-previous>← Previous</button>
+        <button type="button" class="ghost" data-lightbox-next>Next →</button>
+        <button type="button" class="ghost" data-lightbox-close>Close</button>
+      </ot-toolbar>
+    </footer>
+  </dialog>
+</ot-lightbox>` }
+    ],
+    api: [['data-lightbox-item', 'Marks a native link or image as a viewable item.'], ['data-item-selector', 'Opts matching generated descendants into the gallery; invalid selectors safely match nothing.'], ['itemSelector / items', 'Expose the active selector and its current live matches.'], ['refresh()', 'Re-applies keyboard semantics after application-driven bare-image insertions or selector changes.'], ['data-lightbox-dialog', 'Marks the composed native dialog.'], ['data-lightbox-image / data-lightbox-caption', 'Receive the active item’s accessible image and caption.'], ['data-lightbox-previous / next / close', 'Opt existing buttons into gallery controls.'], ['open(), close(), next(), previous()', 'Control the viewer without replacing native dialog behavior.'], ['oatbase:open / change / close', 'Expose lifecycle and active-item detail.']]
   },
   {
     slug: 'scrollspy', name: 'Scrollspy', source: 'Oatbase', js: true,

@@ -158,6 +158,17 @@
       </dialog>
     </ot-lightbox>
 
+    <ot-lightbox id="fixture-lightbox-selector" data-item-selector="[data-generated-gallery] img">
+      <div data-generated-gallery>
+        <figure><img src="../docs/assets/lightbox-sample-a.svg" alt="Generated saffron sunset"><figcaption>Generated sunset</figcaption></figure>
+        <figure><img src="../docs/assets/lightbox-sample-b.svg" alt="Generated quiet hills"><figcaption>Generated hills</figcaption></figure>
+      </div>
+      <dialog data-lightbox-dialog closedby="any" aria-label="Generated image viewer">
+        <figure><img data-lightbox-image alt=""><figcaption data-lightbox-caption></figcaption></figure>
+        <footer><span data-lightbox-status aria-live="polite"></span><button type="button" data-lightbox-close>Close generated viewer</button></footer>
+      </dialog>
+    </ot-lightbox>
+
     <div>
       <ot-scrollspy id="fixture-scrollspy" data-target="#fixture-scroll-root" data-scroll-root="#fixture-scroll-root"><nav aria-label="Fixture sections"><a href="#fixture-section-one">One</a><a href="#fixture-section-two">Two</a></nav></ot-scrollspy>
       <article id="fixture-scroll-root" class="scroll-area" role="region" aria-label="Fixture sections" tabindex="0" style="height:8rem;overflow:auto"><section id="fixture-section-one" style="height:12rem"><h2>One</h2></section><section id="fixture-section-two" style="height:12rem"><h2>Two</h2></section></article>

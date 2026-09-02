@@ -1293,28 +1293,43 @@
         return;
       const options = { signal: this.#abort.signal };
       this.addEventListener("click", (event) => this.#click(event), options);
+      this.addEventListener("keydown", (event) => this.#itemKeydown(event), options);
       this.dialog.addEventListener("keydown", (event) => this.#keydown(event), options);
       this.dialog.addEventListener("close", () => this.#closed(), options);
       this.previousButton?.addEventListener("click", () => this.previous(), options);
       this.nextButton?.addEventListener("click", () => this.next(), options);
       this.closeButton?.addEventListener("click", () => this.close(), options);
+      this.refresh();
       this.toggleAttribute("data-enhanced", true);
     }
     disconnectedCallback() {
       this.#abort?.abort();
     }
+    get itemSelector() {
+      return this.getAttribute("data-item-selector") || "[data-lightbox-item]";
+    }
     get items() {
-      return [...this.querySelectorAll("[data-lightbox-item]")].filter((item) => !this.dialog?.contains(item));
+      try {
+        return [...this.querySelectorAll(this.itemSelector)].filter((item) => !this.dialog?.contains(item) && item.closest("ot-lightbox") === this);
+      } catch {
+        return [];
+      }
     }
     get currentIndex() {
       return this.#activeIndex;
+    }
+    refresh() {
+      const items = this.items;
+      for (const item of items)
+        this.#prepareTrigger(this.#triggerFor(item));
+      return items;
     }
     open(item = 0) {
       const items = this.items;
       const index = typeof item === "number" ? item : items.indexOf(item);
       if (!items.length || index < 0 || index >= items.length || !this.dialog || !this.image)
         return;
-      this.#trigger = items[index];
+      this.#trigger = this.#triggerFor(items[index]);
       this.#show(index);
       if (!this.dialog.open)
         this.dialog.showModal();
@@ -1334,10 +1349,22 @@
         this.#show((this.#activeIndex - 1 + length) % length);
     }
     #click(event) {
-      const item = event.target.closest?.("[data-lightbox-item]");
-      if (!item || this.dialog.contains(item))
+      const item = this.#itemFromTarget(event.target);
+      if (!item || this.dialog.contains(event.target))
         return;
       if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+        return;
+      event.preventDefault();
+      this.open(item);
+    }
+    #itemKeydown(event) {
+      if (this.dialog.contains(event.target))
+        return;
+      const item = this.#itemFromTarget(event.target);
+      const trigger = item && this.#triggerFor(item);
+      if (!item || !trigger.hasAttribute("data-lightbox-trigger"))
+        return;
+      if (event.key !== "Enter" && event.key !== " ")
         return;
       event.preventDefault();
       this.open(item);
@@ -1361,13 +1388,14 @@
       if (!item)
         return;
       const sourceImage = item.matches("img") ? item : item.querySelector("img");
-      const source = item.dataset.lightboxSrc || item.getAttribute("href") || sourceImage?.currentSrc || sourceImage?.src;
+      const link = this.#linkFor(item);
+      const source = item.dataset.lightboxSrc || link?.dataset.lightboxSrc || link?.getAttribute("href") || sourceImage?.currentSrc || sourceImage?.src;
       if (!source)
         return;
       const figure = item.closest("figure");
-      const caption = item.dataset.lightboxCaption ?? figure?.querySelector("figcaption")?.textContent.trim() ?? "";
+      const caption = item.dataset.lightboxCaption ?? link?.dataset.lightboxCaption ?? figure?.querySelector("figcaption")?.textContent.trim() ?? "";
       this.image.src = source;
-      this.image.alt = item.dataset.lightboxAlt ?? sourceImage?.alt ?? "";
+      this.image.alt = item.dataset.lightboxAlt ?? link?.dataset.lightboxAlt ?? sourceImage?.alt ?? "";
       if (this.caption) {
         this.caption.textContent = caption;
         this.caption.hidden = !caption;
@@ -1387,9 +1415,42 @@
       if (!item || this.items.length < 2)
         return;
       const sourceImage = item.matches("img") ? item : item.querySelector("img");
-      const source = item.dataset.lightboxSrc || item.getAttribute("href") || sourceImage?.currentSrc || sourceImage?.src;
+      const link = this.#linkFor(item);
+      const source = item.dataset.lightboxSrc || link?.dataset.lightboxSrc || link?.getAttribute("href") || sourceImage?.currentSrc || sourceImage?.src;
       if (source)
         Object.assign(new Image, { src: source });
+    }
+    #itemFromTarget(target) {
+      if (!(target instanceof Node))
+        return;
+      return this.items.find((item) => {
+        const trigger = this.#triggerFor(item);
+        return item === target || item.contains(target) || trigger === target || trigger?.contains(target);
+      });
+    }
+    #linkFor(item) {
+      if (item.matches("a[href]"))
+        return item;
+      const ancestor = item.closest("a[href]");
+      if (ancestor?.closest("ot-lightbox") === this)
+        return ancestor;
+      return item.querySelector?.("a[href]");
+    }
+    #triggerFor(item) {
+      return this.#linkFor(item) || (this.#isNativeTrigger(item) ? item : item.querySelector?.("button, input, select, textarea, summary, [tabindex]")) || item;
+    }
+    #isNativeTrigger(element) {
+      return element?.matches?.("a[href], button, input, select, textarea, summary, [tabindex]");
+    }
+    #prepareTrigger(trigger) {
+      if (!trigger || this.#isNativeTrigger(trigger))
+        return;
+      trigger.tabIndex = 0;
+      if (!trigger.hasAttribute("role"))
+        trigger.setAttribute("role", "button");
+      if (!trigger.hasAttribute("aria-haspopup"))
+        trigger.setAttribute("aria-haspopup", "dialog");
+      trigger.toggleAttribute("data-lightbox-trigger", true);
     }
     #closed() {
       const trigger = this.#trigger;
