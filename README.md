@@ -243,6 +243,19 @@ OTP uses one real input for mobile keyboards, password-manager autofill, constra
 </ot-otp>
 ```
 
+### Splitter persistence
+
+Splitter keeps ordinary pointer, keyboard, and programmatic resizing in memory by default. Add `data-storage-key` only when a panel size should survive a reload; restored values are validated and clamped to the current `data-min` and `data-max` limits.
+
+```html
+<ot-splitter data-value="40" data-min="25" data-max="75"
+  data-storage-key="project-navigation-width">
+  <nav aria-label="Projects">…</nav>
+  <button type="button" data-splitter aria-label="Resize project navigation"></button>
+  <main>…</main>
+</ot-splitter>
+```
+
 ### Document helpers
 
 Lightbox, Scrollspy, Footnotes, and Reading Progress compose existing Oat controls around useful native fallbacks. Image links still navigate, table-of-contents links still work, footnote references still reach their definitions, and reading progress remains a native `<progress>` element when JavaScript is unavailable.
