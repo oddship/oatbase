@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/oddship/oatbase/issues"
   },
-  "homepage": "https://github.com/oddship/oatbase#readme",
+  "homepage": "https://oddship.github.io/oatbase/",
   "publishConfig": {
     "access": "public"
   },
@@ -177,6 +177,7 @@
   },
   "scripts": {
     "build": "make dist",
+    "build:pages": "bun scripts/build-pages.js",
     "build:esgun": "make dist-esgun",
     "clean": "make clean",
     "test": "make test",

@@ -3,6 +3,8 @@ node_modules/
 .direnv/
 coverage/
 dist-esgun/
+_site/
+.pages-test-*/
 playwright-report/
 result
 result-*
