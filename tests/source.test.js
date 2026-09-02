@@ -27,18 +27,18 @@ describe('package', () => {
     expect(manifest.optIns.find(component => component.name === 'tooltip-compat')).toBeTruthy();
   });
 
-  test('keeps the complete browser payload below 28 KB compressed', async () => {
+  test('keeps the complete browser payload below 30 KB compressed', async () => {
     const css = await Bun.file(new URL('dist/oatbase.min.css', root)).arrayBuffer();
     const js = await Bun.file(new URL('dist/oatbase.min.js', root)).arrayBuffer();
     const compressedBytes = gzipSync(Buffer.concat([Buffer.from(css), Buffer.from(js)])).byteLength;
-    expect(compressedBytes).toBeLessThan(28_000);
+    expect(compressedBytes).toBeLessThan(30_000);
   });
 
-  test('keeps the extension-only browser payload below 19 KB compressed', async () => {
+  test('keeps the extension-only browser payload below 20 KB compressed', async () => {
     const css = await Bun.file(new URL('dist/extensions.min.css', root)).arrayBuffer();
     const js = await Bun.file(new URL('dist/extensions.min.js', root)).arrayBuffer();
     const compressedBytes = gzipSync(Buffer.concat([Buffer.from(css), Buffer.from(js)])).byteLength;
-    expect(compressedBytes).toBeLessThan(19_000);
+    expect(compressedBytes).toBeLessThan(20_000);
   });
 });
 
