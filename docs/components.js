@@ -562,13 +562,23 @@ appendButton.addEventListener('click', () => {
   {
     slug: 'footnotes', name: 'Footnotes', source: 'Oatbase', js: true,
     description: 'Adds Oat popover previews to native footnote references without hiding definitions.',
+    usageNote: 'References and source definitions remain ordinary document content when Popover is unavailable. Layout integrations can attach at any time, then call refresh() to receive the current mappings through oatbase:render.',
     markup: `<ot-footnotes>
   <p>Oatbase prefers useful native fallbacks.<sup class="footnote-reference"><a href="#footnote-demo-one" data-footnote-ref>1</a></sup></p>
   <ol>
     <li id="footnote-demo-one" data-footnote><p>The reference remains an ordinary anchor, and this original definition remains in the document.</p></li>
   </ol>
 </ot-footnotes>`,
-    api: [['data-footnote-ref', 'Marks a native anchor whose hash references a definition.'], ['data-footnote', 'Optionally identifies definitions; ordinary id targets also work.'], ['.footnote-reference a', 'Supports Zola’s generated reference markup by default.'], ['.footnote-definition', 'Supports Zola’s generated definition markup by default.']]
+    javascript: `const footnotes = document.querySelector('ot-footnotes');
+
+footnotes.addEventListener('oatbase:render', event => {
+  event.detail.entries.forEach(({ reference, definition, popover }) => {
+    positionSidenote({ reference, definition, popover });
+  });
+});
+
+footnotes.refresh();`,
+    api: [['data-footnote-ref', 'Marks a native anchor whose hash references a definition.'], ['data-footnote', 'Optionally identifies definitions; ordinary id targets also work.'], ['.footnote-reference a', 'Supports Zola’s generated reference markup by default.'], ['.footnote-definition', 'Supports Zola’s generated definition markup by default.'], ['data-footnote-for', 'Identifies the source definition id on each generated popover.'], ['entries', 'Returns { reference, definition, dropdown, popover } mappings without private DOM queries.'], ['refresh()', 'Discovers new references, refreshes preview content, and emits a new render lifecycle event.'], ['oatbase:render', 'Emits { entries, enhanced } after previews are ready; call refresh() after attaching a late listener.'], ['oatbase:toggle', 'Emits { state, reference, definition, dropdown, popover } when a preview opens or closes.']]
   },
   {
     slug: 'reading-progress', name: 'Reading Progress', source: 'Oatbase', js: true,

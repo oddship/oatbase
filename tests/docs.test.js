@@ -196,6 +196,18 @@ describe('component coverage', () => {
     expect(stat).toMatch(/<dd>[^<]+<small>/);
   });
 
+  test('documents the Footnotes lifecycle and layout integration surface', () => {
+    const footnotes = components.find(component => component.slug === 'footnotes');
+    const api = footnotes.api.flat().join(' ');
+    for (const surface of ['data-footnote-for', 'entries', 'refresh()', 'oatbase:render', 'oatbase:toggle']) {
+      expect(api).toContain(surface);
+    }
+    expect(footnotes.javascript).toContain("addEventListener('oatbase:render'");
+    expect(footnotes.javascript).toContain('positionSidenote({ reference, definition, popover })');
+    expect(footnotes.javascript).toContain('footnotes.refresh()');
+    expect(footnotes.usageNote).toContain('when Popover is unavailable');
+  });
+
   test('ships complete iframe examples with visible, copyable source', async () => {
     const [docs, examples, script, styles] = await Promise.all([
       readFile(new URL('../docs/index.html', import.meta.url), 'utf8'),

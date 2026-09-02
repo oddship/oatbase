@@ -365,6 +365,12 @@ describe('source', () => {
     expect(scrollspy).toContain("setAttribute('aria-current', 'location')");
     expect(footnotes).toContain("document.createElement('ot-dropdown')");
     expect(footnotes).toContain("setAttribute('popover', 'auto')");
+    expect(footnotes).toContain('refresh()');
+    expect(footnotes).toContain("emit(this, 'oatbase:render'");
+    expect(footnotes).toContain("emit(this, 'oatbase:toggle'");
+    expect(footnotes).toContain('popover.dataset.footnoteFor = targetId');
+    expect(footnotes).toContain('get entries()');
+    expect(footnotes).toContain("typeof HTMLElement.prototype.showPopover === 'function'");
     expect(reading).toContain("querySelector('progress')");
   });
 });
