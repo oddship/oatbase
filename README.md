@@ -2,6 +2,8 @@
 
 Advanced, semantic components for [Oat UI](https://oat.ink). Oatbase fills the gap between Oat's small core and the richer controls application UIs often need, without introducing a framework, Tailwind, or runtime dependencies.
 
+[Browse the documentation and interactive examples.](https://oddship.github.io/oatbase/)
+
 ## Oatbase additions
 
 | Component | Markup | JavaScript |
