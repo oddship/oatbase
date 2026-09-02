@@ -6,6 +6,7 @@
       { "name": "extensions", "source": "src/js/extensions.js", "minified": true }
     ],
     "components": [
+      { "name": "action-field", "source": "src/js/action-field.js" },
       { "name": "combobox", "source": "src/js/combobox.js" },
       { "name": "command", "source": "src/js/command.js" },
       { "name": "copy-button", "source": "src/js/copy-button.js" },
@@ -34,7 +35,7 @@
       { "name": "oatbase", "assembly": "oat-inclusive", "minified": true }
     ],
     "components": [
-      "callout", "chart", "choice-card", "combobox", "command", "copy-button",
+      "action-field", "callout", "chart", "choice-card", "combobox", "command", "copy-button",
       "data-table", "description-list", "drawer", "empty", "footnotes", "item",
       "kbd", "lightbox", "log-viewer", "multiselect", "otp-input", "password-field",
       "prose", "rating", "reading-progress", "repeater", "scroll-area", "scrollspy",

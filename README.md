@@ -20,6 +20,7 @@ Advanced, semantic components for [Oat UI](https://oat.ink). Oatbase fills the g
 | Scroll area | `.scroll-area` | No |
 | Theme switcher | `<ot-theme-switcher>` | Yes |
 | Copy button | `<ot-copy>` | Yes |
+| Action field | `<ot-action-field>` | Yes |
 | Multiselect | `<ot-multiselect>` | Yes |
 | Password field | `<ot-password>` | Yes |
 | Splitter | `<ot-splitter>` | Yes |
@@ -47,7 +48,7 @@ Oatbase also includes a small `.visually-hidden` accessibility utility.
 
 ## Complete component coverage
 
-The documentation covers 68 routed patterns. Oatbase ships the 34 extensions above and documents 34 Oat-core patterns without shipping duplicate CSS or JavaScript:
+The documentation covers 69 routed patterns. Oatbase ships the 35 extensions above and documents 34 Oat-core patterns without shipping duplicate CSS or JavaScript:
 
 Accordion, Alert, Alert Dialog, Avatar, Badge, Breadcrumb, Button, Button Group, Card, Checkbox, Dialog, Dropdown Menu, Field, Grid, Input, Input Group, Label, Native Select, Pagination, Popover, Progress and Meter, Radio Group, Sidebar, Skeleton, Slider, Spinner, Switch, Table, Tabs, Tag Input, Textarea, Toast, Tooltip, and Upload.
 
@@ -154,6 +155,25 @@ Listen for `oatbase:select`. Calling `preventDefault()` keeps the palette open; 
 ```
 
 Supported sides are `bottom`, `top`, `left`, and `right`. This is only CSS around a native dialog; Oat's existing `commandfor` support handles opening it.
+
+### Action field
+
+Action Field presents a value and arbitrary contextual actions. It inherits Copy Button behavior, while the value and native action links remain useful if JavaScript does not load. The copy control is revealed only after enhancement.
+
+```html
+<ot-action-field role="group" aria-labelledby="contact-label" data-copied="Copied address">
+  <span id="contact-label" data-action-field-label>Email address</span>
+  <div data-action-field-body>
+    <span data-action-field-value data-copy-source>hello@example.com</span>
+    <div data-action-field-actions>
+      <a class="button" href="mailto:hello@example.com">Email me</a>
+      <button type="button" class="outline" data-copy-button>Copy</button>
+    </div>
+  </div>
+</ot-action-field>
+```
+
+For a focused install, import `@oddship/oatbase/action-field.css` and `@oddship/oatbase/action-field`. Read `value`, call `copy()`, or listen for `oatbase:copy`; `data-copied` changes both the temporary button label and its polite live-region announcement.
 
 ### Data table
 

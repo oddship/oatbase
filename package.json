@@ -81,6 +81,11 @@
       "default": "./dist/copy-button.js"
     },
     "./copy-button.css": "./dist/copy-button.css",
+    "./action-field": {
+      "import": "./dist/action-field.esm.js",
+      "default": "./dist/action-field.js"
+    },
+    "./action-field.css": "./dist/action-field.css",
     "./multiselect": {
       "import": "./dist/multiselect.esm.js",
       "default": "./dist/multiselect.js"

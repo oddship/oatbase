@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/docs/index.html#/components');
-  await expect(page.locator('[data-component-catalog] > .item')).toHaveCount(34);
+  await expect(page.locator('[data-component-catalog] > .item')).toHaveCount(35);
 });
 
 test('component catalog dogfoods Oat and Oatbase primitives through filtering', async ({ page }) => {
@@ -13,7 +13,7 @@ test('component catalog dogfoods Oat and Oatbase primitives through filtering', 
 
   await expect(toolbar.locator('[data-segmented]')).toBeVisible();
   await expect(toolbar.locator('fieldset.group')).toBeVisible();
-  await expect(toolbar.locator('.badge')).toHaveText('34 additions');
+  await expect(toolbar.locator('.badge')).toHaveText('35 additions');
   await expect(catalog).toHaveClass(/\brow\b/);
   await expect(catalog.locator('> .item.col-6').first()).toBeVisible();
   await expect(empty).toHaveAttribute('data-variant', 'empty');
@@ -21,7 +21,7 @@ test('component catalog dogfoods Oat and Oatbase primitives through filtering', 
 
   await page.locator('[data-catalog-search]').fill('lightbox');
   await expect(catalog.locator('> .item')).toHaveCount(1);
-  await expect(toolbar.locator('.badge')).toHaveText('1 of 34 additions');
+  await expect(toolbar.locator('.badge')).toHaveText('1 of 35 additions');
   await expect(empty).toBeHidden();
 
   await page.locator('[data-catalog-search]').fill('no-component-matches-this');

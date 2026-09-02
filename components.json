@@ -10,6 +10,7 @@
     "opt-in": "A compatibility enhancement excluded from aggregate bundles."
   },
   "components": [
+    { "name": "action-field", "kind": "component", "implementation": "javascript", "files": ["action-field.css", "action-field"], "dependencies": ["copy-button"] },
     { "name": "callout", "kind": "component", "implementation": "css", "files": ["callout.css"] },
     { "name": "chart", "kind": "component", "implementation": "css", "files": ["chart.css"] },
     { "name": "choice-card", "kind": "component", "implementation": "css", "files": ["choice-card.css"] },

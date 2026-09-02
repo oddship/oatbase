@@ -3,6 +3,7 @@ export { OtCommand } from './command.js';
 export { OtSelect } from './select.js';
 export { OtThemeSwitcher } from './theme-switcher.js';
 export { OtCopy } from './copy-button.js';
+export { OtActionField } from './action-field.js';
 export { OtMultiselect } from './multiselect.js';
 export { OtPassword } from './password-field.js';
 export { OtSplitter } from './splitter.js';

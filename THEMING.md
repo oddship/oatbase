@@ -54,6 +54,7 @@ Use a component hook only when the component’s geometry needs to differ from i
 | `--oatbase-timeline-marker-size` | `0.75rem` | Timeline marker size |
 | `--oatbase-rating-size` | `1.75rem` | Rating symbol size |
 | `--oatbase-stat-value-size` | `1.75rem` | Statistic value size |
+| `--oatbase-action-field-value-size` | `var(--text-4)` | Action Field value size |
 | `--oatbase-lightbox-width` | `min(72rem, calc(100% - var(--space-8)))` | Lightbox dialog width |
 | `--oatbase-lightbox-image-height` | `calc(100dvh - 12rem)` | Lightbox image height limit |
 | `--oatbase-footnote-width` | `min(24rem, calc(100% - var(--space-8)))` | Footnote preview width |

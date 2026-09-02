@@ -37,10 +37,10 @@
       });
   };
 
-  // src/js/copy-button.js
-  var exports_copy_button = {};
-  __export(exports_copy_button, {
-    OtCopy: () => OtCopy
+  // src/js/action-field.js
+  var exports_action_field = {};
+  __export(exports_action_field, {
+    OtActionField: () => OtActionField
   });
 
   // src/js/base.js
@@ -144,4 +144,9 @@
     }
   }
   define("ot-copy", OtCopy);
+
+  // src/js/action-field.js
+  class OtActionField extends OtCopy {
+  }
+  define("ot-action-field", OtActionField);
 })();

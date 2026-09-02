@@ -4,13 +4,16 @@ class OtCopy extends HTMLElement {
   #abort;
   #feedbackTimer;
   #label;
+  #status;
 
   connectedCallback() {
     this.#abort?.abort();
     this.#abort = new AbortController();
     this.button = this.querySelector('[data-copy-button]');
     this.source = this.#source();
-    this.#label = this.button?.textContent || '';
+    this.#label = this.button?.textContent?.trim() || '';
+    this.#status = this.#ensureStatus();
+    this.toggleAttribute('data-enhanced', Boolean(this.button && this.source));
     this.#reserveFeedbackWidth(this.dataset.copied || 'Copied');
     this.button?.addEventListener('click', () => this.copy(), { signal: this.#abort.signal });
   }
@@ -18,11 +21,28 @@ class OtCopy extends HTMLElement {
   disconnectedCallback() {
     this.#abort?.abort();
     clearTimeout(this.#feedbackTimer);
+    if (this.button) this.button.textContent = this.#label;
+    if (this.#status) this.#status.textContent = '';
   }
 
   #source() {
     const id = this.button?.dataset.copyTarget || this.dataset.copyTarget;
     return (id && document.getElementById(id)) || this.querySelector('[data-copy-source]');
+  }
+
+  #ensureStatus() {
+    if (!this.button || !this.source) return undefined;
+    let status = this.querySelector('[data-copy-status]');
+    if (!status) {
+      status = document.createElement('span');
+      status.dataset.copyStatus = '';
+      this.append(status);
+    }
+    status.classList.add('visually-hidden');
+    status.setAttribute('aria-live', 'polite');
+    status.setAttribute('aria-atomic', 'true');
+    status.textContent = '';
+    return status;
   }
 
   get value() {
@@ -56,9 +76,13 @@ class OtCopy extends HTMLElement {
     const feedback = this.dataset.copied || 'Copied';
     this.#reserveFeedbackWidth(feedback);
     this.button.textContent = feedback;
+    if (this.#status) this.#status.textContent = feedback;
     emit(this, 'oatbase:copy', { value });
     clearTimeout(this.#feedbackTimer);
-    this.#feedbackTimer = setTimeout(() => { if (this.button) this.button.textContent = this.#label; }, 1200);
+    this.#feedbackTimer = setTimeout(() => {
+      if (this.button) this.button.textContent = this.#label;
+      if (this.#status) this.#status.textContent = '';
+    }, 1200);
   }
 }
 

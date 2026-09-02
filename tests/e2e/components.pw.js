@@ -25,7 +25,23 @@ test('retains useful native controls without JavaScript', async ({ browser }) =>
   await expect(page.locator('#fixture-creatable select')).toBeVisible();
   await expect(page.locator('#fixture-repeater [data-repeater-item]')).toHaveCount(1);
   await expect(page.locator('#fixture-log [role="log"]')).toBeVisible();
+  await expect(page.locator('#fixture-action-field [data-action-field-value]')).toBeVisible();
+  await expect(page.locator('#fixture-action-field a')).toHaveAttribute('href', 'mailto:hello+projects-and-collaboration@example.com');
+  await expect(page.locator('#fixture-action-field [data-copy-button]')).toBeHidden();
   await context.close();
+});
+
+test('action field preserves native actions, announces copying, and contains long values', async ({ page }) => {
+  const field = page.locator('#fixture-action-field');
+  await expect(field).toHaveAttribute('data-enhanced', '');
+  await expect(field.getByRole('link', { name: 'Email me' })).toHaveAttribute('href', 'mailto:hello+projects-and-collaboration@example.com');
+  await field.getByRole('button', { name: 'Copy' }).click();
+  await expect(field.locator('[data-copy-status]')).toHaveText('Copied address');
+  await expect(field.getByRole('button', { name: 'Copied address' })).toBeVisible();
+
+  await page.setViewportSize({ width: 320, height: 640 });
+  expect(await field.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+  expect(await field.locator('[data-action-field-value]').evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
 });
 
 test('toggle synchronizes its native pressed state and emits one change', async ({ page }) => {

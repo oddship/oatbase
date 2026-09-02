@@ -66,6 +66,18 @@
         </ot-toolbar>
       </section>
 
+      <section class="fixture-panel" aria-labelledby="action-field-heading">
+        <h2 id="action-field-heading">Action field</h2>
+        <ot-action-field id="fixture-action-field" role="group" aria-labelledby="fixture-contact-label" data-copied="Copied address">
+          <span id="fixture-contact-label" data-action-field-label>Email address</span>
+          <div data-action-field-body>
+            <span data-action-field-value data-copy-source>hello+projects-and-collaboration@example.com</span>
+            <div data-action-field-actions><a class="button" href="mailto:hello+projects-and-collaboration@example.com">Email me</a><button type="button" class="outline" data-copy-button>Copy</button></div>
+          </div>
+          <small data-action-field-hint>Native links remain available without JavaScript.</small>
+        </ot-action-field>
+      </section>
+
       <section class="fixture-panel" aria-labelledby="data-table-heading">
         <h2 id="data-table-heading">Data table</h2>
         <ot-data-table id="fixture-data-table" data-density="compact">
