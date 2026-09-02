@@ -142,6 +142,13 @@
       <h2 id="tooltip-heading">Tooltip</h2>
       <button id="fixture-tooltip" type="button" title="Helpful tooltip content">Help</button>
     </section>
+    <ot-command id="fixture-command" data-filter="manual">
+      <button type="button" data-command-open>Search projects</button>
+      <dialog aria-label="Project search">
+        <input data-command-search type="search" aria-label="Search projects">
+        <ul data-command-list><li data-command-empty hidden>No projects found.</li></ul>
+      </dialog>
+    </ot-command>
     <ot-lightbox id="fixture-lightbox">
       <a href="../docs/assets/lightbox-sample-a.svg" data-lightbox-item><img src="../docs/assets/lightbox-sample-a.svg" alt="Saffron sunset"></a>
       <a href="../docs/assets/lightbox-sample-b.svg" data-lightbox-item><img src="../docs/assets/lightbox-sample-b.svg" alt="Quiet hills"></a>
@@ -164,6 +171,20 @@
     </ot-reading-progress>
   </section>
   <script>
+    const fixtureCommand = document.querySelector('#fixture-command');
+    fixtureCommand.addEventListener('oatbase:query', event => {
+      const empty = fixtureCommand.querySelector('[data-command-empty]');
+      if (event.detail.query === 'missing') fixtureCommand.list.replaceChildren(empty);
+      else {
+        const rows = ['Atlas', 'Beacon'].map(value => {
+          const row = document.createElement('li');
+          row.innerHTML = `<button type="button" data-command-item data-value="${value.toLowerCase()}">${value}</button>`;
+          return row;
+        });
+        fixtureCommand.list.replaceChildren(...rows, empty);
+      }
+      fixtureCommand.refresh();
+    });
     document.querySelector('#fixture-form').addEventListener('submit', event => {
       event.preventDefault();
       document.querySelector('#form-output').value = JSON.stringify(Object.fromEntries(new FormData(event.currentTarget)));

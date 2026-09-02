@@ -103,6 +103,28 @@ test('creatable combobox appends a real native option and submits its value', as
   await expect(combo.locator('select option[data-custom]')).toHaveText('Canary');
 });
 
+test('command keeps application-supplied results keyboard and accessibility state current', async ({ page }) => {
+  const command = page.locator('#fixture-command');
+  await command.getByRole('button', { name: 'Search projects' }).click();
+  const input = command.getByRole('combobox', { name: 'Search projects' });
+  await input.fill('remote');
+
+  await expect(command.getByRole('option')).toHaveCount(2);
+  const first = command.getByRole('option').first();
+  await expect(first).toHaveAttribute('aria-selected', 'true');
+  await expect(input).toHaveAttribute('aria-activedescendant', await first.getAttribute('id'));
+
+  await page.keyboard.press('ArrowDown');
+  const second = command.getByRole('option').nth(1);
+  await expect(second).toHaveAttribute('aria-selected', 'true');
+  await expect(input).toHaveAttribute('aria-activedescendant', await second.getAttribute('id'));
+
+  await input.fill('missing');
+  await expect(command.getByText('No projects found.')).toBeVisible();
+  await expect(input).not.toHaveAttribute('aria-activedescendant');
+  await expect(command.getByRole('option')).toHaveCount(0);
+});
+
 test('repeater clones native fields, enforces limits, removes, and resets', async ({ page }) => {
   const repeater = page.locator('#fixture-repeater');
   const add = repeater.getByRole('button', { name: 'Add variable' });

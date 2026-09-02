@@ -34,11 +34,11 @@ describe('package', () => {
     expect(compressedBytes).toBeLessThan(28_000);
   });
 
-  test('keeps the extension-only browser payload below 18 KB compressed', async () => {
+  test('keeps the extension-only browser payload below 19 KB compressed', async () => {
     const css = await Bun.file(new URL('dist/extensions.min.css', root)).arrayBuffer();
     const js = await Bun.file(new URL('dist/extensions.min.js', root)).arrayBuffer();
     const compressedBytes = gzipSync(Buffer.concat([Buffer.from(css), Buffer.from(js)])).byteLength;
-    expect(compressedBytes).toBeLessThan(18_000);
+    expect(compressedBytes).toBeLessThan(19_000);
   });
 });
 
@@ -245,6 +245,17 @@ describe('source', () => {
     const css = await readFile(new URL('src/css/components/command.css', root), 'utf8');
     expect(css).toContain('justify-content: flex-start');
     expect(css).toContain('text-align: start');
+  });
+
+  test('supports application-supplied command results through a public refresh contract', async () => {
+    const source = await readFile(new URL('src/js/command.js', root), 'utf8');
+    expect(source).toContain("this.dataset.filter !== 'manual'");
+    expect(source).toContain("new CustomEvent('oatbase:query'");
+    expect(source).toContain('detail: { query: this.query }');
+    expect(source).toContain('refresh()');
+    expect(source).toContain("this.list.setAttribute('role', 'listbox')");
+    expect(source).toContain("item.setAttribute('role', 'option')");
+    expect(source).toContain("this.search.setAttribute('aria-activedescendant', active.id)");
   });
 
   test('provides an inline keyboard hint for compact controls', async () => {

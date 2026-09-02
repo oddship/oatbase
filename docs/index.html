@@ -117,7 +117,7 @@
             <span>Extensions for Oat UI</span>
           </div>
           <h1>Advanced components for Oat UI.</h1>
-          <p class="docs-lead">Keep Oat’s semantic HTML, tiny footprint, and token system. Add Oatbase when a product needs richer selection, navigation, content, or application patterns. The complete Oat-inclusive CSS and JavaScript stays under 28&nbsp;kB gzipped; the extension-only layer stays under 18&nbsp;kB. Individual entries let applications pay only for the pieces they use.</p>
+          <p class="docs-lead">Keep Oat’s semantic HTML, tiny footprint, and token system. Add Oatbase when a product needs richer selection, navigation, content, or application patterns. The complete Oat-inclusive CSS and JavaScript stays under 28&nbsp;kB gzipped; the extension-only layer stays under 19&nbsp;kB. Individual entries let applications pay only for the pieces they use.</p>
           <div class="hstack">
             <a class="button" href="#/components" data-catalog-preset="Oatbase">Browse additions</a>
             <a class="button outline" href="#/installation">Install Oatbase</a>
@@ -484,7 +484,7 @@ document.documentElement.dataset.oatTheme = 'doordarshan';</code></pre>
       </article>
 
       <article class="docs-page" data-page="/components/command" data-title="Command" hidden>
-        <header><span class="docs-eyebrow">Component · JavaScript</span><h1>Command</h1><p class="docs-lead">A filterable command palette with keyboard navigation and an optional global shortcut.</p></header>
+        <header><span class="docs-eyebrow">Component · JavaScript</span><h1>Command</h1><p class="docs-lead">A command palette with local or application-supplied results, keyboard navigation, and an optional global shortcut.</p></header>
         <section class="docs-section">
           <h2 id="command-preview">Preview</h2>
           <ot-copy class="demo-copy">
@@ -531,6 +531,32 @@ import '@oddship/oatbase/command';</code></pre></section>
         <section class="docs-section"><h2 id="command-events">Handling selection</h2><pre><code>command.addEventListener('oatbase:select', (event) =&gt; {
   console.log(event.detail.value);
 });</code></pre><p>Call <code>event.preventDefault()</code> to keep the palette open after selection.</p></section>
+        <section class="docs-section"><h2 id="command-manual-results">Application-supplied results</h2><p>Set <code>data-filter="manual"</code> when results come from an API or application index. Oatbase emits each query without hiding existing rows. Replace or update the semantic list, then call <code>refresh()</code> so keyboard focus, <code>aria-activedescendant</code>, groups, and the empty state reflect the new DOM.</p><ot-copy class="vstack"><pre data-copy-source><code>&lt;ot-command id="project-command" data-filter="manual"&gt;
+  &lt;button data-command-open&gt;Search projects&lt;/button&gt;
+  &lt;dialog aria-label="Project search"&gt;
+    &lt;input data-command-search type="search" aria-label="Search projects"&gt;
+    &lt;ul data-command-list aria-busy="false"&gt;
+      &lt;li data-command-empty hidden&gt;No projects found.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/dialog&gt;
+&lt;/ot-command&gt;
+
+&lt;script type="module"&gt;
+  const command = document.querySelector('#project-command');
+  let request = 0;
+
+  command.addEventListener('oatbase:query', async event =&gt; {
+    const current = ++request;
+    command.list.setAttribute('aria-busy', 'true');
+    const projects = await searchProjects(event.detail.query);
+    if (current !== request) return;
+
+    const empty = command.querySelector('[data-command-empty]');
+    command.list.replaceChildren(...projects.map(projectRow), empty);
+    command.list.setAttribute('aria-busy', 'false');
+    command.refresh();
+  });
+&lt;/script&gt;</code></pre><button type="button" class="outline small" data-copy-button>Copy example</button></ot-copy><p>The application owns fetching, cancellation, caching, and result markup. Each selectable result still uses <code>data-command-item</code>. A listener may also cancel <code>oatbase:query</code> to suppress local filtering for one query.</p></section>
         <section class="docs-section"><h2 id="command-shortcut">Global shortcut</h2><p>Add <code>data-shortcut="mod+k"</code> to open with Command-K on macOS or Control-K elsewhere.</p></section>
         <section class="docs-section"><h2 id="command-api">API</h2><table class="docs-api"><thead><tr><th>Surface</th><th>Purpose</th></tr></thead><tbody>
           <tr><td><code>data-shortcut="mod+k"</code></td><td>Registers the optional global Command-K or Control-K shortcut.</td></tr>
@@ -538,9 +564,13 @@ import '@oddship/oatbase/command';</code></pre></section>
           <tr><td><code>data-command-search / data-command-list</code></td><td>Identify the search input and semantic result list.</td></tr>
           <tr><td><code>data-command-item</code></td><td>Marks a selectable result. Use <code>aria-disabled="true"</code> for an unavailable result.</td></tr>
           <tr><td><code>data-value / data-keywords</code></td><td>Provide the emitted value and additional searchable text.</td></tr>
+          <tr><td><code>data-filter="manual"</code></td><td>Leaves filtering and result insertion to the application; Oatbase continues to own listbox navigation and selection.</td></tr>
           <tr><td><code>data-keep-open</code></td><td>Keeps the dialog open after that item is accepted.</td></tr>
+          <tr><td><code>query</code></td><td>Returns the current trimmed query string.</td></tr>
           <tr><td><code>items / visibleItems</code></td><td>Expose all result elements or the currently available filtered results.</td></tr>
           <tr><td><code>open() / close()</code></td><td>Control the native dialog programmatically.</td></tr>
+          <tr><td><code>refresh()</code></td><td>Reindexes inserted results and synchronizes roles, active item, groups, empty state, and <code>aria-activedescendant</code>.</td></tr>
+          <tr><td><code>oatbase:query</code></td><td>Cancelable event with <code>{ query }</code>. Canceling it skips local filtering for that input.</td></tr>
           <tr><td><code>oatbase:select</code></td><td>Cancelable event with <code>{ value, item }</code>; preventing default keeps the palette open.</td></tr>
           <tr><td><code>oatbase:open / oatbase:close</code></td><td>Report palette lifecycle changes.</td></tr>
         </tbody></table></section>

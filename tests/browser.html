@@ -58,6 +58,14 @@
     </dialog>
   </ot-command>
 
+  <ot-command id="manual-command" data-filter="manual">
+    <button data-command-open>Search projects</button>
+    <dialog>
+      <input data-command-search aria-label="Search projects">
+      <ul data-command-list><li data-command-empty hidden>No projects found</li></ul>
+    </dialog>
+  </ot-command>
+
   <ot-select id="select">
     <select name="fruit" aria-label="Fruit">
       <option value="" disabled selected>Choose</option>
@@ -151,6 +159,32 @@
         command.search.dispatchEvent(new Event('input', { bubbles: true }));
         command.search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
         assert(commandValue === 'settings' && !command.dialog.open, 'command activation');
+
+        const manualCommand = document.querySelector('#manual-command');
+        let manualQuery = '';
+        let manualValue = '';
+        manualCommand.addEventListener('oatbase:query', event => {
+          manualQuery = event.detail.query;
+          const empty = manualCommand.querySelector('[data-command-empty]');
+          const row = document.createElement('li');
+          row.innerHTML = '<button type="button" data-command-item data-value="atlas">Atlas</button>';
+          manualCommand.list.replaceChildren(...(event.detail.query === 'missing' ? [empty] : [row, empty]));
+          manualCommand.refresh();
+        });
+        manualCommand.addEventListener('oatbase:select', event => { manualValue = event.detail.value; });
+        manualCommand.open();
+        manualCommand.search.value = 'atlas';
+        manualCommand.search.dispatchEvent(new Event('input', { bubbles: true }));
+        assert(manualQuery === 'atlas' && manualCommand.query === 'atlas', 'command emits application queries');
+        assert(manualCommand.visibleItems.length === 1 && manualCommand.visibleItems[0].getAttribute('role') === 'option', 'command refreshes dynamic results');
+        assert(manualCommand.search.getAttribute('aria-activedescendant') === manualCommand.visibleItems[0].id, 'command refreshes active descendant');
+        manualCommand.search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        assert(manualValue === 'atlas' && !manualCommand.dialog.open, 'command selects application results');
+        manualCommand.open();
+        manualCommand.search.value = 'missing';
+        manualCommand.search.dispatchEvent(new Event('input', { bubbles: true }));
+        assert(!manualCommand.querySelector('[data-command-empty]').hidden && !manualCommand.search.hasAttribute('aria-activedescendant'), 'command refreshes application empty state');
+        manualCommand.close();
 
         const select = document.querySelector('#select');
         let selectChanges = 0;

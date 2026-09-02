@@ -171,13 +171,16 @@ window.OATBASE_COMPONENTS = [
   },
   {
     slug: 'command', name: 'Command', source: 'Oatbase', js: true,
-    description: 'A filterable command menu with global keyboard access.',
+    description: 'A command menu with local or application-supplied results and global keyboard access.',
     javascript: `import '@oddship/oatbase/command';
 
 const command = document.querySelector('ot-command');
-command.addEventListener('oatbase:select', event => {
-  console.log(event.detail.value);
-});`
+command.addEventListener('oatbase:query', async event => {
+  const results = await searchCommands(event.detail.query);
+  command.list.replaceChildren(...results.map(commandRow));
+  command.refresh();
+});`,
+    api: [['data-filter="manual"', 'Leaves result filtering and insertion to the application.'], ['data-command-open / data-command-close', 'Opt existing buttons into opening or closing the palette.'], ['data-command-search / data-command-list', 'Identify the query input and semantic result list.'], ['data-command-item', 'Marks a selectable result; dynamically inserted items are indexed by refresh().'], ['query', 'Returns the current trimmed query string.'], ['items / visibleItems', 'Expose all results or the currently available results.'], ['open() / close()', 'Control the native dialog programmatically.'], ['refresh()', 'Reindexes application-supplied results and synchronizes active, empty, and accessible state.'], ['oatbase:query', 'Cancelable event with { query }; manual mode never applies local filtering.'], ['oatbase:select', 'Cancelable event with { value, item }.'], ['oatbase:open / oatbase:close', 'Report palette lifecycle changes.']]
   },
   {
     slug: 'dialog', name: 'Dialog', source: 'Oat core', js: false,
