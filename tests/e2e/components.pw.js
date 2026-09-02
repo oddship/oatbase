@@ -204,6 +204,34 @@ test('lightbox composes native links, dialog, toolbar controls, and focus restor
   await expect(items.first()).toBeFocused();
 });
 
+test('lightbox selector enhances generated images and discovers dynamic content', async ({ page }) => {
+  const lightbox = page.locator('#fixture-lightbox-selector');
+  const images = lightbox.locator('[data-generated-gallery] img');
+  await expect(images).toHaveCount(2);
+  await expect(images.first()).toHaveAttribute('role', 'button');
+  await expect(images.first()).toHaveAttribute('tabindex', '0');
+  await images.first().focus();
+  await page.keyboard.press('Enter');
+  await expect(lightbox.locator('dialog')).toBeVisible();
+  await expect(lightbox.locator('[data-lightbox-image]')).toHaveAttribute('alt', 'Generated saffron sunset');
+  await expect(lightbox.locator('[data-lightbox-caption]')).toHaveText('Generated sunset');
+  await lightbox.getByRole('button', { name: 'Close generated viewer' }).click();
+  await expect(images.first()).toBeFocused();
+
+  await lightbox.locator('[data-generated-gallery]').evaluate(gallery => {
+    const image = document.createElement('img');
+    image.src = '../docs/assets/lightbox-sample-a.svg';
+    image.alt = 'Dynamically inserted image';
+    gallery.append(image);
+  });
+  await expect(images).toHaveCount(3);
+  await lightbox.evaluate(element => element.refresh());
+  await expect(images.last()).toHaveAttribute('role', 'button');
+  await images.last().focus();
+  await page.keyboard.press(' ');
+  await expect(lightbox.locator('[data-lightbox-image]')).toHaveAttribute('alt', 'Dynamically inserted image');
+});
+
 test('scrollspy and reading progress follow a supplied scroll container', async ({ page }) => {
   await expect(page.locator('#fixture-scrollspy a').first()).toHaveAttribute('aria-current', 'location');
   await page.locator('#fixture-scroll-root').evaluate(element => {

@@ -360,7 +360,10 @@ describe('source', () => {
       readFile(new URL('src/js/reading-progress.js', root), 'utf8')
     ]);
     expect(lightbox).toContain("dialog[data-lightbox-dialog]");
-    expect(lightbox).toContain("querySelectorAll('[data-lightbox-item]')");
+    expect(lightbox).toContain("'[data-lightbox-item]'");
+    expect(lightbox).toContain("get itemSelector()");
+    expect(lightbox).toContain('getAttribute(\'data-item-selector\')');
+    expect(lightbox).toContain('refresh()');
     expect(scrollspy).toContain("querySelectorAll('a[href^=\"#\"]')");
     expect(scrollspy).toContain("setAttribute('aria-current', 'location')");
     expect(footnotes).toContain("document.createElement('ot-dropdown')");
