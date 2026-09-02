@@ -141,6 +141,20 @@ Read or assign `combobox.value`. The underlying select emits its native `change`
 
 Listen for `oatbase:select`. Calling `preventDefault()` keeps the palette open; `detail` contains `{ value, item }`.
 
+For application or server results, add `data-filter="manual"` and listen for `oatbase:query`. Replace the native list rows, then call `refresh()` to reindex keyboard and accessible state:
+
+```js
+const command = document.querySelector('ot-command');
+
+command.addEventListener('oatbase:query', async event => {
+  const results = await searchCommands(event.detail.query);
+  command.list.replaceChildren(...results.map(commandRow));
+  command.refresh();
+});
+```
+
+The application owns fetching, cancellation, and result markup. Oatbase continues to own active-item navigation, empty-state synchronization, selection, and `aria-activedescendant`. The current trimmed value is available as `command.query`.
+
 ### Drawer
 
 ```html

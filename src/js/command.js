@@ -16,23 +16,29 @@ class OtCommand extends HTMLElement {
   }
 
   get items() {
-    return [...this.list.querySelectorAll('[data-command-item]')];
+    return this.list ? [...this.list.querySelectorAll('[data-command-item]')] : [];
   }
 
   get visibleItems() {
-    return this.items.filter(item => !item.closest('li')?.hidden && !item.hasAttribute('aria-disabled'));
+    return this.items.filter(item => !item.hidden && !item.closest('li')?.hidden && !item.hasAttribute('aria-disabled'));
+  }
+
+  get query() {
+    return this.search?.value.trim() || '';
   }
 
   open() {
     if (!this.dialog.open) this.dialog.showModal();
+    this.search.setAttribute('aria-expanded', 'true');
     this.search.value = '';
-    this.#filter();
+    this.#query();
     requestAnimationFrame(() => this.search.focus());
     emit(this, 'oatbase:open');
   }
 
   close() {
     if (this.dialog.open) this.dialog.close();
+    this.search?.setAttribute('aria-expanded', 'false');
     emit(this, 'oatbase:close');
   }
 
@@ -46,6 +52,10 @@ class OtCommand extends HTMLElement {
     if (!this.dialog || !this.search || !this.list) return;
 
     this.list.id ||= uid('oatbase-command');
+    this.list.setAttribute('role', 'listbox');
+    this.search.setAttribute('role', 'combobox');
+    this.search.setAttribute('aria-autocomplete', 'list');
+    this.search.setAttribute('aria-expanded', String(this.dialog.open));
     this.search.setAttribute('aria-controls', this.list.id);
 
     this.querySelectorAll('[data-command-open]').forEach(trigger => {
@@ -57,7 +67,7 @@ class OtCommand extends HTMLElement {
     this.querySelectorAll('[data-command-close]').forEach(trigger => {
       trigger.addEventListener('click', () => this.close(), { signal });
     });
-    this.search.addEventListener('input', () => this.#filter(), { signal });
+    this.search.addEventListener('input', () => this.#query(), { signal });
     this.search.addEventListener('keydown', event => this.#onKeydown(event), { signal });
     this.list.addEventListener('pointermove', event => this.#onPointerMove(event), { signal });
     this.list.addEventListener('click', event => {
@@ -69,6 +79,7 @@ class OtCommand extends HTMLElement {
       const outside = event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
       if (outside) this.close();
     }, { signal });
+    this.dialog.addEventListener('close', () => this.search.setAttribute('aria-expanded', 'false'), { signal });
     document.addEventListener('keydown', event => {
       const shortcut = this.dataset.shortcut?.toLowerCase();
       const wantsModK = shortcut === 'mod+k' && (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k';
@@ -77,14 +88,39 @@ class OtCommand extends HTMLElement {
         this.dialog.open ? this.close() : this.open();
       }
     }, { signal });
-    this.#filter();
+    this.refresh();
+  }
+
+  refresh() {
+    if (!this.list || !this.search) return;
+    if (this.dataset.filter !== 'manual') this.#filter();
+    this.#sync();
+  }
+
+  #query() {
+    const accepted = this.dispatchEvent(new CustomEvent('oatbase:query', {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      detail: { query: this.query }
+    }));
+    if (this.dataset.filter !== 'manual' && accepted) this.#filter();
+    this.#sync();
   }
 
   #filter() {
-    const query = this.search.value.trim().toLocaleLowerCase();
+    const query = this.query.toLocaleLowerCase();
     this.items.forEach(item => {
       const terms = `${item.textContent} ${item.dataset.keywords || ''}`.toLocaleLowerCase();
-      item.closest('li').hidden = !terms.includes(query);
+      const row = item.closest('li') || item;
+      row.hidden = !terms.includes(query);
+    });
+  }
+
+  #sync() {
+    this.items.forEach(item => {
+      item.id ||= uid('oatbase-command-item');
+      item.setAttribute('role', 'option');
     });
     this.list.querySelectorAll('[data-command-group]').forEach(group => {
       let sibling = group.nextElementSibling;
@@ -96,18 +132,14 @@ class OtCommand extends HTMLElement {
       group.hidden = !hasVisibleItem;
     });
     this.querySelector('[data-command-empty]')?.toggleAttribute('hidden', this.visibleItems.length > 0);
-    this.#active = this.visibleItems.length ? 0 : -1;
-    const active = setActive(this.visibleItems, this.#active);
-    if (active) this.search.setAttribute('aria-activedescendant', active.id ||= uid('oatbase-command-item'));
-    else this.search.removeAttribute('aria-activedescendant');
+    const current = this.visibleItems.findIndex(item => item.hasAttribute('data-active'));
+    this.#setActive(current >= 0 ? current : this.visibleItems.length ? 0 : -1);
   }
 
   #onKeydown(event) {
     if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
       event.preventDefault();
-      this.#active = nextIndex(event.key, this.#active, this.visibleItems.length);
-      const active = setActive(this.visibleItems, this.#active);
-      if (active) this.search.setAttribute('aria-activedescendant', active.id ||= uid('oatbase-command-item'));
+      this.#setActive(nextIndex(event.key, this.#active, this.visibleItems.length));
     } else if (event.key === 'Enter' && this.#active >= 0) {
       event.preventDefault();
       this.#activate(this.visibleItems[this.#active]);
@@ -117,8 +149,16 @@ class OtCommand extends HTMLElement {
   #onPointerMove(event) {
     const item = event.target.closest('[data-command-item]');
     if (!item || item.closest('li')?.hidden || item.hasAttribute('aria-disabled')) return;
-    this.#active = this.visibleItems.indexOf(item);
-    setActive(this.visibleItems, this.#active);
+    this.#setActive(this.visibleItems.indexOf(item));
+  }
+
+  #setActive(index) {
+    this.#active = index;
+    const items = this.visibleItems;
+    const active = setActive(items, index);
+    this.items.forEach(item => item.setAttribute('aria-selected', String(item === active)));
+    if (active) this.search.setAttribute('aria-activedescendant', active.id);
+    else this.search.removeAttribute('aria-activedescendant');
   }
 
   #activate(item) {

@@ -247,6 +247,17 @@ describe('source', () => {
     expect(css).toContain('text-align: start');
   });
 
+  test('supports application-supplied command results through a public refresh contract', async () => {
+    const source = await readFile(new URL('src/js/command.js', root), 'utf8');
+    expect(source).toContain("this.dataset.filter !== 'manual'");
+    expect(source).toContain("new CustomEvent('oatbase:query'");
+    expect(source).toContain('detail: { query: this.query }');
+    expect(source).toContain('refresh()');
+    expect(source).toContain("this.list.setAttribute('role', 'listbox')");
+    expect(source).toContain("item.setAttribute('role', 'option')");
+    expect(source).toContain("this.search.setAttribute('aria-activedescendant', active.id)");
+  });
+
   test('provides an inline keyboard hint for compact controls', async () => {
     const css = await readFile(new URL('src/css/components/kbd.css', root), 'utf8');
     expect(css).toContain('kbd[data-variant="inline"]');

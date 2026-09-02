@@ -305,8 +305,9 @@ describe('component coverage', () => {
     const command = docs.slice(start, docs.indexOf('data-page="/components/drawer"', start));
     for (const surface of [
       'id="command-api"', 'data-command-open / data-command-close',
-      'data-keep-open', 'items / visibleItems', 'open() / close()',
-      'oatbase:select', 'oatbase:open / oatbase:close'
+      'data-filter="manual"', 'data-keep-open', 'query', 'items / visibleItems',
+      'open() / close()', 'refresh()', 'oatbase:query', 'oatbase:select',
+      'oatbase:open / oatbase:close', 'Application-supplied results'
     ]) expect(command).toContain(surface);
   });
 
