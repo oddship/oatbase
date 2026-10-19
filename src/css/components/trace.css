@@ -11,7 +11,8 @@
   [data-trace] :where([data-status="running"], [data-status="pending"]) > [data-trace-line],
   [data-trace] :where([data-status="running"], [data-status="pending"]) > details > summary { color: var(--muted-foreground); }
   [data-trace] [data-status="error"] > [data-trace-line],
-  [data-trace] [data-status="error"] > details > summary { color: var(--danger); }
+  [data-trace] [data-status="error"] > details > summary { color: var(--foreground); }
+  [data-trace] > [data-status="error"] { border-inline-start-color: var(--danger); }
   [data-trace] summary:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
   [data-trace][hidden] { display: none; }
 }
