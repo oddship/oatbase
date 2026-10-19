@@ -665,3 +665,226 @@ footnotes.refresh();`,
     markup: `<article data-prose><h2>Native documents first</h2><p>Prose supplies a measured reading width and consistent flow spacing without changing the meaning of headings, lists, quotes, figures, or tables.</p><blockquote><p>The document remains the interface.</p></blockquote><h3>Useful defaults</h3><ul><li>Responsive media</li><li>Readable list rhythm</li><li>Token-driven spacing</li></ul></article>`
   }
 ];
+
+
+// Shared agent-interface primitives. AI recipes below compose these with Oat.
+window.OATBASE_COMPONENTS.push(
+  {
+    slug: 'message', name: 'Message', source: 'Oatbase', js: false,
+    description: 'A readable conversation turn with author, body, and optional actions.',
+    examples: [
+      { title: 'Conversation turns', slug: 'preview', markup: `<div class="vstack">
+  <article data-message="user" aria-label="Your message"><header>You</header><div data-message-body><p>What changed in the build?</p></div></article>
+  <article data-message="assistant" aria-label="Assistant message"><header>Assistant</header><div data-message-body data-prose><p>The package now exports a focused stylesheet for each component.</p></div></article>
+</div>` },
+      { title: 'Interrupted reply', slug: 'error', markup: `<article data-message="assistant" data-status="error" aria-label="Interrupted assistant message"><header>Assistant · interrupted</header><div data-message-body><p>The connection closed before the reply finished. Your draft is still available.</p></div></article>` }
+    ],
+    api: [['data-message="user | assistant"', 'Marks a turn; user content receives a compact bubble. Other values retain the base layout.'], ['data-message-body', 'Contains text or application-rendered, sanitized rich content.'], ['data-status="error"', 'Adds an error border; include readable error text.']],
+    usageNote: 'CSS-only structure. Applications own author labels, timestamps, markdown sanitization, retry actions, and streaming announcements. Do not put the whole history in a token-by-token live region.'
+  },
+  {
+    slug: 'attachment', name: 'Attachment', source: 'Oatbase', js: false,
+    description: 'Compact file links with optional previews and contextual controls.',
+    markup: `<ul data-attachments aria-label="Attached files"><li data-attachment><a href="./assets/avatar-sample.svg" download>avatar.svg</a><small>SVG image</small></li><li data-attachment><img src="./assets/lightbox-sample-a.svg" alt=""><a href="./assets/lightbox-sample-a.svg">Image preview</a></li></ul>`,
+    api: [['data-attachments', 'A wrapping native list of files.'], ['data-attachment', 'A file row containing a named native link and optional image or button.']],
+    usageNote: 'Applications own upload validation, progress, removal, object URL cleanup, and safe download URLs. Files stay ordinary links without JavaScript.'
+  },
+  {
+    slug: 'code-block', name: 'Code Block', source: 'Oatbase', js: false,
+    description: 'A named, scrollable code or output surface that composes with Copy Button.',
+    examples: [
+      { title: 'Copyable source', slug: 'preview', markup: `<ot-copy data-code-block><header><strong>main.go</strong><button type="button" class="outline small" data-copy-button>Copy code</button></header><pre tabindex="0" aria-label="Go source"><code data-copy-source>package main
+
+func main() {
+    println("hello, oatbase")
+}</code></pre></ot-copy>` },
+      { title: 'Wrapped error output', slug: 'wrap', markup: `<figure data-code-block data-wrap><figcaption>Request error</figcaption><pre tabindex="0" aria-label="Request error output"><code>Connection closed before the upstream service finished responding. Retry the request when the service is available.</code></pre></figure>` }
+    ],
+    imports: `import '@oddship/oatbase/code-block.css';
+import '@oddship/oatbase/copy-button.css';
+import '@oddship/oatbase/copy-button';`,
+    api: [['data-code-block', 'Styles a figure or custom element around native pre/code.'], ['data-wrap', 'Wraps long output rather than scrolling horizontally.']],
+    usageNote: 'The code surface is CSS-only. Copy is an optional enhancement using ot-copy. Insert untrusted output using textContent; syntax highlighting and markdown parsing remain application-owned.'
+  },
+  {
+    slug: 'trace', name: 'Trace', source: 'Oatbase', js: false,
+    description: 'Consistent agent steps with native disclosures, nesting, and explicit statuses.',
+    markup: `<ol data-trace aria-label="Execution steps">
+  <li><div data-trace-line>Read package metadata <small data-trace-description>Complete</small></div></li>
+  <li data-status="running"><div data-trace-line>Building assets <small data-trace-description>Running</small></div></li>
+  <li data-status="pending"><div data-trace-line>Run checks <small data-trace-description>Pending</small></div></li>
+  <li data-status="error"><details><summary>Failed to install dependency</summary><p>The package registry did not respond.</p></details></li>
+</ol>`,
+    api: [['data-trace', 'A native list of execution steps; nested lists are supported.'], ['data-trace-line', 'A non-interactive row for a step without expanded content.'], ['details / summary', 'A keyboard-accessible expandable row with browser-owned open state.'], ['data-status="running | pending | error"', 'Sets the row appearance; always express the status in text too.'], ['data-trace-description', 'Secondary text such as duration, count, or status.']],
+    usageNote: 'Applications own execution state. Details handles keyboard interaction without JavaScript. Pending approval belongs outside the trace until the user has made a decision.'
+  },
+  {
+    slug: 'message-scroller', name: 'Message Scroller', source: 'Oatbase', js: true,
+    description: 'Follow an expanding conversation while preserving a reader’s scroll position.',
+    markup: `<ot-message-scroller>
+  <section data-message-viewport role="region" aria-label="Conversation history" tabindex="0">
+    <div data-message-content><article data-message="assistant"><header>Assistant</header><div data-message-body><p>Replies appear here. Scroll up to pause following; use Jump to latest to resume.</p></div></article></div>
+  </section>
+  <button type="button" class="outline small" data-message-jump>Jump to latest</button>
+</ot-message-scroller>`,
+    imports: `import '@oddship/oatbase/message.css';
+import '@oddship/oatbase/message-scroller.css';
+import '@oddship/oatbase/message-scroller';`,
+    api: [['data-message-viewport', 'A direct child with overflow, a region name, and tabindex="0" for keyboard scrolling.'], ['data-message-content', 'The content wrapper observed for new text, children, and size changes.'], ['data-message-jump', 'A direct child native button, revealed only when enhanced and following is paused.'], ['following', 'Read-only boolean: whether content growth follows the end.'], ['scrollToEnd()', 'Jumps to the latest content and resumes following without moving focus.'], ['refresh()', 'Schedules a position check; DOM and resize observers normally handle this automatically.'], ['oatbase:follow', 'Bubbling event with { following } when following changes.'], ['data-enhanced / data-at-end', 'Read-only enhancement and following-state markers.']],
+    usageNote: 'The viewport remains an ordinary scrollable region without JavaScript. Observers and listeners are instance-scoped and cleaned up on disconnect. Applications render messages and own fetching, history prepending, live announcements, and stream cancellation.'
+  }
+);
+
+// AI Elements are recipes, not twenty-one separate runtime components.
+{
+  const trace = (rows, label = 'Agent steps') => `<ol data-trace aria-label="${label}">${rows.map(row => `<li${row.status ? ` data-status="${row.status}"` : ''}>${row.body ? `<details${row.open ? ' open' : ''}><summary>${row.title}</summary>${row.body}</details>` : `<div data-trace-line>${row.title}</div>`}</li>`).join('')}</ol>`;
+  const code = (text, label = 'Tool output') => `<figure data-code-block><figcaption>${label}</figcaption><pre tabindex="0" aria-label="${label}"><code>${text}</code></pre></figure>`;
+  const turn = (who, text) => `<article data-message="${who}"><header>${who === 'user' ? 'You' : 'Assistant'}</header><div data-message-body>${text}</div></article>`;
+  const history = (body, label) => `<ot-message-scroller><section data-message-viewport role="region" aria-label="${label}" tabindex="0"><div data-message-content>${body}</div></section><button type="button" class="outline small" data-message-jump>Jump to latest</button></ot-message-scroller>`;
+  const patterns = [
+    {
+      slug: 'chain-of-thought', name: 'Chain of Thought',
+      description: 'A summary disclosure containing a nested sequence of agent actions.',
+      dependencies: ['trace'],
+      markup: trace([{ title: 'Completed 3 steps', body: trace([{ title: 'Read component registry' }, { title: 'Compared package exports' }, { title: 'Prepared the update' }]) }]),
+      note: 'Show a concise, user-facing action summary supplied by your application. This pattern does not request or expose hidden model reasoning.'
+    },
+    {
+      slug: 'chat', name: 'Chat', description: 'Conversation turns inside a reader-controlled message scroller.',
+      dependencies: ['message', 'message-scroller'], js: true,
+      markup: history(turn('user', '<p>Can I use this without React?</p>') + turn('assistant', '<p>Yes. Native HTML is the foundation; custom elements add focused behavior.</p>'), 'Example chat'),
+      note: 'Render message data into the content wrapper. Use textContent for plain text and sanitize rich content. The scroller owns following; your application owns transport, cancellation, and history pagination.'
+    },
+    {
+      slug: 'checkpoint', name: 'Checkpoint', description: 'A conversation boundary with an explicit restore action.',
+      dependencies: ['item'],
+      markup: `<form class="item" data-variant="outline" data-checkpoint><section><strong>Before editing the manifest</strong><p>Checkpoint 4 · 3 changed files</p></section><button type="submit" class="outline small">Restore checkpoint</button><output role="status"></output></form>`,
+      setup(root) { root.querySelector('[data-checkpoint]').addEventListener('submit', event => { event.preventDefault(); event.currentTarget.querySelector('output').value = 'Restore requested for checkpoint 4. Connect your application’s restore handler.'; }); },
+      note: 'The demo records a request only. Applications must confirm destructive restores, store snapshots, and perform the actual restore.'
+    },
+    {
+      slug: 'confirmation', name: 'Confirmation', description: 'An approval question outside the execution trace with explicit approve and deny actions.',
+      dependencies: ['item'],
+      markup: `<form class="item" data-variant="outline" data-approval><section><strong>Allow reading package.json?</strong><p>Scope: the current workspace only.</p></section><div class="hstack"><button type="submit" class="outline small" name="decision" value="denied">Deny</button><button type="submit" class="small" name="decision" value="approved">Approve</button></div><output role="status"></output></form>`,
+      setup(root) { root.querySelector('[data-approval]').addEventListener('submit', event => { event.preventDefault(); const form = event.currentTarget; form.querySelector('output').value = `Request ${event.submitter.value}.`; form.querySelectorAll('button').forEach(button => { button.disabled = true; }); }); },
+      note: 'The example only records a local decision. Bind approval IDs to authenticated server state, reject stale approvals, and authorize the tool on the server. Changing the UI never grants permission.'
+    },
+    {
+      slug: 'context', name: 'Context', description: 'Context usage and token breakdown using a native meter and disclosure.',
+      dependencies: ['description-list'],
+      markup: `<div class="vstack"><label for="ai-context-meter">Context used · 24,000 of 128,000 tokens</label><meter id="ai-context-meter" min="0" max="128000" value="24000">19%</meter><details><summary>Token breakdown</summary><dl data-description-list><div><dt>Input</dt><dd>20,000 tokens</dd></div><div><dt>Output</dt><dd>4,000 tokens</dd></div></dl></details></div>`,
+      note: 'Use model-provided usage and limits. Any cost estimate needs the provider’s current prices and billing rules; this meter does not calculate billing.'
+    },
+    {
+      slug: 'file-tree', name: 'File Tree', description: 'Changed files as a progressively enhanced native list tree.',
+      dependencies: ['tree'], js: true,
+      markup: `<ot-tree aria-label="Changed files"><ul><li aria-expanded="true"><button type="button">src</button><ul><li><button type="button" data-value="src/main.go">main.go · modified</button></li><li><button type="button" data-value="src/config.go">config.go · added</button></li></ul></li><li><button type="button" data-value="README.md">README.md · modified</button></li></ul></ot-tree>`,
+      note: 'Handle clicks on the native file buttons to open a file or diff. The application owns file contents and access checks; file buttons do not read the filesystem.'
+    },
+    {
+      slug: 'inline-citation', name: 'Inline Citation', description: 'An inline citation with a keyboard-accessible native source popover.',
+      dependencies: [],
+      markup: `<div><p>Oat uses semantic HTML <button type="button" popovertarget="ai-citation-source" class="outline small" aria-label="Source 1">[1]</button>.</p><aside id="ai-citation-source" popover class="card" aria-label="Source 1"><strong>Oat documentation</strong><p><a href="https://oat.ink/">oat.ink</a> — documentation for the underlying UI library.</p></aside></div>`,
+      note: 'The native popovertarget button works without JavaScript, opens with Enter or Space, and dismisses with Escape. Native links preserve the original attribution. Validate URLs before rendering. This is a click and touch alternative to a hover card.'
+    },
+    {
+      slug: 'message', name: 'AI Message', description: 'An assistant turn combining a reply and an execution trace.',
+      dependencies: ['message', 'trace'],
+      markup: turn('assistant', trace([{ title: 'Read package.json' }, { title: 'Checked exports' }]) + '<p>The component has an independent entry point and no runtime dependencies.</p>'),
+      note: 'Keep actions inside the assistant turn. Distinguish partial, interrupted, and completed replies in readable text; announce completed updates separately from streamed tokens.'
+    },
+    {
+      slug: 'model-selector', name: 'Model Selector', description: 'Native model and effort choices that preserve form submission.',
+      dependencies: [],
+      markup: `<form class="vstack"><label data-field>Model<select name="model"><option value="fast">Fast</option><option value="capable">Capable</option><option disabled>Unavailable model</option></select></label><label data-field>Reasoning effort<select name="effort"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select></label></form>`,
+      note: 'Replace sample options with models your backend supports. Validate model/effort combinations on the server. Use ot-select or ot-combobox only if richer navigation is needed.'
+    },
+    {
+      slug: 'plan', name: 'Plan', description: 'Planned steps with complete, active, and pending states.',
+      dependencies: ['trace'],
+      markup: trace([{ title: 'Inspect source · complete' }, { title: 'Implement component · running', status: 'running' }, { title: 'Run checks · pending', status: 'pending' }], 'Implementation plan'),
+      note: 'Map application task state into each row and update the visible status text. A plan is a presentation of state, not a workflow scheduler.'
+    },
+    {
+      slug: 'prompt-input', name: 'Prompt Input', description: 'A native multipart form with message, attachments, model choice, and submit action.',
+      dependencies: [],
+      markup: `<form class="card vstack" data-prompt enctype="multipart/form-data"><label data-field>Message<textarea name="prompt" required rows="3" placeholder="Ask a question…"></textarea></label><label data-field>Attachments<input type="file" name="attachments" multiple></label><label data-field>Model<select name="model"><option value="fast">Fast</option><option value="capable">Capable</option></select></label><div class="hstack"><button type="submit">Send message</button><button type="reset" class="outline">Clear</button></div><output role="status"></output></form>`,
+      setup(root) { const form = root.querySelector('[data-prompt]'); form.addEventListener('submit', event => { event.preventDefault(); const data = new FormData(form); form.querySelector('output').value = `Draft ready: ${data.get('prompt')}. No request sent.`; }); form.addEventListener('reset', () => { form.querySelector('output').value = ''; }); },
+      note: 'The demo reads native FormData without contacting a model. Applications own upload limits, request state, cancellation, and errors. Keep drafts until submission succeeds, respect IME composition, and retain native Enter/newline behavior.'
+    },
+    {
+      slug: 'queue', name: 'Queue', description: 'Separate remaining and finished work in native expandable groups.',
+      dependencies: ['trace'],
+      markup: `<div class="vstack"><details open><summary>Remaining · 2 tasks</summary>${trace([{ title: 'Build assets · running', status: 'running' }, { title: 'Run browser checks · pending', status: 'pending' }])}</details><details><summary>Completed · 1 task</summary>${trace([{ title: 'Inspect source · complete' }])}</details></div>`,
+      note: 'The application owns ordering and task transitions. Keep labels and counts synchronized with the rendered groups.'
+    },
+    {
+      slug: 'reasoning', name: 'Reasoning', description: 'An expandable, user-facing reasoning summary with an explicit streaming state.',
+      dependencies: ['trace'],
+      markup: trace([{ title: 'Considering native fallbacks · running', status: 'running', open: true, body: '<p>Checking whether a native disclosure already covers the interaction.</p>' }]),
+      note: 'Show only reasoning summaries your provider makes available to users. Applications decide when to open or close the disclosure and replace the running label when the summary finishes.'
+    },
+    {
+      slug: 'sources', name: 'Sources', description: 'An expandable list of attributed source links used in a response.',
+      dependencies: ['trace'],
+      markup: trace([{ title: 'Used 2 sources', body: '<ul><li><a href="https://oat.ink/">Oat documentation</a></li><li><a href="https://ui.shadcn.com/docs/ai-elements">shadcn AI Elements</a></li></ul>' }]),
+      note: 'Use original source titles and validated URLs. Source selection and citation accuracy remain application responsibilities.'
+    },
+    {
+      slug: 'stack-trace', name: 'Stack Trace', description: 'A failed action with expandable stack frames and readable error output.',
+      dependencies: ['trace', 'code-block'],
+      markup: trace([{ title: 'Failed to parse config · error', status: 'error', body: code('SyntaxError: unexpected token\n  at parseConfig (config.js:18:4)\n  at start (main.js:7:2)', 'Error stack') }]),
+      note: 'Render stacks as text. Redact credentials and private paths before exposing logs; opening source locations is application behavior.'
+    },
+    {
+      slug: 'subagent', name: 'Subagent', description: 'A nested run with its own steps and result.',
+      dependencies: ['trace'],
+      markup: trace([{ title: 'Documentation review · complete', body: trace([{ title: 'Read registry' }, { title: 'Check independent imports' }]) + '<p>Result: every documented component has an import path.</p>' }]),
+      note: 'The application supplies run IDs, status, nested events, and results. Cancellation and agent orchestration do not belong to the presentation layer.'
+    },
+    {
+      slug: 'suggestion', name: 'Suggestion', description: 'Short suggested prompts as native submit buttons.',
+      dependencies: [],
+      markup: `<form data-suggestions class="vstack"><div class="hstack"><button type="submit" class="outline small" name="prompt" value="Explain the build">Explain the build</button><button type="submit" class="outline small" name="prompt" value="Show a native example">Show a native example</button><button type="submit" class="outline small" disabled>Unavailable</button></div><output role="status"></output></form>`,
+      setup(root) { root.querySelector('[data-suggestions]').addEventListener('submit', event => { event.preventDefault(); event.currentTarget.querySelector('output').value = `Selected: ${event.submitter.value}. No request sent.`; }); },
+      note: 'Read the submitter’s prompt value and route it through the same validation and sending path as the composer. This demo only reports the selection.'
+    },
+    {
+      slug: 'task', name: 'Task', description: 'A task and the actions performed to complete it.',
+      dependencies: ['trace'],
+      markup: trace([{ title: 'Update package exports · complete', body: trace([{ title: 'Read manifest' }, { title: 'Add stylesheet export' }, { title: 'Verify build output' }]) }]),
+      note: 'Use trace nesting for subtasks and native links for task destinations. Persistence and task mutations remain application-owned.'
+    },
+    {
+      slug: 'terminal', name: 'Terminal', description: 'A command with streaming output composed from Trace and Log Viewer.',
+      dependencies: ['trace', 'log-viewer'], js: true,
+      markup: trace([{ title: 'Running npm test', status: 'running', open: true, body: `<ot-log-viewer><header data-log-toolbar><label><input type="checkbox" data-log-follow checked> Follow output</label><output data-log-status aria-live="polite"></output></header><pre role="log" aria-label="Test command output" tabindex="0"><code data-log-content>$ npm test\nChecking package exports…</code></pre></ot-log-viewer>` }]),
+      note: 'Append plain text with the Log Viewer append() method. Your application owns process execution, transport, cancellation, ANSI parsing, and terminal emulation.'
+    },
+    {
+      slug: 'test-results', name: 'Test Results', description: 'A test summary with expandable failures and diagnostic output.',
+      dependencies: ['trace', 'code-block'],
+      markup: trace([{ title: 'Tests · 12 passed, 1 failed', body: trace([{ title: 'Package exports · 12 passed' }, { title: 'Keyboard focus · failed', status: 'error', body: code('Expected focus on the next option.\nReceived focus on the input.', 'Failure details') }]) }]),
+      note: 'Supply suite counts and failure details from the test runner. Keep large output collapsed or bounded; render diagnostics as text.'
+    },
+    {
+      slug: 'tool', name: 'Tool', description: 'A tool’s lifecycle from input through result, failure, or denied execution.',
+      dependencies: ['trace', 'code-block'],
+      markup: trace([{ title: 'Read package.json · complete', body: code('{ "name": "example-app", "private": true }', 'Read result') }, { title: 'Running build', status: 'running' }, { title: 'Failed to run check', status: 'error', body: code('Command exited with status 1.', 'Command error') }, { title: 'Delete file · denied' }]),
+      note: 'Map input-streaming/input-available to running only while executing; map output-error to error and denied to explicit text. Client tools awaiting execution are waiting, not failures. Render pending approval using Confirmation outside Trace.'
+    }
+  ];
+  patterns.forEach(pattern => {
+    const { dependencies, note, setup, ...entry } = pattern;
+    const javascript = setup ? `const root = document.querySelector('[data-ai-example="${pattern.slug}"]');\n(${setup.toString().replace(/^setup\(/, 'function setup(')})(root);` : undefined;
+    window.OATBASE_COMPONENTS.push({
+      ...entry, slug: `ai-${pattern.slug}`, source: 'AI recipe', kind: 'recipe', js: Boolean(pattern.js || setup),
+      imports: `import '@oddship/oatbase/css';${pattern.js ? "\nimport '@oddship/oatbase';" : ''}`,
+      dependencies,
+      examples: [{ title: 'Native composition', slug: 'preview', markup: `<div data-ai-example="${pattern.slug}">${pattern.markup}</div>`,
+        javascript, mount: setup }],
+      usageNote: `${note} This is a recipe composed from shipped primitives; it does not install an AI SDK or connect to a model.`,
+      guidance: `<p>Building blocks: ${dependencies.length ? dependencies.map(slug => `<a href="#/components/${slug}">${slug}</a>`).join(', ') : 'native Oat forms, links, and disclosures'}. See the <a href="https://ui.shadcn.com/docs/ai-elements/base/${pattern.slug}">shadcn reference pattern</a>.</p>`
+    });
+  });
+}

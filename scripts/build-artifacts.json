@@ -14,6 +14,7 @@
       { "name": "footnotes", "source": "src/js/footnotes.js" },
       { "name": "lightbox", "source": "src/js/lightbox.js" },
       { "name": "log-viewer", "source": "src/js/log-viewer.js" },
+      { "name": "message-scroller", "source": "src/js/message-scroller.js" },
       { "name": "multiselect", "source": "src/js/multiselect.js" },
       { "name": "otp-input", "source": "src/js/otp-input.js" },
       { "name": "password-field", "source": "src/js/password-field.js" },
@@ -40,6 +41,7 @@
       "kbd", "lightbox", "log-viewer", "multiselect", "otp-input", "password-field",
       "prose", "rating", "reading-progress", "repeater", "scroll-area", "scrollspy",
       "segmented-control", "select", "splitter", "stat", "stepper", "theme-switcher",
+      "attachment", "code-block", "message", "message-scroller", "trace",
       "timeline", "toggle", "toolbar", "tooltip-compat", "tree", "utilities"
     ]
   },

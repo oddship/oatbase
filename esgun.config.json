@@ -21,6 +21,7 @@
       { "input": "src/js/footnotes.js", "output": "footnotes" },
       { "input": "src/js/lightbox.js", "output": "lightbox" },
       { "input": "src/js/log-viewer.js", "output": "log-viewer" },
+      { "input": "src/js/message-scroller.js", "output": "message-scroller" },
       { "input": "src/js/multiselect.js", "output": "multiselect" },
       { "input": "src/js/otp-input.js", "output": "otp-input" },
       { "input": "src/js/password-field.js", "output": "password-field" },

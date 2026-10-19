@@ -1,0 +1,45 @@
+/* src/css/components/attachment.css */
+@layer components {
+  [data-attachments] {
+    display: flex;
+    gap: var(--space-2);
+    list-style: none;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+  }
+
+  [data-attachment] {
+    display: inline-flex;
+    align-items:  center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    background: var(--card);
+    color: var(--card-foreground);
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  [data-attachment] > a {
+    overflow-wrap: anywhere;
+    min-inline-size: 0;
+  }
+
+  [data-attachment] > :where(img, [data-attachment-preview]) {
+    object-fit: cover;
+    border-radius: var(--radius-small);
+    flex: none;
+    block-size: 2.5rem;
+    inline-size: 2.5rem;
+  }
+
+  [data-attachment] small {
+    color: var(--muted-foreground);
+  }
+
+  [data-attachment][hidden], [data-attachments][hidden] {
+    display: none;
+  }
+}

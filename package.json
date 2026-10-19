@@ -178,7 +178,16 @@
     "./themes/doordarshan.css": "./dist/themes/doordarshan.css",
     "./themes/forest.css": "./dist/themes/forest.css",
     "./themes/ocean.css": "./dist/themes/ocean.css",
-    "./themes/paper.css": "./dist/themes/paper.css"
+    "./themes/paper.css": "./dist/themes/paper.css",
+    "./message.css": "./dist/message.css",
+    "./attachment.css": "./dist/attachment.css",
+    "./code-block.css": "./dist/code-block.css",
+    "./trace.css": "./dist/trace.css",
+    "./message-scroller.css": "./dist/message-scroller.css",
+    "./message-scroller": {
+      "import": "./dist/message-scroller.esm.js",
+      "default": "./dist/message-scroller.js"
+    }
   },
   "scripts": {
     "build": "make dist",

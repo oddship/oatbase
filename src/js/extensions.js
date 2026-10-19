@@ -18,3 +18,4 @@ export { OtReadingProgress } from './reading-progress.js';
 export { OtDataTable } from './data-table.js';
 export { OtRepeater } from './repeater.js';
 export { OtLogViewer } from './log-viewer.js';
+export { OtMessageScroller } from './message-scroller.js';

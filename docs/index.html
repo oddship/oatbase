@@ -96,12 +96,16 @@
           </ul>
         </section>
         <section class="docs-nav-group" data-source="Oatbase">
-          <h2>Oatbase extensions <span class="badge docs-source-count" data-variant="secondary" data-source-count="Oatbase">35</span></h2>
+          <h2>Oatbase extensions <span class="badge docs-source-count" data-variant="secondary" data-source-count="Oatbase">40</span></h2>
           <ul id="docs-oatbase-nav" data-component-nav></ul>
         </section>
         <section class="docs-nav-group" data-source="Oat core">
           <h2>Oat core patterns <span class="badge docs-source-count" data-variant="secondary" data-source-count="Oat core">34</span></h2>
           <ul id="docs-oat-nav" data-component-nav></ul>
+        </section>
+        <section class="docs-nav-group" data-source="AI recipe">
+          <h2><a href="#/ai-elements" data-route="/ai-elements">AI Elements</a> <span class="badge docs-source-count" data-source-count="AI recipe">21</span></h2>
+          <ul data-component-nav></ul>
         </section>
         <p class="docs-nav-empty" hidden>No matching pages.</p>
       </nav>
@@ -138,8 +142,8 @@
 
         <dl data-stats class="docs-library-stats" aria-label="Library coverage">
           <div><dt>Oat core patterns</dt><dd data-source-count="Oat core">34</dd></div>
-          <div><dt>Oatbase additions</dt><dd data-source-count="Oatbase">35</dd></div>
-          <div><dt>Documented patterns</dt><dd data-component-count>69</dd></div>
+          <div><dt>Oatbase additions</dt><dd data-source-count="Oatbase">40</dd></div>
+          <div><dt>Documented patterns</dt><dd data-component-count>95</dd></div>
         </dl>
 
         <section class="docs-section">
@@ -186,13 +190,14 @@
               <legend>Component source</legend>
               <label><input type="radio" name="catalog-source" value="Oatbase" checked><span>Oatbase</span></label>
               <label><input type="radio" name="catalog-source" value="Oat core"><span>Oat core</span></label>
+              <label><input type="radio" name="catalog-source" value="AI recipe"><span>AI recipes</span></label>
               <label><input type="radio" name="catalog-source" value="All"><span>All</span></label>
             </fieldset>
             <fieldset class="group docs-catalog-search">
               <legend><span aria-hidden="true">⌕</span><span class="visually-hidden">Quick filter components</span></legend>
               <input type="search" data-catalog-search placeholder="Quick filter…" autocomplete="off" aria-label="Quick filter components">
             </fieldset>
-            <output class="badge docs-catalog-count" data-variant="secondary" data-catalog-count aria-live="polite">35 additions</output>
+            <output class="badge docs-catalog-count" data-variant="secondary" data-catalog-count aria-live="polite">40 additions</output>
           </div>
           <div class="row gap-2 docs-component-grid" data-component-catalog></div>
           <section data-variant="empty" data-catalog-empty hidden>
@@ -201,6 +206,12 @@
             <p>Try another term or broaden the source filter.</p>
           </section>
         </section>
+      </article>
+
+      <article class="docs-page" data-page="/ai-elements" data-title="AI Elements" hidden>
+        <header><span class="docs-eyebrow">Native compositions</span><h1>AI Elements</h1><p class="docs-lead">21 agent-interface recipes inspired by <a href="https://ui.shadcn.com/docs/ai-elements">shadcn AI Elements</a>, composed from semantic HTML, Oat, and Oatbase.</p></header>
+        <section class="docs-section"><h2 id="ai-ownership">Small primitives, application-owned execution</h2><p>Message, Message Scroller, Trace, Code Block, and Attachment are focused Oatbase additions. File Tree reuses Tree; Terminal reuses Log Viewer. Approval, prompts, model choices, and context meters compose native controls. Model calls, SDK adapters, uploads, persistence, permissions, and tool execution stay in application code.</p><p>Every recipe has a live preview and copyable source. Native controls and disclosures remain usable without JavaScript; the scroller progressively adds following behavior.</p></section>
+        <section class="docs-section"><h2 id="ai-patterns">Patterns</h2><div class="row gap-2 docs-component-grid" data-ai-grid></div></section>
       </article>
 
       <article class="docs-page" data-page="/recipes" data-title="Recipes" hidden>
