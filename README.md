@@ -43,16 +43,29 @@ Advanced, semantic components for [Oat UI](https://oat.ink). Oatbase fills the g
 | Log viewer | `<ot-log-viewer>` around `[role="log"]` | Yes |
 | Description list | `[data-description-list]` | No |
 | Prose | `[data-prose]` | No |
+| Message | `[data-message]` | No |
+| Attachment | `[data-attachment]` | No |
+| Code block | `[data-code-block]` | No |
+| Trace | `[data-trace]` | No |
+| Message scroller | `<ot-message-scroller>` | Yes |
 
 Oatbase also includes a small `.visually-hidden` accessibility utility.
 
 ## Complete component coverage
 
-The documentation covers 69 routed patterns. Oatbase ships the 35 extensions above and documents 34 Oat-core patterns without shipping duplicate CSS or JavaScript:
+The documentation covers 95 routed patterns. Oatbase ships the 40 extensions above and documents 34 Oat-core patterns plus 21 AI recipes without shipping duplicate CSS or JavaScript:
 
 Accordion, Alert, Alert Dialog, Avatar, Badge, Breadcrumb, Button, Button Group, Card, Checkbox, Dialog, Dropdown Menu, Field, Grid, Input, Input Group, Label, Native Select, Pagination, Popover, Progress and Meter, Radio Group, Sidebar, Skeleton, Slider, Spinner, Switch, Table, Tabs, Tag Input, Textarea, Toast, Tooltip, and Upload.
 
 Every component has a routed, interactive page in `docs/index.html`. The machine-readable coverage registry is `docs/components.js`.
+
+## AI Elements
+
+Oatbase includes all 21 patterns in the current [shadcn AI Elements catalog](https://ui.shadcn.com/docs/ai-elements), adapted to native HTML and Oat rather than React or Tailwind. Browse **AI Elements** in the documentation for live, copyable recipes: Chat, Chain of Thought, Checkpoint, Confirmation, Context, File Tree, Inline Citation, Message, Model Selector, Plan, Prompt Input, Queue, Reasoning, Sources, Stack Trace, Subagent, Suggestion, Task, Terminal, Test Results, and Tool.
+
+These recipes compose five focused additions—Message, Attachment, Code Block, Trace, and Message Scroller—with existing Tree, Log Viewer, Copy Button, native forms, meters, and disclosures. They are not AI SDK adapters. Applications own model calls, authorization, upload validation, sanitization, stream cancellation, and persistence. Confirmation only presents a decision; it never grants backend permission.
+
+All five additions are in the complete and extension bundles and have focused imports. For a conversation, load `message.css`, `message-scroller.css`, and `message-scroller`. The scroller follows appended content until the reader scrolls up; its Jump to latest button resumes following without moving focus. Without JavaScript, the conversation is an ordinary named scroll region. Trace, Message, Attachment, and Code Block need no JavaScript; optional copying composes `ot-copy`.
 
 ## Install
 
@@ -90,7 +103,7 @@ cp -R ../oatbase/dist ./public/vendor/oatbase
 
 CSS-only applications can use `@oddship/oatbase/css` without loading JavaScript. For an application that already loads Oat, `@oddship/oatbase/extensions.css` and `@oddship/oatbase/extensions` provide the extension-only aggregates. Every Oatbase addition also has an independent entry point, such as `@oddship/oatbase/chart.css`, `@oddship/oatbase/drawer.css`, or `@oddship/oatbase/select` plus `@oddship/oatbase/select.css`.
 
-The v0.1.0 complete Oat-inclusive browser payload is 28.6 kB gzipped, and the extension-only aggregate is 18.8 kB gzipped. Individual entry points and `components.json` support selective application bundles; `examples/esgun/` demonstrates that path without making EsGun a library dependency.
+The v0.1.0 complete Oat-inclusive browser payload is 29.6 kB gzipped, and the extension-only aggregate is 19.8 kB gzipped. Individual entry points and `components.json` support selective application bundles; `examples/esgun/` demonstrates that path without making EsGun a library dependency.
 
 The Flowctl audit added only the reusable boundaries: Repeater coordinates repeated native fields, Log Viewer coordinates a semantic live log, Combobox can create native options, and Stepper has a compact status track. Page headers, validation summaries, action rails, schedule forms, and workflow workspaces remain recipes or blocks. CodeMirror, graph layout, cron/timezone conversion, ANSI parsing, streaming, and virtualization remain application or specialist-library concerns.
 

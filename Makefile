@@ -96,6 +96,13 @@ dist:
 	bun build src/css/components/stat.css --outfile $(DIST)/stat.css
 	bun build src/css/components/stepper.css --outfile $(DIST)/stepper.css
 	bun build src/css/components/timeline.css --outfile $(DIST)/timeline.css
+	bun build src/css/components/message.css --outfile $(DIST)/message.css
+	bun build src/css/components/attachment.css --outfile $(DIST)/attachment.css
+	bun build src/css/components/code-block.css --outfile $(DIST)/code-block.css
+	bun build src/css/components/trace.css --outfile $(DIST)/trace.css
+	bun build src/css/components/message-scroller.css --outfile $(DIST)/message-scroller.css
+	bun build src/js/message-scroller.js --format=iife --outfile $(DIST)/message-scroller.js
+	bun build src/js/message-scroller.js --format=esm --outfile $(DIST)/message-scroller.esm.js
 	@mkdir -p $(DIST)/themes
 	cp src/css/themes.css $(DIST)/themes.css
 	cp src/css/themes/oat.css $(DIST)/themes/oat.css

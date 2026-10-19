@@ -1,0 +1,41 @@
+/* src/css/components/message-scroller.css */
+@layer components {
+  ot-message-scroller {
+    display: grid;
+    gap: var(--space-2);
+    min-inline-size: 0;
+  }
+
+  ot-message-scroller > [data-message-viewport] {
+    overflow: auto;
+    overflow-anchor: none;
+    overscroll-behavior: contain;
+    padding: var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    max-block-size: 28rem;
+  }
+
+  ot-message-scroller [data-message-content] {
+    display: grid;
+    gap: var(--space-6);
+    min-inline-size: 0;
+  }
+
+  ot-message-scroller > [data-message-jump] {
+    justify-self: center;
+  }
+
+  ot-message-scroller:not([data-enhanced]) > [data-message-jump], ot-message-scroller[data-at-end] > [data-message-jump], ot-message-scroller > [data-message-jump][hidden] {
+    display: none;
+  }
+
+  ot-message-scroller > [data-message-viewport]:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ot-message-scroller[hidden] {
+    display: none;
+  }
+}

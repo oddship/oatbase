@@ -276,7 +276,7 @@ function buildComponentPage(component) {
   article.hidden = true;
   article.innerHTML = `
     <header>
-      <span class="docs-eyebrow">Component · ${component.source}${component.js ? ' · JavaScript' : ' · CSS / native'}</span>
+      <span class="docs-eyebrow">${component.kind === 'recipe' ? 'Recipe' : 'Component'} · ${component.source}${component.js ? ' · JavaScript' : ' · CSS / native'}</span>
       <h1>${component.name}</h1>
       <p class="docs-lead">${component.description}</p>
     </header>
@@ -319,7 +319,7 @@ function buildRegistry() {
     return item;
   }
 
-  for (const source of ['Oat core', 'Oatbase']) {
+  for (const source of ['Oat core', 'Oatbase', 'AI recipe']) {
     const sourceComponents = components
       .filter(component => component.source === source)
       .sort((a, b) => a.name.localeCompare(b.name));
@@ -351,6 +351,8 @@ function buildRegistry() {
     ? featuredSlugs.map(slug => components.find(component => component.slug === slug)).filter(Boolean)
     : components;
   grid.replaceChildren(...gridComponents.map(component => componentGridLink(component, { outlined: false })));
+
+  document.querySelector('[data-ai-grid]').replaceChildren(...components.filter(component => component.source === 'AI recipe').map(componentGridLink));
 
   const catalog = document.querySelector('[data-component-catalog]');
   const catalogInputs = [...document.querySelectorAll('[name="catalog-source"]')];

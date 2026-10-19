@@ -44,14 +44,20 @@
     { "name": "timeline", "kind": "component", "implementation": "css", "files": ["timeline.css"] },
     { "name": "toggle", "kind": "component", "implementation": "javascript", "files": ["toggle.css", "toggle"] },
     { "name": "toolbar", "kind": "component", "implementation": "javascript", "files": ["toolbar.css", "toolbar"] },
-    { "name": "tree", "kind": "component", "implementation": "javascript", "files": ["tree.css", "tree"] }
+    { "name": "tree", "kind": "component", "implementation": "javascript", "files": ["tree.css", "tree"] },
+    { "name": "message", "kind": "component", "implementation": "css", "files": ["message.css"] },
+    { "name": "attachment", "kind": "component", "implementation": "css", "files": ["attachment.css"] },
+    { "name": "code-block", "kind": "component", "implementation": "css", "files": ["code-block.css"] },
+    { "name": "trace", "kind": "component", "implementation": "css", "files": ["trace.css"] },
+    { "name": "message-scroller", "kind": "component", "implementation": "javascript", "files": ["message-scroller.css", "message-scroller"] }
   ],
   "optIns": [
     { "name": "tooltip-compat", "kind": "opt-in", "files": ["tooltip-compat.css", "tooltip-compat"] }
   ],
   "recipes": [
     "filter-toolbar", "row-actions", "bulk-selection", "attachment-row", "code-and-copy", "filtered-empty-state",
-    "page-header", "key-value-editor", "validation-summary", "searchable-action-rail", "schedule-form"
+    "page-header", "key-value-editor", "validation-summary", "searchable-action-rail", "schedule-form",
+    "ai-chain-of-thought", "ai-chat", "ai-checkpoint", "ai-confirmation", "ai-context", "ai-file-tree", "ai-inline-citation", "ai-message", "ai-model-selector", "ai-plan", "ai-prompt-input", "ai-queue", "ai-reasoning", "ai-sources", "ai-stack-trace", "ai-subagent", "ai-suggestion", "ai-task", "ai-terminal", "ai-test-results", "ai-tool"
   ],
   "blocks": [
     "project-dashboard", "account-settings", "long-form-article", "data-management", "master-detail-inbox", "workflow-execution"

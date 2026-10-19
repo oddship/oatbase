@@ -19,6 +19,9 @@ const expandedSlugs = [
   'reading-progress', 'data-table', 'description-list', 'prose', 'log-viewer', 'repeater'
 ];
 
+const aiSlugs = ['chain-of-thought', 'chat', 'checkpoint', 'confirmation', 'context', 'file-tree', 'inline-citation', 'message', 'model-selector', 'plan', 'prompt-input', 'queue', 'reasoning', 'sources', 'stack-trace', 'subagent', 'suggestion', 'task', 'terminal', 'test-results', 'tool'].map(slug => `ai-${slug}`);
+const aiPrimitives = ['message', 'attachment', 'code-block', 'trace', 'message-scroller'];
+
 const documentedMarkup = component => [
   component.markup,
   ...(component.examples || []).map(example => example.markup)
@@ -26,10 +29,10 @@ const documentedMarkup = component => [
 
 describe('component coverage', () => {
   test('covers every Basecoat 1.0 component exactly once', () => {
-    expect(components).toHaveLength(69);
-    expect(new Set(components.map(component => component.slug)).size).toBe(69);
+    expect(components).toHaveLength(95);
+    expect(new Set(components.map(component => component.slug)).size).toBe(95);
     for (const slug of basecoatSlugs) expect(components.some(component => component.slug === slug)).toBe(true);
-    expect(components.map(component => component.slug).sort()).toEqual([...basecoatSlugs, ...expandedSlugs].sort());
+    expect(components.map(component => component.slug).sort()).toEqual([...basecoatSlugs, ...expandedSlugs, ...aiPrimitives, ...aiSlugs].sort());
   });
 
   test('gives every component a documented implementation path', async () => {
@@ -37,7 +40,7 @@ describe('component coverage', () => {
     for (const component of components) {
       expect(component.name).toBeTruthy();
       expect(component.description).toBeTruthy();
-      expect(['Oat core', 'Oatbase']).toContain(component.source);
+      expect(['Oat core', 'Oatbase', 'AI recipe']).toContain(component.source);
       const hasGeneratedPreview = Boolean(component.markup || component.examples?.length);
       const hasDedicatedPage = docs.includes(`data-page="/components/${component.slug}"`);
       expect(hasGeneratedPreview || hasDedicatedPage).toBe(true);
@@ -51,13 +54,13 @@ describe('component coverage', () => {
     expect(oatbaseWebComponents).toEqual([
       'action-field', 'combobox', 'command', 'select', 'theme-switcher', 'copy-button',
       'multiselect', 'password-field', 'splitter', 'log-viewer', 'repeater', 'tree', 'toggle', 'toolbar', 'otp-input',
-      'lightbox', 'scrollspy', 'footnotes', 'reading-progress', 'data-table'
+      'lightbox', 'scrollspy', 'footnotes', 'reading-progress', 'data-table', 'message-scroller'
     ]);
   });
 
   test('maps core components instead of duplicating them', () => {
     expect(components.filter(component => component.source === 'Oat core')).toHaveLength(34);
-    expect(components.filter(component => component.source === 'Oatbase')).toHaveLength(35);
+    expect(components.filter(component => component.source === 'Oatbase')).toHaveLength(40);
   });
 
   test('maps every component stylesheet and custom element shipped by Oat', async () => {
@@ -431,5 +434,23 @@ describe('component coverage', () => {
     expect(styles).not.toContain('[data-theme-toggle]::after');
     expect(styles).not.toContain('.docs-stat');
     expect(styles).not.toContain('.docs-callout');
+  });
+});
+
+
+describe('AI recipes', () => {
+  test('covers the current AI catalog without inventing runtime modules', async () => {
+    const manifest = JSON.parse(await readFile(new URL('../components.json', import.meta.url), 'utf8'));
+    const recipes = components.filter(component => component.source === 'AI recipe');
+    expect(recipes).toHaveLength(21);
+    for (const recipe of recipes) {
+      expect(recipe.kind).toBe('recipe');
+      expect(manifest.recipes).toContain(recipe.slug);
+      for (const dependency of recipe.dependencies) expect(components.find(component => component.slug === dependency)).toBeTruthy();
+      for (const example of recipe.examples) {
+        expect(example.markup).toBeTruthy();
+        if (example.javascript) expect(() => new Function(example.javascript)).not.toThrow();
+      }
+    }
   });
 });

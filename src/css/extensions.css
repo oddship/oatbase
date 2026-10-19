@@ -35,3 +35,8 @@
 @import "./components/description-list.css";
 @import "./utilities.css";
 @import "./oat-compat.css";
+@import "./components/message.css";
+@import "./components/attachment.css";
+@import "./components/code-block.css";
+@import "./components/trace.css";
+@import "./components/message-scroller.css";
