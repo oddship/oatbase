@@ -1,0 +1,25 @@
+/* src/css/components/hover-card.css */
+@layer components {
+  ot-hover-card {
+    display: inline-block;
+  }
+
+  ot-hover-card > [popover] {
+    position: fixed;
+    overflow: auto;
+    padding: var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    background: var(--card);
+    color: var(--card-foreground);
+    box-shadow: var(--shadow-medium);
+    max-block-size: calc(100dvh - 1rem);
+    max-inline-size: min(22rem, 100vw - 1rem);
+    margin: 0;
+    inset: auto;
+  }
+
+  ot-hover-card[hidden] {
+    display: none;
+  }
+}

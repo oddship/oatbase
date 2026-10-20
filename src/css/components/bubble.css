@@ -1,0 +1,6 @@
+@layer components {
+  [data-bubble] { padding: var(--space-3) var(--space-4); border-radius: var(--radius-large); background: var(--muted); color: var(--foreground); overflow-wrap: anywhere; }
+  [data-bubble="accent"] { background: var(--primary); color: var(--primary-foreground); }
+  [data-bubble] > :first-child { margin-block-start: 0; }
+  [data-bubble] > :last-child { margin-block-end: 0; }
+}

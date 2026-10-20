@@ -1,0 +1,279 @@
+/* src/css/components/aspect-ratio.css */
+@layer components {
+  [data-aspect-ratio] {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  [data-aspect-ratio] > :where(img, video, iframe) {
+    display: block;
+    object-fit: cover;
+    border: 0;
+    block-size: 100%;
+    inline-size: 100%;
+  }
+}
+
+/* src/css/components/bubble.css */
+@layer components {
+  [data-bubble] {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-large);
+    background: var(--muted);
+    color: var(--foreground);
+    overflow-wrap: anywhere;
+  }
+
+  [data-bubble="accent"] {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  [data-bubble] > :first-child {
+    margin-block-start: 0;
+  }
+
+  [data-bubble] > :last-child {
+    margin-block-end: 0;
+  }
+}
+
+/* src/css/components/marker.css */
+@layer components {
+  [data-marker] {
+    display: flex;
+    align-items:  center;
+    gap: var(--space-3);
+    color: var(--muted-foreground);
+    font-size: var(--text-7);
+  }
+
+  [data-marker]:before, [data-marker]:after {
+    content: "";
+    border-block-start: 1px solid var(--border);
+    flex: 1;
+  }
+
+  [data-marker][hidden] {
+    display: none;
+  }
+}
+
+/* src/css/components/carousel.css */
+@layer components {
+  ot-carousel {
+    display: grid;
+    gap: var(--space-3);
+    min-inline-size: 0;
+  }
+
+  ot-carousel > [data-carousel-track] {
+    display: flex;
+    gap: var(--space-3);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+  }
+
+  ot-carousel [data-carousel-slide] {
+    scroll-snap-align: start;
+    flex: 0 0 100%;
+    min-inline-size: 0;
+  }
+
+  ot-carousel > [data-carousel-controls] {
+    display: flex;
+    justify-content: space-between;
+    align-items:  center;
+    gap: var(--space-2);
+  }
+
+  ot-carousel:not([data-enhanced]) > [data-carousel-controls], ot-carousel[hidden] {
+    display: none;
+  }
+}
+
+/* src/css/components/calendar.css */
+@layer components {
+  ot-calendar {
+    display: grid;
+    gap: var(--space-3);
+    min-inline-size: 0;
+  }
+
+  ot-calendar [data-calendar-panel] {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  ot-calendar [data-calendar-header] {
+    display: flex;
+    justify-content: space-between;
+    align-items:  center;
+    gap: var(--space-2);
+  }
+
+  ot-calendar table {
+    table-layout: fixed;
+    inline-size: 100%;
+    margin: 0;
+  }
+
+  ot-calendar :where(th, td) {
+    text-align: center;
+    padding: var(--space-1);
+  }
+
+  ot-calendar td button {
+    padding: var(--space-2) 0;
+    inline-size: 100%;
+  }
+
+  ot-calendar [aria-pressed="true"] {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  ot-calendar [data-calendar-panel][hidden], ot-calendar[hidden] {
+    display: none;
+  }
+}
+
+/* src/css/components/context-menu.css */
+@layer components {
+  ot-context-menu {
+    display: block;
+  }
+
+  ot-context-menu > [popover] {
+    position: fixed;
+    overflow: auto;
+    padding: var(--space-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    background: var(--card);
+    color: var(--card-foreground);
+    box-shadow: var(--shadow-medium);
+    max-block-size: calc(100dvh - 1rem);
+    max-inline-size: calc(100vw - 1rem);
+    margin: 0;
+    inset: auto;
+  }
+
+  ot-context-menu [role="menuitem"] {
+    display: block;
+    text-align: start;
+    inline-size: 100%;
+  }
+
+  ot-context-menu [hidden], ot-context-menu[hidden] {
+    display: none;
+  }
+}
+
+/* src/css/components/hover-card.css */
+@layer components {
+  ot-hover-card {
+    display: inline-block;
+  }
+
+  ot-hover-card > [popover] {
+    position: fixed;
+    overflow: auto;
+    padding: var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    background: var(--card);
+    color: var(--card-foreground);
+    box-shadow: var(--shadow-medium);
+    max-block-size: calc(100dvh - 1rem);
+    max-inline-size: min(22rem, 100vw - 1rem);
+    margin: 0;
+    inset: auto;
+  }
+
+  ot-hover-card[hidden] {
+    display: none;
+  }
+}
+
+/* src/css/components/menubar.css */
+@layer components {
+  ot-menubar {
+    display: block;
+  }
+
+  ot-menubar > [role="menubar"] {
+    display: flex;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    flex-wrap: wrap;
+  }
+
+  ot-menubar[hidden] {
+    display: none;
+  }
+}
+
+/* src/css/components/questionnaire.css */
+@layer components {
+  ot-questionnaire {
+    display: block;
+  }
+
+  ot-questionnaire [data-question-actions] {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  ot-questionnaire [data-question][hidden], ot-questionnaire [data-question-actions][hidden], ot-questionnaire [data-question-submit][hidden], ot-questionnaire [data-question-next][hidden], ot-questionnaire [data-question-skip][hidden], ot-questionnaire[hidden] {
+    display: none;
+  }
+}
+
+/* src/css/components/toggle-group.css */
+@layer components {
+  [data-toggle-group] {
+    display: flex;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    border: 0;
+    flex-wrap: wrap;
+  }
+
+  [data-toggle-group] label {
+    position: relative;
+    display: flex;
+    align-items:  center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    cursor: pointer;
+  }
+
+  [data-toggle-group] label:has(input:checked) {
+    background: var(--muted);
+    color: var(--foreground);
+  }
+
+  [data-toggle-group] label:has(input:focus-visible) {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  [data-toggle-group] label:has(input:disabled) {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  [data-toggle-group][hidden] {
+    display: none;
+  }
+}
+
+/* src/css/patterns.css */
+

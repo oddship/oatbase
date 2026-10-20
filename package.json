@@ -35,7 +35,8 @@
     "THEMING.md",
     "THIRD_PARTY_NOTICES.md",
     "LICENSE",
-    "components.json"
+    "components.json",
+    "shadcn-coverage.json"
   ],
   "main": "dist/oatbase.js",
   "module": "dist/oatbase.esm.js",
@@ -187,7 +188,47 @@
     "./message-scroller": {
       "import": "./dist/message-scroller.esm.js",
       "default": "./dist/message-scroller.js"
-    }
+    },
+    "./aspect-ratio.css": "./dist/aspect-ratio.css",
+    "./bubble.css": "./dist/bubble.css",
+    "./marker.css": "./dist/marker.css",
+    "./carousel.css": "./dist/carousel.css",
+    "./calendar.css": "./dist/calendar.css",
+    "./context-menu.css": "./dist/context-menu.css",
+    "./hover-card.css": "./dist/hover-card.css",
+    "./menubar.css": "./dist/menubar.css",
+    "./questionnaire.css": "./dist/questionnaire.css",
+    "./toggle-group.css": "./dist/toggle-group.css",
+    "./patterns.css": "./dist/patterns.css",
+    "./carousel": {
+      "import": "./dist/carousel.esm.js",
+      "default": "./dist/carousel.js"
+    },
+    "./calendar": {
+      "import": "./dist/calendar.esm.js",
+      "default": "./dist/calendar.js"
+    },
+    "./context-menu": {
+      "import": "./dist/context-menu.esm.js",
+      "default": "./dist/context-menu.js"
+    },
+    "./hover-card": {
+      "import": "./dist/hover-card.esm.js",
+      "default": "./dist/hover-card.js"
+    },
+    "./menubar": {
+      "import": "./dist/menubar.esm.js",
+      "default": "./dist/menubar.js"
+    },
+    "./questionnaire": {
+      "import": "./dist/questionnaire.esm.js",
+      "default": "./dist/questionnaire.js"
+    },
+    "./patterns": {
+      "import": "./dist/patterns.esm.js",
+      "default": "./dist/patterns.js"
+    },
+    "./shadcn-coverage.json": "./shadcn-coverage.json"
   },
   "scripts": {
     "build": "make dist",

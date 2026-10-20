@@ -2488,7 +2488,11 @@
   }
 
   [data-trace] [data-status="error"] > [data-trace-line], [data-trace] [data-status="error"] > details > summary {
-    color: var(--danger);
+    color: var(--foreground);
+  }
+
+  [data-trace] > [data-status="error"] {
+    border-inline-start-color: var(--danger);
   }
 
   [data-trace] summary:focus-visible {

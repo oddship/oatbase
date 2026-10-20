@@ -1,0 +1,20 @@
+/* src/css/components/marker.css */
+@layer components {
+  [data-marker] {
+    display: flex;
+    align-items:  center;
+    gap: var(--space-3);
+    color: var(--muted-foreground);
+    font-size: var(--text-7);
+  }
+
+  [data-marker]:before, [data-marker]:after {
+    content: "";
+    border-block-start: 1px solid var(--border);
+    flex: 1;
+  }
+
+  [data-marker][hidden] {
+    display: none;
+  }
+}

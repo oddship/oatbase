@@ -3,7 +3,8 @@
   "target": "esnext",
   "entrySets": {
     "style-aggregates": [
-      { "input": "src/css/extensions.css", "output": "extensions" }
+      { "input": "src/css/extensions.css", "output": "extensions" },
+      { "input": "src/css/patterns.css", "output": "patterns" }
     ],
     "styles": [
       { "input": "src/css/components/*.css", "output": "[name]" },
@@ -11,9 +12,11 @@
     ],
     "script-aggregates": [
       { "input": "src/js/index.js", "output": "oatbase" },
-      { "input": "src/js/extensions.js", "output": "extensions" }
+      { "input": "src/js/extensions.js", "output": "extensions" },
+      { "input": "src/js/patterns.js", "output": "patterns" }
     ],
     "scripts": [
+      { "input": "src/js/action-field.js", "output": "action-field" },
       { "input": "src/js/combobox.js", "output": "combobox" },
       { "input": "src/js/command.js", "output": "command" },
       { "input": "src/js/copy-button.js", "output": "copy-button" },
@@ -34,7 +37,13 @@
       { "input": "src/js/toggle.js", "output": "toggle" },
       { "input": "src/js/toolbar.js", "output": "toolbar" },
       { "input": "src/js/tooltip-compat.js", "output": "tooltip-compat" },
-      { "input": "src/js/tree.js", "output": "tree" }
+      { "input": "src/js/tree.js", "output": "tree" },
+      { "input": "src/js/carousel.js", "output": "carousel" },
+      { "input": "src/js/calendar.js", "output": "calendar" },
+      { "input": "src/js/context-menu.js", "output": "context-menu" },
+      { "input": "src/js/hover-card.js", "output": "hover-card" },
+      { "input": "src/js/menubar.js", "output": "menubar" },
+      { "input": "src/js/questionnaire.js", "output": "questionnaire" }
     ]
   },
   "profiles": {

@@ -1,0 +1,15 @@
+/* src/css/components/aspect-ratio.css */
+@layer components {
+  [data-aspect-ratio] {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  [data-aspect-ratio] > :where(img, video, iframe) {
+    display: block;
+    object-fit: cover;
+    border: 0;
+    block-size: 100%;
+    inline-size: 100%;
+  }
+}

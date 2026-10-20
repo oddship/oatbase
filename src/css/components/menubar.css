@@ -1,0 +1,5 @@
+@layer components {
+  ot-menubar { display: block; }
+  ot-menubar > [role="menubar"] { display: flex; flex-wrap: wrap; gap: var(--space-1); padding: var(--space-1); border: 1px solid var(--border); border-radius: var(--radius-medium); }
+  ot-menubar[hidden] { display: none; }
+}

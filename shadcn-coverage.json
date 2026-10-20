@@ -1,0 +1,345 @@
+{
+  "reference": "https://ui.shadcn.com/docs/components",
+  "checked": "2026-10-20",
+  "components": [
+    {
+      "shadcn": "accordion",
+      "oatbase": "accordion",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "alert",
+      "oatbase": "alert",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "alert-dialog",
+      "oatbase": "alert-dialog",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "aspect-ratio",
+      "oatbase": "aspect-ratio",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "attachment",
+      "oatbase": "attachment",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "avatar",
+      "oatbase": "avatar",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "badge",
+      "oatbase": "badge",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "breadcrumb",
+      "oatbase": "breadcrumb",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "bubble",
+      "oatbase": "bubble",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "button",
+      "oatbase": "button",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "button-group",
+      "oatbase": "button-group",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "calendar",
+      "oatbase": "calendar",
+      "relationship": "component",
+      "notes": "Single-date month calendar over a native date input. Date ranges, multi-select, and non-Gregorian calendars are not implemented."
+    },
+    {
+      "shadcn": "card",
+      "oatbase": "card",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "carousel",
+      "oatbase": "carousel",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "chart",
+      "oatbase": "chart",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "checkbox",
+      "oatbase": "checkbox",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "code-block",
+      "oatbase": "code-block",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "collapsible",
+      "oatbase": "accordion",
+      "relationship": "equivalent"
+    },
+    {
+      "shadcn": "combobox",
+      "oatbase": "combobox",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "command",
+      "oatbase": "command",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "context-menu",
+      "oatbase": "context-menu",
+      "relationship": "component",
+      "notes": "Flat action menus; nested submenus and menu checkbox/radio items are not implemented."
+    },
+    {
+      "shadcn": "data-table",
+      "oatbase": "data-table",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "date-picker",
+      "oatbase": "date-picker",
+      "relationship": "native",
+      "notes": "Browser-native date input. Custom date-range popovers are not implemented."
+    },
+    {
+      "shadcn": "dialog",
+      "oatbase": "dialog",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "direction",
+      "oatbase": "direction",
+      "relationship": "native",
+      "notes": "Native HTML dir attribute and logical CSS properties."
+    },
+    {
+      "shadcn": "drawer",
+      "oatbase": "drawer",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "dropdown-menu",
+      "oatbase": "dropdown-menu",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "empty",
+      "oatbase": "empty",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "field",
+      "oatbase": "field",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "hover-card",
+      "oatbase": "hover-card",
+      "relationship": "component",
+      "notes": "Pointer hover and native click popover; essential content stays reachable by click/touch."
+    },
+    {
+      "shadcn": "input",
+      "oatbase": "input",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "input-group",
+      "oatbase": "input-group",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "input-otp",
+      "oatbase": "otp-input",
+      "relationship": "equivalent"
+    },
+    {
+      "shadcn": "item",
+      "oatbase": "item",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "kbd",
+      "oatbase": "kbd",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "label",
+      "oatbase": "label",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "marker",
+      "oatbase": "marker",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "menubar",
+      "oatbase": "menubar",
+      "relationship": "component",
+      "notes": "Top-level application menus composed with Oat dropdowns; nested submenus are not implemented."
+    },
+    {
+      "shadcn": "message",
+      "oatbase": "message",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "message-scroller",
+      "oatbase": "message-scroller",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "native-select",
+      "oatbase": "native-select",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "navigation-menu",
+      "oatbase": "navigation-menu",
+      "relationship": "native",
+      "notes": "Native links and disclosure navigation, not an application menubar."
+    },
+    {
+      "shadcn": "pagination",
+      "oatbase": "pagination",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "popover",
+      "oatbase": "popover",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "progress",
+      "oatbase": "progress",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "questionnaire",
+      "oatbase": "questionnaire",
+      "relationship": "component",
+      "notes": "Linear native form steps with validation, optional steps, reset, and FormData. Application owns branching and persistence."
+    },
+    {
+      "shadcn": "radio-group",
+      "oatbase": "radio-group",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "resizable",
+      "oatbase": "splitter",
+      "relationship": "equivalent"
+    },
+    {
+      "shadcn": "scroll-area",
+      "oatbase": "scroll-area",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "select",
+      "oatbase": "select",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "separator",
+      "oatbase": "separator",
+      "relationship": "native"
+    },
+    {
+      "shadcn": "sheet",
+      "oatbase": "drawer",
+      "relationship": "equivalent"
+    },
+    {
+      "shadcn": "sidebar",
+      "oatbase": "sidebar",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "skeleton",
+      "oatbase": "skeleton",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "slider",
+      "oatbase": "slider",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "spinner",
+      "oatbase": "spinner",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "switch",
+      "oatbase": "switch",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "table",
+      "oatbase": "table",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "tabs",
+      "oatbase": "tabs",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "textarea",
+      "oatbase": "textarea",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "toast",
+      "oatbase": "toast",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "toggle",
+      "oatbase": "toggle",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "toggle-group",
+      "oatbase": "toggle-group",
+      "relationship": "component",
+      "notes": "Native radio or checkbox fields, with explicit None option for single-selection clearing."
+    },
+    {
+      "shadcn": "tooltip",
+      "oatbase": "tooltip",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "trace",
+      "oatbase": "trace",
+      "relationship": "component"
+    },
+    {
+      "shadcn": "typography",
+      "oatbase": "prose",
+      "relationship": "equivalent"
+    }
+  ]
+}

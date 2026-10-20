@@ -53,7 +53,7 @@ Oatbase also includes a small `.visually-hidden` accessibility utility.
 
 ## Complete component coverage
 
-The documentation covers 95 routed patterns. Oatbase ships the 40 extensions above and documents 34 Oat-core patterns plus 21 AI recipes without shipping duplicate CSS or JavaScript:
+The documentation covers 109 routed patterns. Oatbase ships the 40 default extensions above plus 10 optional patterns and documents 38 Oat-core patterns plus 21 AI recipes without shipping duplicate CSS or JavaScript:
 
 Accordion, Alert, Alert Dialog, Avatar, Badge, Breadcrumb, Button, Button Group, Card, Checkbox, Dialog, Dropdown Menu, Field, Grid, Input, Input Group, Label, Native Select, Pagination, Popover, Progress and Meter, Radio Group, Sidebar, Skeleton, Slider, Spinner, Switch, Table, Tabs, Tag Input, Textarea, Toast, Tooltip, and Upload.
 
@@ -66,6 +66,21 @@ Oatbase includes all 21 patterns in the current [shadcn AI Elements catalog](htt
 These recipes compose five focused additions—Message, Attachment, Code Block, Trace, and Message Scroller—with existing Tree, Log Viewer, Copy Button, native forms, meters, and disclosures. They are not AI SDK adapters. Applications own model calls, authorization, upload validation, sanitization, stream cancellation, and persistence. Confirmation only presents a decision; it never grants backend permission.
 
 All five additions are in the complete and extension bundles and have focused imports. For a conversation, load `message.css`, `message-scroller.css`, and `message-scroller`. The scroller follows appended content until the reader scrolls up; its Jump to latest button resumes following without moving focus. Without JavaScript, the conversation is an ordinary named scroll region. Trace, Message, Attachment, and Code Block need no JavaScript; optional copying composes `ot-copy`.
+
+## Additional shadcn patterns
+
+The next set of controls is optional and does not enlarge the default browser bundle. Load it alongside Oat or the complete Oatbase bundle:
+
+```js
+import '@oddship/oatbase/css';
+import '@oddship/oatbase';
+import '@oddship/oatbase/patterns.css';
+import '@oddship/oatbase/patterns';
+```
+
+This adds Aspect Ratio, Bubble, Calendar, Carousel, Context Menu, Hover Card, Marker, Menubar, Questionnaire, and Toggle Group. Every addition also has focused CSS/JavaScript imports shown on its docs page. Menubar composes Oat dropdowns, so its focused import assumes Oat is loaded. Calendar supports Gregorian single dates over a native date input; it does not implement ranges or multiple selection.
+
+Date Picker, Direction, Navigation Menu, and Separator are documented native recipes. Collapsible maps to Accordion/native details, Input OTP to OTP Input, Resizable to Splitter, Sheet to Drawer, and Typography to Prose. `shadcn-coverage.json` records all 66 catalog names, their Oatbase targets, and limitations; this is product-pattern coverage rather than identical APIs or every advanced shadcn variant.
 
 ## Install
 

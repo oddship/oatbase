@@ -3,7 +3,8 @@
   "javascript": {
     "aggregates": [
       { "name": "oatbase", "source": "src/js/index.js", "minified": true },
-      { "name": "extensions", "source": "src/js/extensions.js", "minified": true }
+      { "name": "extensions", "source": "src/js/extensions.js", "minified": true },
+      { "name": "patterns", "source": "src/js/patterns.js", "minified": true }
     ],
     "components": [
       { "name": "action-field", "source": "src/js/action-field.js" },
@@ -15,6 +16,12 @@
       { "name": "lightbox", "source": "src/js/lightbox.js" },
       { "name": "log-viewer", "source": "src/js/log-viewer.js" },
       { "name": "message-scroller", "source": "src/js/message-scroller.js" },
+      { "name": "carousel", "source": "src/js/carousel.js" },
+      { "name": "calendar", "source": "src/js/calendar.js" },
+      { "name": "context-menu", "source": "src/js/context-menu.js" },
+      { "name": "hover-card", "source": "src/js/hover-card.js" },
+      { "name": "menubar", "source": "src/js/menubar.js" },
+      { "name": "questionnaire", "source": "src/js/questionnaire.js" },
       { "name": "multiselect", "source": "src/js/multiselect.js" },
       { "name": "otp-input", "source": "src/js/otp-input.js" },
       { "name": "password-field", "source": "src/js/password-field.js" },
@@ -33,7 +40,8 @@
   "stylesheets": {
     "aggregates": [
       { "name": "extensions", "source": "src/css/extensions.css", "minified": true },
-      { "name": "oatbase", "assembly": "oat-inclusive", "minified": true }
+      { "name": "oatbase", "assembly": "oat-inclusive", "minified": true },
+      { "name": "patterns", "source": "src/css/patterns.css", "minified": true }
     ],
     "components": [
       "action-field", "callout", "chart", "choice-card", "combobox", "command", "copy-button",
@@ -42,6 +50,8 @@
       "prose", "rating", "reading-progress", "repeater", "scroll-area", "scrollspy",
       "segmented-control", "select", "splitter", "stat", "stepper", "theme-switcher",
       "attachment", "code-block", "message", "message-scroller", "trace",
+      "aspect-ratio", "bubble", "marker", "carousel", "calendar", "context-menu",
+      "hover-card", "menubar", "questionnaire", "toggle-group",
       "timeline", "toggle", "toolbar", "tooltip-compat", "tree", "utilities"
     ]
   },

@@ -115,7 +115,7 @@ async function verifyConfig() {
   }
   const configuredStyles = new Map(styleInputs);
   const expectedStyles = new Map([
-    ['src/css/extensions.css', 'extensions'],
+    ...manifest.stylesheets.aggregates.filter(entry => entry.source).map(entry => [entry.source, entry.name]),
     ...manifest.stylesheets.components.map(name => [
       name === 'utilities' ? 'src/css/utilities.css' : `src/css/components/${name}.css`,
       name,
