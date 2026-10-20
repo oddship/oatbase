@@ -88,4 +88,18 @@
         deferClose(active, trigger);
       preserve(active, trigger);
     });
+  function dismissRetained() {
+    cancelClose();
+    cancelAnimationFrame(frame);
+    const tip = active;
+    active = trigger = null;
+    if (tip?.matches(":popover-open"))
+      tip.hidePopover();
+  }
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape")
+      dismissRetained();
+  });
+  window.addEventListener("scroll", dismissRetained, true);
+  window.addEventListener("resize", dismissRetained);
 })();

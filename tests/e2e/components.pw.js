@@ -533,6 +533,51 @@ test('Oat popover tooltip is hoverable, viewport-safe, and dismissible with Esca
   await expect(tip).toBeVisible();
 });
 
+test('retained tooltips dismiss after combined keyboard focus and pointer target loss', async ({ page }) => {
+  test.setTimeout(60_000);
+  for (const scenario of ['tooltip', 'empty-title']) {
+    for (const dismissal of ['Escape', 'scroll', 'resize']) {
+      await page.goto('/tests/harness.html');
+      await page.addStyleTag({ content: '.ot-tooltip { animation: none !important; }' });
+      await page.evaluate(() => {
+        const trigger = document.querySelector('#fixture-tooltip');
+        trigger.style.cssText = 'position:fixed;top:20px;left:20px;width:40px;height:40px;padding:0';
+        trigger.dataset.tooltipPlacement = 'bottom';
+        const destination = document.createElement('button');
+        destination.id = 'tooltip-destination';
+        destination.textContent = 'Destination';
+        destination.style.cssText = 'position:fixed;top:200px;left:250px';
+        destination.setAttribute('title', '');
+        document.body.append(destination);
+      });
+      const trigger = page.locator('#fixture-tooltip');
+      const tip = page.locator('.ot-tooltip');
+      await trigger.focus();
+      await trigger.hover();
+      await expect(tip).toBeVisible();
+      if (scenario === 'tooltip') {
+        const point = await tip.evaluate(element => {
+          const rect = element.getBoundingClientRect();
+          const style = getComputedStyle(element, '::after');
+          return { x: rect.left + rect.width / 2 + parseFloat(style.marginLeft), y: rect.bottom + 10 + parseFloat(style.height) / 2 };
+        });
+        await page.mouse.move(point.x, point.y);
+        await page.locator('#tooltip-destination').evaluate(element => element.removeAttribute('title'));
+      }
+      await page.locator('#tooltip-destination').hover();
+      await page.waitForTimeout(200); // Exercise the retained state after its close timer.
+      await expect(trigger).toBeFocused();
+      expect(await trigger.evaluate(element => element.matches(':focus-visible'))).toBe(true);
+      await expect(tip).toBeVisible();
+      if (dismissal === 'Escape') await page.keyboard.press('Escape');
+      else if (dismissal === 'scroll') await page.evaluate(() => window.scrollTo(0, 20));
+      else await page.setViewportSize({ width: 1000, height: 700 });
+      await expect(tip, `${scenario}: ${dismissal}`).toBeHidden();
+      await page.setViewportSize({ width: 1280, height: 720 });
+    }
+  }
+});
+
 test('theme switcher exposes explicit selectors and clears them for system mode', async ({ page }) => {
   await page.evaluate(() => {
     const switcher = document.createElement('ot-theme-switcher');
