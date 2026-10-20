@@ -102,6 +102,9 @@ test('hover card keeps interactive content reachable and dismisses with Escape',
 test('menubar uses one tab stop and opens and switches application menus', async ({ page }) => {
   const host = page.locator('ot-menubar'); const file = host.locator('button[popovertarget="pattern-file-menu"]'); const edit = host.locator('button[popovertarget="pattern-edit-menu"]');
   await expect(file).toHaveAttribute('tabindex', '0'); await expect(edit).toHaveAttribute('tabindex', '-1');
+  // Oat inserts its shared tooltip popover beside the titled trigger.
+  await file.evaluate(element => { element.title = 'File actions'; });
+  await edit.evaluate(element => { element.title = 'Edit actions'; });
   await file.focus(); await page.keyboard.press('ArrowRight'); await expect(edit).toBeFocused();
   await page.keyboard.press('ArrowDown'); await expect(host.locator('#pattern-edit-menu').getByRole('menuitem', { name: 'New document' })).toBeFocused();
   await page.keyboard.press('ArrowUp'); await expect(host.locator('#pattern-edit-menu').getByRole('menuitem', { name: 'Open document' })).toBeFocused();
@@ -139,6 +142,8 @@ test('optional controls clean up and reconnect without duplicated generated cont
 });
 
 test('new patterns fit narrow screens and pass axe in every palette and mode', async ({ page }) => {
+  // Audit settled palette colors rather than Oat's theme-color transitions.
+  await page.addStyleTag({ content: '*, *::before, *::after { transition: none !important; }' });
   test.setTimeout(150_000); await page.setViewportSize({ width: 390, height: 844 });
   for (const preset of ['oat', 'doordarshan', 'forest', 'ocean', 'paper']) {
     for (const mode of ['light', 'dark']) {

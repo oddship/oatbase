@@ -77,7 +77,7 @@
         assert(skeleton && doc.defaultView.getComputedStyle(skeleton).animationName === 'anim', 'Skeleton preview exercises Oat’s semantic selector');
 
         const tooltip = doc.querySelector('[data-page="/components/tooltip"] [data-tooltip-placement="right"]');
-        await new Promise(resolve => setTimeout(resolve, 0));
+        tooltip.dispatchEvent(new doc.defaultView.MouseEvent('mouseover', { bubbles: true }));
         assert(tooltip.hasAttribute('data-tooltip') && !tooltip.hasAttribute('title'), 'Tooltip preview dogfoods Oat’s title enhancement');
 
         const search = doc.querySelector('[data-nav-search]');

@@ -588,7 +588,7 @@ class OtMenubar extends HTMLElement {
     this.#abort = new AbortController;
     const signal = this.#abort.signal;
     this.refresh();
-    this.querySelectorAll("[popover]").forEach((popup) => popup.addEventListener("toggle", (event) => {
+    this.querySelectorAll("[popover]:not(.ot-tooltip)").forEach((popup) => popup.addEventListener("toggle", (event) => {
       if (event.newState === "open")
         popup.querySelector('[role="menuitem"]:not(:disabled)')?.focus();
     }, { signal }));
@@ -599,7 +599,7 @@ class OtMenubar extends HTMLElement {
         });
     }, { signal });
     this.addEventListener("keydown", (event) => {
-      const popup = event.target.closest("[popover]");
+      const popup = event.target.closest("[popover]:not(.ot-tooltip)");
       if (popup && ["ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) {
         const items = [...popup.querySelectorAll('[role="menuitem"]')].filter((item) => !item.disabled && item.getAttribute("aria-disabled") !== "true" && !item.hidden);
         if (!items.length)
@@ -620,7 +620,7 @@ class OtMenubar extends HTMLElement {
       if (step || ["Home", "End"].includes(event.key)) {
         event.preventDefault();
         event.stopPropagation();
-        const popup2 = trigger.closest("ot-dropdown")?.querySelector("[popover]");
+        const popup2 = trigger.closest("ot-dropdown")?.querySelector("[popover]:not(.ot-tooltip)");
         const wasOpen = popup2?.matches(":popover-open");
         if (wasOpen)
           popup2.hidePopover();
@@ -629,12 +629,12 @@ class OtMenubar extends HTMLElement {
           if (this.isConnected) {
             next.focus();
             if (wasOpen)
-              next.closest("ot-dropdown")?.querySelector("[popover]")?.showPopover();
+              next.closest("ot-dropdown")?.querySelector("[popover]:not(.ot-tooltip)")?.showPopover();
           }
         }, 0);
       } else if (event.target === trigger && ["ArrowDown", "Enter", " "].includes(event.key)) {
         event.preventDefault();
-        trigger.closest("ot-dropdown")?.querySelector("[popover]")?.showPopover();
+        trigger.closest("ot-dropdown")?.querySelector("[popover]:not(.ot-tooltip)")?.showPopover();
       }
     }, { signal, capture: true });
   }

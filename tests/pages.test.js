@@ -16,8 +16,8 @@ describe('GitHub Pages artifact', () => {
       readFile(join(output, 'examples.js'), 'utf8')
     ]);
 
-    expect(index).toContain('href="./dist/oatbase.css?v=0.1.0"');
-    expect(index).toContain('src="./dist/oatbase.js?v=0.1.0"');
+    expect(index).toContain('href="./dist/oatbase.css?v=0.1.0-oat1"');
+    expect(index).toContain('src="./dist/oatbase.js?v=0.1.0-oat1"');
     expect(examples).toContain('href="./dist/oatbase.css"');
     expect(index).not.toContain('../dist/');
     expect(examples).not.toContain('../dist/');

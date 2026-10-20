@@ -358,9 +358,9 @@ command.addEventListener('oatbase:query', async event => {
 import '@oddship/oatbase';
 import '@oddship/oatbase/tooltip-compat.css';
 import '@oddship/oatbase/tooltip-compat';`,
-    usageNote: 'Oat provides the semantic tooltip foundation. The separately loaded Oatbase compatibility enhancer adds viewport flipping, shifting, hoverable content, and Escape dismissal without adding global listeners to either aggregate bundle.',
+    usageNote: 'Oat 1.0 provides the native popover tooltip and Escape dismissal. The separately loaded Oatbase compatibility enhancer adds viewport flipping, shifting, wrapping, and hoverable content.',
     markup: `<div class="hstack"><button class="outline icon" title="Tooltip on top" aria-label="Top placement">↑</button><button class="outline icon" title="Tooltip on bottom" data-tooltip-placement="bottom" aria-label="Bottom placement">↓</button><button class="outline icon" title="Tooltip on left" data-tooltip-placement="left" aria-label="Left placement">←</button><button class="outline icon" title="Tooltip on right" data-tooltip-placement="right" aria-label="Right placement">→</button></div>`,
-    api: [['title', 'Converted to data-tooltip after load while preserving an accessible name.'], ['data-tooltip-placement', 'Sets the preferred top, bottom, left, or right placement; Oatbase flips and shifts it to remain in the viewport.'], ['Escape', 'Dismisses the visible tooltip until its trigger loses hover and focus.']]
+    api: [['title', 'Converted to data-tooltip on first hover or focus while preserving an accessible name.'], ['data-tooltip-placement', 'Sets the preferred top, bottom, left, or right placement; Oatbase flips and shifts it to remain in the viewport.'], ['Escape', 'Dismisses Oat’s visible popover tooltip.']]
   },
   {
     slug: 'upload', name: 'Upload', source: 'Oat core', js: true,

@@ -1,26 +1,14 @@
 @layer components {
-  [data-tooltip] {
-    --oatbase-tooltip-shift: 0px;
-  }
-
-  [data-tooltip]:not([data-tooltip-placement="left"]):not([data-tooltip-placement="right"]) {
-    --_c: translateX(calc(-50% + var(--oatbase-tooltip-shift)));
-  }
-
-  [data-tooltip]::after {
+  .ot-tooltip::after {
+    box-sizing: border-box;
     max-inline-size: min(20rem, calc(100vw - var(--space-8)));
     white-space: normal;
     overflow-wrap: anywhere;
     text-align: start;
+    margin-left: var(--oatbase-tooltip-shift-x, 0rem);
+    margin-top: var(--oatbase-tooltip-shift-y, 0rem);
   }
 
-  [data-tooltip]::before,
-  [data-tooltip]::after { pointer-events: auto; }
-
-  [data-tooltip][data-tooltip-dismissed]::before,
-  [data-tooltip][data-tooltip-dismissed]::after {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    transition-delay: 0s !important;
-  }
+  .ot-tooltip::before,
+  .ot-tooltip::after { pointer-events: auto; }
 }

@@ -78,7 +78,7 @@ Oat uses `color-scheme` and `light-dark()`. The Oatbase theme switcher persists 
 
 ## Optional presets
 
-Oatbase ships four alternative token maps and an explicit Oat reset for nested scopes. Oat’s unmodified palette remains the default at the document root.
+Oatbase ships four alternative token maps and an explicit Oat reset for nested scopes. Oat 1.0 supplies the default palette at the document root. Oatbase preserves its control-border, faint-text, and warning-text contrast adjustments; the scoped Oat reset uses the same adjusted palette.
 
 ```js
 // Load every preset, including the scoped Oat reset.
