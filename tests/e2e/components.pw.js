@@ -381,6 +381,8 @@ test('inherits scoped Oat tokens and accepts component geometry hooks', async ({
 });
 
 test('shipped themes remap Oat tokens without changing component behavior', async ({ page }) => {
+  // Scan settled palette colors rather than Oat's color transitions.
+  await page.addStyleTag({ content: '*, *::before, *::after { transition: none !important; }' });
   test.setTimeout(60_000);
   const backgrounds = new Set();
   for (const preset of ['doordarshan', 'forest', 'ocean', 'paper']) {

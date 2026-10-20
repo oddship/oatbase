@@ -225,6 +225,8 @@ test('catalog layout remains stable in the widest shipped typography theme', asy
 });
 
 test('generated demos and highlighted code pass axe in every palette and mode', async ({ page }) => {
+  // Scan settled palette colors rather than Oat's color transitions.
+  await page.addStyleTag({ content: '*, *::before, *::after { transition: none !important; }' });
   test.setTimeout(150_000);
   await page.goto('/docs/index.html#/components/select');
   const componentPage = page.locator('[data-page="/components/select"]');
