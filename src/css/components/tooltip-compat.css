@@ -1,6 +1,7 @@
 @layer components {
   .ot-tooltip::after {
     box-sizing: border-box;
+    inline-size: max-content;
     max-inline-size: min(20rem, calc(100vw - var(--space-8)));
     white-space: normal;
     overflow-wrap: anywhere;

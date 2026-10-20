@@ -8,6 +8,7 @@
     text-align: start;
     margin-left: var(--oatbase-tooltip-shift-x, 0rem);
     margin-top: var(--oatbase-tooltip-shift-y, 0rem);
+    inline-size: max-content;
   }
 
   .ot-tooltip:before, .ot-tooltip:after {

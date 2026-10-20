@@ -478,7 +478,7 @@ test('Oat popover tooltip is hoverable, viewport-safe, and dismissible with Esca
 
   await page.setViewportSize({ width: 320, height: 640 });
   await trigger.evaluate(element => {
-    element.style.cssText = 'position:fixed;top:0;left:0';
+    element.style.cssText = 'position:fixed;top:0;left:0;width:40px;height:40px;padding:0';
     element.dataset.tooltip = 'Long tooltip text that wraps within a narrow viewport instead of overflowing the page';
   });
   await trigger.focus();
@@ -491,6 +491,7 @@ test('Oat popover tooltip is hoverable, viewport-safe, and dismissible with Esca
     const left = rect.left + rect.width / 2 - width / 2 + parseFloat(style.marginLeft);
     return { width, left, right: left + width, pointerEvents: style.pointerEvents };
   });
+  expect(bounds.width).toBeGreaterThan(200);
   expect(bounds.width).toBeLessThanOrEqual(288);
   expect(bounds.left).toBeGreaterThanOrEqual(15);
   expect(bounds.right).toBeLessThanOrEqual(305);
@@ -510,8 +511,21 @@ test('Oat popover tooltip is hoverable, viewport-safe, and dismissible with Esca
   await page.mouse.move(point.x, point.y);
   await page.waitForTimeout(250);
   await expect(tip).toBeVisible();
+  await trigger.evaluate(element => {
+    window.tooltipExits = [];
+    const record = event => {
+      if (event.target === element) window.tooltipExits.push({ trusted: event.isTrusted, related: event.relatedTarget?.id, phase: event.eventPhase });
+    };
+    element.addEventListener('mouseout', record);
+    document.addEventListener('mouseout', record);
+  });
+  await trigger.hover();
   await page.mouse.move(310, 600);
   await expect(tip).toBeHidden();
+  const exits = await page.evaluate(() => window.tooltipExits);
+  expect(exits).toHaveLength(2); // Trigger and document delegation both receive it.
+  expect(exits.every(event => event.trusted)).toBe(true);
+  expect(exits.map(event => event.phase)).toEqual([2, 3]);
   await trigger.hover();
   await expect(tip).toBeVisible();
 });

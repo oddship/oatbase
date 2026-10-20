@@ -4,7 +4,7 @@
     display: block;
   }
 
-  ot-context-menu > [popover] {
+  ot-context-menu > [popover]:not(.ot-tooltip) {
     position: fixed;
     overflow: auto;
     padding: var(--space-1);

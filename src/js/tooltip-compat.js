@@ -2,11 +2,12 @@
 const selector = '.ot-tooltip';
 const gutter = 16;
 let active, trigger, closeTimer, frame;
-let releasing = false;
 
 function position(tip, target) {
   if (!tip.matches(':popover-open') || !target?.isConnected) return;
   const rect = target.getBoundingClientRect();
+  // Oat may handle an event on the tooltip itself; retain the real anchor.
+  for (const key of ['left', 'top', 'width', 'height']) tip.style[key] = `${rect[key]}px`;
   const style = getComputedStyle(tip, '::after');
   const width = parseFloat(style.width);
   const height = parseFloat(style.height);
@@ -28,36 +29,39 @@ function position(tip, target) {
 }
 
 function cancelClose() { clearTimeout(closeTimer); }
-function deferClose() {
+function deferClose(tip, target) {
   cancelClose();
-  const target = trigger;
   closeTimer = setTimeout(() => {
-    if (active?.matches(':hover') || target?.matches(':hover, :focus-visible')) return;
-    // Let Oat clear its own active-trigger state as well as the popover.
-    releasing = true;
-    try { target?.dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body })); }
-    finally { releasing = false; }
+    if (tip.matches(':hover') || target.matches(':hover, :focus-visible')) return;
+    if (tip.matches(':popover-open')) tip.hidePopover();
   }, 150);
+}
+
+function preserve(tip, target) {
+  // Window bubbling runs after Oat's document listener and application handlers.
+  // Oat clears its own target on exit; retain only the visual popover briefly.
+  if (!target.isConnected || tip.previousElementSibling !== target) return;
+  if (!tip.matches(':popover-open')) tip.showPopover();
+  position(tip, target);
 }
 
 document.addEventListener('toggle', event => {
   if (!event.target.matches?.(selector)) return;
-  cancelClose(); cancelAnimationFrame(frame);
-  if (event.newState !== 'open') { active = trigger = null; return; }
+  cancelAnimationFrame(frame);
+  if (event.newState !== 'open') { cancelClose(); active = trigger = null; return; }
+  if (active !== event.target || trigger !== event.target.previousElementSibling) cancelClose();
   active = event.target;
   trigger = active.previousElementSibling;
   const tip = active, target = trigger;
   frame = requestAnimationFrame(() => position(tip, target));
 }, true);
 
-for (const type of ['mouseover', 'mouseout']) document.addEventListener(type, event => {
-  if (releasing || !active?.matches(':popover-open')) return;
+for (const type of ['mouseover', 'mouseout']) window.addEventListener(type, event => {
+  if (!active) return;
   const onTip = event.target.closest?.(selector) === active;
   const fromTrigger = trigger?.contains(event.target);
-  if (onTip || (type === 'mouseout' && fromTrigger)) {
-    // Keep Oat from treating its own generated tooltip as another trigger.
-    event.stopImmediatePropagation();
-    if (type === 'mouseover') cancelClose();
-    else deferClose();
-  } else if (type === 'mouseover' && fromTrigger) cancelClose();
-}, true);
+  if (!onTip && !fromTrigger) return;
+  if (type === 'mouseover') cancelClose();
+  else deferClose(active, trigger);
+  preserve(active, trigger);
+});

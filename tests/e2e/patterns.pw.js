@@ -168,3 +168,30 @@ test('open informational and context popovers fit narrow viewports and have acce
     await page.keyboard.press('Escape');
   }
 });
+
+test('titled panels keep tooltip styling and select their application popover after reconnect', async ({ page }) => {
+  for (const [tag, targetSelector, popupId] of [
+    ['ot-hover-card', ':scope > button', 'pattern-hover-card'],
+    ['ot-context-menu', ':scope > [data-context-target]', 'pattern-context']
+  ]) {
+    const host = page.locator(tag);
+    await host.scrollIntoViewIfNeeded();
+    const tooltipStyle = await host.evaluate((element, selector) => {
+      const target = element.querySelector(selector);
+      target.title = 'More about this project';
+      target.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+      const tip = element.querySelector(':scope > .ot-tooltip');
+      const style = getComputedStyle(tip);
+      return { open: tip.matches(':popover-open'), padding: style.padding, overflow: style.overflow, background: style.backgroundColor };
+    }, targetSelector);
+    expect(tooltipStyle).toEqual({ open: true, padding: '0px', overflow: 'visible', background: 'rgba(0, 0, 0, 0)' });
+    await host.evaluate(element => {
+      const parent = element.parentNode;
+      element.remove(); parent.append(element);
+      element.open();
+    });
+    await expect(host.locator(`#${popupId}`)).toBeVisible();
+    expect(await host.evaluate(element => element.popup.id)).toBe(popupId);
+    await host.evaluate(element => element.close());
+  }
+});

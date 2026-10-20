@@ -4,7 +4,7 @@
     display: inline-block;
   }
 
-  ot-hover-card > [popover] {
+  ot-hover-card > [popover]:not(.ot-tooltip) {
     position: fixed;
     overflow: auto;
     padding: var(--space-4);
