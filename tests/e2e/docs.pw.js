@@ -88,6 +88,25 @@ test('behavioral component demos expose complete HTML and JavaScript', async ({ 
   await expect(demo.locator('[role="tabpanel"][data-code-kind="html"]')).toHaveAttribute('data-copy-source', '');
 });
 
+test('component and AI recipe code tabs hide the live preview', async ({ page }) => {
+  for (const route of ['repeater', 'ai-prompt-input']) {
+    await page.goto(`/docs/index.html#/components/${route}`);
+    const demo = page.locator(`[data-page="/components/${route}"] [data-demo]`).first();
+    const preview = demo.locator('[data-preview]');
+    await expect(preview).toBeVisible();
+
+    for (const kind of ['code', 'javascript']) {
+      await demo.locator(`[data-view="${kind}"]`).click();
+      await expect(preview).toBeHidden();
+      await expect(demo.locator('[role="tabpanel"]:visible')).toHaveCount(1);
+    }
+
+    await demo.locator('[data-view="preview"]').click();
+    await expect(preview).toBeVisible();
+    await expect(demo.locator('[role="tabpanel"]:visible')).toHaveCount(1);
+  }
+});
+
 test('log viewer documentation wires its live action through the component API', async ({ page }) => {
   await page.goto('/docs/index.html#/components/log-viewer');
   const demo = page.locator('[data-page="/components/log-viewer"] [data-demo]').first();

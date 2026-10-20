@@ -211,6 +211,7 @@ body { min-height: 100dvh; }
 .demo-preview > * { width: min(100%, 32rem); }
 .demo-preview[data-wide] > * { width: 100%; }
 .demo-preview[data-popup] { min-height: 26rem; }
+.demo-preview[hidden] { display: none; }
 .docs-drawer-controls {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
