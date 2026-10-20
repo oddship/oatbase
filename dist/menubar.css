@@ -1,0 +1,19 @@
+/* src/css/components/menubar.css */
+@layer components {
+  ot-menubar {
+    display: block;
+  }
+
+  ot-menubar > [role="menubar"] {
+    display: flex;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    flex-wrap: wrap;
+  }
+
+  ot-menubar[hidden] {
+    display: none;
+  }
+}

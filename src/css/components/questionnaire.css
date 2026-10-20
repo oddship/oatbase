@@ -1,0 +1,5 @@
+@layer components {
+  ot-questionnaire { display: block; }
+  ot-questionnaire [data-question-actions] { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  ot-questionnaire [data-question][hidden], ot-questionnaire [data-question-actions][hidden], ot-questionnaire [data-question-submit][hidden], ot-questionnaire [data-question-next][hidden], ot-questionnaire [data-question-skip][hidden], ot-questionnaire[hidden] { display: none; }
+}

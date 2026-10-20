@@ -1,0 +1,16 @@
+/* src/css/components/questionnaire.css */
+@layer components {
+  ot-questionnaire {
+    display: block;
+  }
+
+  ot-questionnaire [data-question-actions] {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  ot-questionnaire [data-question][hidden], ot-questionnaire [data-question-actions][hidden], ot-questionnaire [data-question-submit][hidden], ot-questionnaire [data-question-next][hidden], ot-questionnaire [data-question-skip][hidden], ot-questionnaire[hidden] {
+    display: none;
+  }
+}

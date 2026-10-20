@@ -1,0 +1,5 @@
+@layer components {
+  [data-marker] { display: flex; align-items: center; gap: var(--space-3); color: var(--muted-foreground); font-size: var(--text-7); }
+  [data-marker]::before, [data-marker]::after { content: ""; flex: 1; border-block-start: 1px solid var(--border); }
+  [data-marker][hidden] { display: none; }
+}

@@ -49,7 +49,17 @@
     { "name": "attachment", "kind": "component", "implementation": "css", "files": ["attachment.css"] },
     { "name": "code-block", "kind": "component", "implementation": "css", "files": ["code-block.css"] },
     { "name": "trace", "kind": "component", "implementation": "css", "files": ["trace.css"] },
-    { "name": "message-scroller", "kind": "component", "implementation": "javascript", "files": ["message-scroller.css", "message-scroller"] }
+    { "name": "message-scroller", "kind": "component", "implementation": "javascript", "files": ["message-scroller.css", "message-scroller"] },
+    { "name": "aspect-ratio", "kind": "component", "implementation": "css", "files": ["aspect-ratio.css"], "bundle": "patterns" },
+    { "name": "bubble", "kind": "component", "implementation": "css", "files": ["bubble.css"], "bundle": "patterns" },
+    { "name": "marker", "kind": "component", "implementation": "css", "files": ["marker.css"], "bundle": "patterns" },
+    { "name": "carousel", "kind": "component", "implementation": "javascript", "files": ["carousel.css", "carousel"], "bundle": "patterns" },
+    { "name": "calendar", "kind": "component", "implementation": "javascript", "files": ["calendar.css", "calendar"], "bundle": "patterns" },
+    { "name": "context-menu", "kind": "component", "implementation": "javascript", "files": ["context-menu.css", "context-menu"], "bundle": "patterns" },
+    { "name": "hover-card", "kind": "component", "implementation": "javascript", "files": ["hover-card.css", "hover-card"], "bundle": "patterns" },
+    { "name": "menubar", "kind": "component", "implementation": "javascript", "files": ["menubar.css", "menubar"], "bundle": "patterns" },
+    { "name": "questionnaire", "kind": "component", "implementation": "javascript", "files": ["questionnaire.css", "questionnaire"], "bundle": "patterns" },
+    { "name": "toggle-group", "kind": "component", "implementation": "css", "files": ["toggle-group.css"], "bundle": "patterns" }
   ],
   "optIns": [
     { "name": "tooltip-compat", "kind": "opt-in", "files": ["tooltip-compat.css", "tooltip-compat"] }

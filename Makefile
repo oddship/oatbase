@@ -103,6 +103,33 @@ dist:
 	bun build src/css/components/message-scroller.css --outfile $(DIST)/message-scroller.css
 	bun build src/js/message-scroller.js --format=iife --outfile $(DIST)/message-scroller.js
 	bun build src/js/message-scroller.js --format=esm --outfile $(DIST)/message-scroller.esm.js
+	bun build src/css/components/aspect-ratio.css --outfile $(DIST)/aspect-ratio.css
+	bun build src/css/components/bubble.css --outfile $(DIST)/bubble.css
+	bun build src/css/components/marker.css --outfile $(DIST)/marker.css
+	bun build src/css/components/carousel.css --outfile $(DIST)/carousel.css
+	bun build src/css/components/calendar.css --outfile $(DIST)/calendar.css
+	bun build src/css/components/context-menu.css --outfile $(DIST)/context-menu.css
+	bun build src/css/components/hover-card.css --outfile $(DIST)/hover-card.css
+	bun build src/css/components/menubar.css --outfile $(DIST)/menubar.css
+	bun build src/css/components/questionnaire.css --outfile $(DIST)/questionnaire.css
+	bun build src/css/components/toggle-group.css --outfile $(DIST)/toggle-group.css
+	bun build src/js/carousel.js --format=iife --outfile $(DIST)/carousel.js
+	bun build src/js/carousel.js --format=esm --outfile $(DIST)/carousel.esm.js
+	bun build src/js/calendar.js --format=iife --outfile $(DIST)/calendar.js
+	bun build src/js/calendar.js --format=esm --outfile $(DIST)/calendar.esm.js
+	bun build src/js/context-menu.js --format=iife --outfile $(DIST)/context-menu.js
+	bun build src/js/context-menu.js --format=esm --outfile $(DIST)/context-menu.esm.js
+	bun build src/js/hover-card.js --format=iife --outfile $(DIST)/hover-card.js
+	bun build src/js/hover-card.js --format=esm --outfile $(DIST)/hover-card.esm.js
+	bun build src/js/menubar.js --format=iife --outfile $(DIST)/menubar.js
+	bun build src/js/menubar.js --format=esm --outfile $(DIST)/menubar.esm.js
+	bun build src/js/questionnaire.js --format=iife --outfile $(DIST)/questionnaire.js
+	bun build src/js/questionnaire.js --format=esm --outfile $(DIST)/questionnaire.esm.js
+	bun build src/css/patterns.css --outfile $(DIST)/patterns.css
+	bun build src/css/patterns.css --minify --outfile $(DIST)/patterns.min.css
+	bun build src/js/patterns.js --format=iife --outfile $(DIST)/patterns.js
+	bun build src/js/patterns.js --format=esm --outfile $(DIST)/patterns.esm.js
+	bun build src/js/patterns.js --format=iife --minify --outfile $(DIST)/patterns.min.js
 	@mkdir -p $(DIST)/themes
 	cp src/css/themes.css $(DIST)/themes.css
 	cp src/css/themes/oat.css $(DIST)/themes/oat.css

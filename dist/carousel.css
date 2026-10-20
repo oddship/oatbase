@@ -1,0 +1,33 @@
+/* src/css/components/carousel.css */
+@layer components {
+  ot-carousel {
+    display: grid;
+    gap: var(--space-3);
+    min-inline-size: 0;
+  }
+
+  ot-carousel > [data-carousel-track] {
+    display: flex;
+    gap: var(--space-3);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+  }
+
+  ot-carousel [data-carousel-slide] {
+    scroll-snap-align: start;
+    flex: 0 0 100%;
+    min-inline-size: 0;
+  }
+
+  ot-carousel > [data-carousel-controls] {
+    display: flex;
+    justify-content: space-between;
+    align-items:  center;
+    gap: var(--space-2);
+  }
+
+  ot-carousel:not([data-enhanced]) > [data-carousel-controls], ot-carousel[hidden] {
+    display: none;
+  }
+}

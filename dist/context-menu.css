@@ -1,0 +1,31 @@
+/* src/css/components/context-menu.css */
+@layer components {
+  ot-context-menu {
+    display: block;
+  }
+
+  ot-context-menu > [popover] {
+    position: fixed;
+    overflow: auto;
+    padding: var(--space-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    background: var(--card);
+    color: var(--card-foreground);
+    box-shadow: var(--shadow-medium);
+    max-block-size: calc(100dvh - 1rem);
+    max-inline-size: calc(100vw - 1rem);
+    margin: 0;
+    inset: auto;
+  }
+
+  ot-context-menu [role="menuitem"] {
+    display: block;
+    text-align: start;
+    inline-size: 100%;
+  }
+
+  ot-context-menu [hidden], ot-context-menu[hidden] {
+    display: none;
+  }
+}

@@ -1,0 +1,11 @@
+/* Optional pattern styles; load alongside Oat or the complete Oatbase CSS. */
+@import "./components/aspect-ratio.css";
+@import "./components/bubble.css";
+@import "./components/marker.css";
+@import "./components/carousel.css";
+@import "./components/calendar.css";
+@import "./components/context-menu.css";
+@import "./components/hover-card.css";
+@import "./components/menubar.css";
+@import "./components/questionnaire.css";
+@import "./components/toggle-group.css";

@@ -20,6 +20,7 @@ const expandedSlugs = [
 ];
 
 const aiSlugs = ['chain-of-thought', 'chat', 'checkpoint', 'confirmation', 'context', 'file-tree', 'inline-citation', 'message', 'model-selector', 'plan', 'prompt-input', 'queue', 'reasoning', 'sources', 'stack-trace', 'subagent', 'suggestion', 'task', 'terminal', 'test-results', 'tool'].map(slug => `ai-${slug}`);
+const addedPatterns = ['aspect-ratio','bubble','marker','carousel','calendar','context-menu','hover-card','menubar','questionnaire','toggle-group','date-picker','direction','navigation-menu','separator'];
 const aiPrimitives = ['message', 'attachment', 'code-block', 'trace', 'message-scroller'];
 
 const documentedMarkup = component => [
@@ -29,10 +30,10 @@ const documentedMarkup = component => [
 
 describe('component coverage', () => {
   test('covers every Basecoat 1.0 component exactly once', () => {
-    expect(components).toHaveLength(95);
-    expect(new Set(components.map(component => component.slug)).size).toBe(95);
+    expect(components).toHaveLength(109);
+    expect(new Set(components.map(component => component.slug)).size).toBe(109);
     for (const slug of basecoatSlugs) expect(components.some(component => component.slug === slug)).toBe(true);
-    expect(components.map(component => component.slug).sort()).toEqual([...basecoatSlugs, ...expandedSlugs, ...aiPrimitives, ...aiSlugs].sort());
+    expect(components.map(component => component.slug).sort()).toEqual([...basecoatSlugs, ...expandedSlugs, ...aiPrimitives, ...aiSlugs, ...addedPatterns].sort());
   });
 
   test('gives every component a documented implementation path', async () => {
@@ -54,13 +55,13 @@ describe('component coverage', () => {
     expect(oatbaseWebComponents).toEqual([
       'action-field', 'combobox', 'command', 'select', 'theme-switcher', 'copy-button',
       'multiselect', 'password-field', 'splitter', 'log-viewer', 'repeater', 'tree', 'toggle', 'toolbar', 'otp-input',
-      'lightbox', 'scrollspy', 'footnotes', 'reading-progress', 'data-table', 'message-scroller'
+      'lightbox', 'scrollspy', 'footnotes', 'reading-progress', 'data-table', 'message-scroller', 'carousel', 'calendar', 'context-menu', 'hover-card', 'menubar', 'questionnaire'
     ]);
   });
 
   test('maps core components instead of duplicating them', () => {
-    expect(components.filter(component => component.source === 'Oat core')).toHaveLength(34);
-    expect(components.filter(component => component.source === 'Oatbase')).toHaveLength(40);
+    expect(components.filter(component => component.source === 'Oat core')).toHaveLength(38);
+    expect(components.filter(component => component.source === 'Oatbase')).toHaveLength(50);
   });
 
   test('maps every component stylesheet and custom element shipped by Oat', async () => {
@@ -451,6 +452,26 @@ describe('AI recipes', () => {
         expect(example.markup).toBeTruthy();
         if (example.javascript) expect(() => new Function(example.javascript)).not.toThrow();
       }
+    }
+  });
+});
+
+describe('shadcn coverage', () => {
+  test('maps all catalog names to real pages and states material differences', async () => {
+    const coverage = JSON.parse(await readFile(new URL('../shadcn-coverage.json', import.meta.url), 'utf8'));
+    expect(coverage.components).toHaveLength(66);
+    expect(new Set(coverage.components.map(entry => entry.shadcn)).size).toBe(66);
+    for (const entry of coverage.components) expect(components.some(component => component.slug === entry.oatbase)).toBe(true);
+    expect(coverage.components.find(entry => entry.shadcn === 'calendar').notes.toLowerCase()).toContain('single');
+    expect(coverage.components.find(entry => entry.shadcn === 'date-picker').notes).toContain('not implemented');
+  });
+  test('keeps optional controls outside the default aggregate and documents their focused imports', async () => {
+    const source = await readFile(new URL('../src/js/extensions.js', import.meta.url), 'utf8');
+    for (const slug of ['calendar', 'carousel', 'context-menu', 'hover-card', 'menubar', 'questionnaire']) {
+      expect(source).not.toContain(`./${slug}.js`);
+      const page = components.find(component => component.slug === slug);
+      expect(page.imports).toContain(`@oddship/oatbase/${slug}`);
+      expect(page.usageNote).toContain('Optional pattern');
     }
   });
 });

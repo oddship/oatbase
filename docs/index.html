@@ -6,11 +6,13 @@
   <meta name="description" content="Oatbase documentation and interactive component demos for Oat UI.">
   <title>Oatbase — extensions for Oat UI</title>
   <link rel="stylesheet" href="../dist/oatbase.css?v=0.1.0">
+  <link rel="stylesheet" href="../dist/patterns.css?v=0.1.0">
   <link rel="stylesheet" href="../dist/tooltip-compat.css?v=0.1.0">
   <link rel="stylesheet" href="../dist/themes.css?v=0.1.0">
   <link rel="stylesheet" href="./docs.css?v=0.1.0">
   <script>try{const preset=localStorage.getItem('oatbase-preset');const mode=localStorage.getItem('oatbase-theme');if(preset)document.documentElement.dataset.oatTheme=preset;if(['system','light','dark'].includes(mode)){document.documentElement.style.colorScheme=mode==='system'?'light dark':mode;if(mode==='system')document.documentElement.removeAttribute('data-theme');else document.documentElement.dataset.theme=mode}}catch{}</script>
   <script src="../dist/oatbase.js?v=0.1.0" defer></script>
+  <script src="../dist/patterns.js?v=0.1.0" defer></script>
   <script src="../dist/tooltip-compat.js?v=0.1.0" defer></script>
   <script src="./components.js?v=0.1.0" defer></script>
   <script src="./examples.js?v=0.1.0" defer></script>
@@ -88,6 +90,7 @@
           <ul>
             <li><a href="#/" data-route="/">Introduction</a></li>
             <li><a href="#/components" data-route="/components">Components</a></li>
+            <li><a href="#/shadcn-coverage" data-route="/shadcn-coverage">shadcn coverage</a></li>
             <li><a href="#/recipes" data-route="/recipes">Recipes</a></li>
             <li><a href="#/examples" data-route="/examples">Blocks</a></li>
             <li><a href="#/installation" data-route="/installation">Installation</a></li>
@@ -96,11 +99,11 @@
           </ul>
         </section>
         <section class="docs-nav-group" data-source="Oatbase">
-          <h2>Oatbase extensions <span class="badge docs-source-count" data-variant="secondary" data-source-count="Oatbase">40</span></h2>
+          <h2>Oatbase extensions <span class="badge docs-source-count" data-variant="secondary" data-source-count="Oatbase">50</span></h2>
           <ul id="docs-oatbase-nav" data-component-nav></ul>
         </section>
         <section class="docs-nav-group" data-source="Oat core">
-          <h2>Oat core patterns <span class="badge docs-source-count" data-variant="secondary" data-source-count="Oat core">34</span></h2>
+          <h2>Oat core patterns <span class="badge docs-source-count" data-variant="secondary" data-source-count="Oat core">38</span></h2>
           <ul id="docs-oat-nav" data-component-nav></ul>
         </section>
         <section class="docs-nav-group" data-source="AI recipe">
@@ -141,9 +144,9 @@
         </section>
 
         <dl data-stats class="docs-library-stats" aria-label="Library coverage">
-          <div><dt>Oat core patterns</dt><dd data-source-count="Oat core">34</dd></div>
-          <div><dt>Oatbase additions</dt><dd data-source-count="Oatbase">40</dd></div>
-          <div><dt>Documented patterns</dt><dd data-component-count>95</dd></div>
+          <div><dt>Oat core patterns</dt><dd data-source-count="Oat core">38</dd></div>
+          <div><dt>Oatbase additions</dt><dd data-source-count="Oatbase">50</dd></div>
+          <div><dt>Documented patterns</dt><dd data-component-count>109</dd></div>
         </dl>
 
         <section class="docs-section">
@@ -197,7 +200,7 @@
               <legend><span aria-hidden="true">⌕</span><span class="visually-hidden">Quick filter components</span></legend>
               <input type="search" data-catalog-search placeholder="Quick filter…" autocomplete="off" aria-label="Quick filter components">
             </fieldset>
-            <output class="badge docs-catalog-count" data-variant="secondary" data-catalog-count aria-live="polite">40 additions</output>
+            <output class="badge docs-catalog-count" data-variant="secondary" data-catalog-count aria-live="polite">50 additions</output>
           </div>
           <div class="row gap-2 docs-component-grid" data-component-catalog></div>
           <section data-variant="empty" data-catalog-empty hidden>
@@ -206,6 +209,12 @@
             <p>Try another term or broaden the source filter.</p>
           </section>
         </section>
+      </article>
+
+      <article class="docs-page" data-page="/shadcn-coverage" data-title="shadcn coverage" hidden>
+        <header><span class="docs-eyebrow">Coverage map</span><h1>shadcn component equivalents</h1><p class="docs-lead">Mappings for the 66 components in the shadcn catalog checked on 20 October 2026. Equivalent product needs do not imply identical React APIs or every advanced variant.</p></header>
+        <section class="docs-section"><h2 id="coverage-loading">Loading optional patterns</h2><p>The default Oatbase bundle includes the established components and AI primitives. Load <code>patterns.css</code> and <code>patterns</code> alongside it for the additional controls, or use their focused imports. Date Picker, Direction, Navigation Menu, and Separator are native recipes. Calendar is a single-date Gregorian view; Date Picker uses the browser UI.</p></section>
+        <section class="docs-section"><h2 id="coverage-equivalents">Existing equivalents</h2><table><thead><tr><th>shadcn</th><th>Oatbase</th></tr></thead><tbody><tr><td>Collapsible</td><td><a href="#/components/accordion">Accordion / native details</a></td></tr><tr><td>Input OTP</td><td><a href="#/components/otp-input">OTP Input</a></td></tr><tr><td>Resizable</td><td><a href="#/components/splitter">Splitter</a></td></tr><tr><td>Sheet</td><td><a href="#/components/drawer">Drawer</a></td></tr><tr><td>Typography</td><td><a href="#/components/prose">Prose</a></td></tr></tbody></table><p>The package includes a machine-readable <code>shadcn-coverage.json</code> with all mappings and material limitations.</p></section>
       </article>
 
       <article class="docs-page" data-page="/ai-elements" data-title="AI Elements" hidden>
