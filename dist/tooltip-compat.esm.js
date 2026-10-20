@@ -1,57 +1,103 @@
 // src/js/tooltip-compat.js
-var selector = "[data-tooltip]";
+var selector = ".ot-tooltip";
 var gutter = 16;
-function tooltipTarget(event) {
-  return event.target instanceof Element ? event.target.closest(selector) : null;
-}
-function prepareTooltip(element) {
-  if (!element?.dataset.tooltip)
+var active;
+var trigger;
+var closeTimer;
+var frame;
+function position(tip, target) {
+  if (!tip.matches(":popover-open") || !target?.isConnected)
     return;
-  element.removeAttribute("data-tooltip-dismissed");
-  const original = element.dataset.oatbaseTooltipPlacement || element.dataset.tooltipPlacement || "top";
-  element.dataset.oatbaseTooltipPlacement = original;
-  const rect = element.getBoundingClientRect();
-  const availableWidth = Math.max(0, window.innerWidth - gutter * 2);
-  const estimatedWidth = Math.min(320, availableWidth, Math.max(48, element.dataset.tooltip.length * 7 + 24));
-  let placement = original;
-  if (placement === "left" && rect.left < estimatedWidth + gutter)
-    placement = "right";
-  if (placement === "right" && window.innerWidth - rect.right < estimatedWidth + gutter)
-    placement = "left";
-  if (placement === "top" && rect.top < 48)
-    placement = "bottom";
-  if (placement === "bottom" && window.innerHeight - rect.bottom < 48)
+  const rect = target.getBoundingClientRect();
+  for (const key of ["left", "top", "width", "height"])
+    tip.style[key] = `${rect[key]}px`;
+  const style = getComputedStyle(tip, "::after");
+  const width = parseFloat(style.width);
+  const height = parseFloat(style.height);
+  const space = { top: rect.top, bottom: innerHeight - rect.bottom, left: rect.left, right: innerWidth - rect.right };
+  const opposite = { top: "bottom", bottom: "top", left: "right", right: "left" };
+  let placement = target.dataset.tooltipPlacement || "top";
+  if (!(placement in opposite))
     placement = "top";
-  element.dataset.tooltipPlacement = placement;
-  if (placement === "top" || placement === "bottom") {
-    const center = rect.left + rect.width / 2;
-    const left = center - estimatedWidth / 2;
-    const right = center + estimatedWidth / 2;
-    const shift = left < gutter ? gutter - left : right > window.innerWidth - gutter ? window.innerWidth - gutter - right : 0;
-    element.style.setProperty("--oatbase-tooltip-shift", `${Math.round(shift)}px`);
-  } else {
-    element.style.removeProperty("--oatbase-tooltip-shift");
-  }
+  const needed = (placement === "left" || placement === "right" ? width : height) + 10 + gutter;
+  if (space[placement] < needed && space[opposite[placement]] > space[placement])
+    placement = opposite[placement];
+  if ((placement === "left" || placement === "right") && space[placement] < needed)
+    placement = space.bottom > space.top ? "bottom" : "top";
+  tip.dataset.tooltipPlacement = placement;
+  const horizontal = placement === "top" || placement === "bottom";
+  const start = horizontal ? rect.left + rect.width / 2 - width / 2 : rect.top + rect.height / 2 - height / 2;
+  const size = horizontal ? width : height;
+  const viewport = horizontal ? innerWidth : innerHeight;
+  const shift = Math.max(gutter, Math.min(start, viewport - gutter - size)) - start;
+  tip.style.setProperty("--oatbase-tooltip-shift-x", `${horizontal ? shift : 0}px`);
+  tip.style.setProperty("--oatbase-tooltip-shift-y", `${horizontal ? 0 : shift}px`);
 }
-function resetTooltip(element) {
-  if (!element)
-    return;
-  element.removeAttribute("data-tooltip-dismissed");
-  if (element.dataset.oatbaseTooltipPlacement) {
-    element.dataset.tooltipPlacement = element.dataset.oatbaseTooltipPlacement;
-  }
-  element.style.removeProperty("--oatbase-tooltip-shift");
+function cancelClose() {
+  clearTimeout(closeTimer);
 }
-document.addEventListener("pointerenter", (event) => prepareTooltip(tooltipTarget(event)), true);
-document.addEventListener("focusin", (event) => prepareTooltip(tooltipTarget(event)), true);
-document.addEventListener("pointerleave", (event) => resetTooltip(tooltipTarget(event)), true);
-document.addEventListener("focusout", (event) => resetTooltip(tooltipTarget(event)), true);
-document.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape")
+function deferClose(tip, target) {
+  cancelClose();
+  closeTimer = setTimeout(() => {
+    if (tip.matches(":hover") || target.matches(":hover, :focus-visible"))
+      return;
+    if (tip.matches(":popover-open"))
+      tip.hidePopover();
+  }, 150);
+}
+function preserve(tip, target) {
+  if (!target.isConnected || tip.previousElementSibling !== target)
     return;
-  document.querySelectorAll(selector).forEach((element) => {
-    if (element.matches(":hover") || element === document.activeElement || element.contains(document.activeElement)) {
-      element.setAttribute("data-tooltip-dismissed", "");
-    }
-  });
+  if (!tip.matches(":popover-open"))
+    tip.showPopover();
+  position(tip, target);
+}
+document.addEventListener("toggle", (event) => {
+  if (!event.target.matches?.(selector))
+    return;
+  cancelAnimationFrame(frame);
+  if (event.newState !== "open") {
+    cancelClose();
+    event.target.style.removeProperty("animation-name");
+    active = trigger = null;
+    return;
+  }
+  if (active !== event.target || trigger !== event.target.previousElementSibling) {
+    cancelClose();
+    event.target.style.removeProperty("animation-name");
+  }
+  active = event.target;
+  trigger = active.previousElementSibling;
+  const tip = active, target = trigger;
+  frame = requestAnimationFrame(() => position(tip, target));
 }, true);
+for (const type of ["mouseover", "mouseout"])
+  window.addEventListener(type, (event) => {
+    if (!active)
+      return;
+    const onTip = event.target.closest?.(selector) === active;
+    const fromTrigger = trigger?.contains(event.target);
+    if (!onTip && !fromTrigger)
+      return;
+    if (onTip)
+      active.style.animationName = "none";
+    if (type === "mouseover")
+      cancelClose();
+    else
+      deferClose(active, trigger);
+    preserve(active, trigger);
+  });
+function dismissRetained() {
+  cancelClose();
+  cancelAnimationFrame(frame);
+  const tip = active;
+  active = trigger = null;
+  if (tip?.matches(":popover-open"))
+    tip.hidePopover();
+}
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape")
+    dismissRetained();
+});
+window.addEventListener("scroll", dismissRetained, true);
+window.addEventListener("resize", dismissRetained);

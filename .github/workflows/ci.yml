@@ -50,3 +50,10 @@ jobs:
       - if: matrix.browser == 'chromium'
         run: bun scripts/browser-smoke.js tests/docs-browser.html
       - run: bun scripts/playwright-test.js --project=${{ matrix.browser }}
+      - name: Upload browser failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-failures-${{ matrix.browser }}
+          path: test-results/
+          retention-days: 7

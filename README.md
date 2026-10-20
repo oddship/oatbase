@@ -118,11 +118,11 @@ cp -R ../oatbase/dist ./public/vendor/oatbase
 
 CSS-only applications can use `@oddship/oatbase/css` without loading JavaScript. For an application that already loads Oat, `@oddship/oatbase/extensions.css` and `@oddship/oatbase/extensions` provide the extension-only aggregates. Every Oatbase addition also has an independent entry point, such as `@oddship/oatbase/chart.css`, `@oddship/oatbase/drawer.css`, or `@oddship/oatbase/select` plus `@oddship/oatbase/select.css`.
 
-The v0.1.0 complete Oat-inclusive browser payload is 29.6 kB gzipped, and the extension-only aggregate is 19.8 kB gzipped. Individual entry points and `components.json` support selective application bundles; `examples/esgun/` demonstrates that path without making EsGun a library dependency.
+Oatbase bundles Oat 1.0.0. The v0.1.0 complete Oat-inclusive browser payload is 30.0 kB gzipped, and the extension-only aggregate is 19.8 kB gzipped. Individual entry points and `components.json` support selective application bundles; `examples/esgun/` demonstrates that path without making EsGun a library dependency.
 
 The Flowctl audit added only the reusable boundaries: Repeater coordinates repeated native fields, Log Viewer coordinates a semantic live log, Combobox can create native options, and Stepper has a compact status track. Page headers, validation summaries, action rails, schedule forms, and workflow workspaces remain recipes or blocks. CodeMirror, graph layout, cron/timezone conversion, ANSI parsing, streaming, and virtualization remain application or specialist-library concerns.
 
-Oat supplies its native tooltip pattern. Viewport flipping, shifting, hoverable content, and Escape dismissal are an explicit Oatbase compatibility enhancement so applications that do not need them register no tooltip listeners:
+Oat 1.0 supplies a native popover tooltip with Escape dismissal. Viewport flipping, shifting, wrapping, and hoverable content are a separately loaded Oatbase enhancement:
 
 ```js
 import '@oddship/oatbase/tooltip-compat.css';

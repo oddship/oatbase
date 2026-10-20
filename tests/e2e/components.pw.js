@@ -381,6 +381,8 @@ test('inherits scoped Oat tokens and accepts component geometry hooks', async ({
 });
 
 test('shipped themes remap Oat tokens without changing component behavior', async ({ page }) => {
+  // Scan settled palette colors rather than Oat's color transitions.
+  await page.addStyleTag({ content: '*, *::before, *::after { transition: none !important; }' });
   test.setTimeout(60_000);
   const backgrounds = new Set();
   for (const preset of ['doordarshan', 'forest', 'ocean', 'paper']) {
@@ -462,23 +464,118 @@ test('every palette keeps control, faint text, and focus tokens above WCAG contr
   }
 });
 
-test('tooltip content is hoverable, viewport-safe, and dismissible with Escape', async ({ page }) => {
-  const tooltip = page.locator('#fixture-tooltip');
-  await tooltip.focus();
-  await expect(tooltip).toHaveAttribute('data-tooltip', 'Helpful tooltip content');
+test('Oat popover tooltip is hoverable, viewport-safe, and dismissible with Escape', async ({ page }) => {
+  const trigger = page.locator('#fixture-tooltip');
+  const tip = page.locator('.ot-tooltip');
+  await trigger.scrollIntoViewIfNeeded();
+  // Oat intentionally dismisses tooltips on scroll; settle the scroll first.
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  await trigger.focus();
+  await expect(trigger).toHaveAttribute('data-tooltip', 'Helpful tooltip content');
+  await expect(tip).toHaveJSProperty('popover', 'manual');
+  await expect(tip).toBeVisible();
   await page.keyboard.press('Escape');
-  await expect(tooltip).toHaveAttribute('data-tooltip-dismissed', '');
-  await tooltip.blur();
-  await expect(tooltip).not.toHaveAttribute('data-tooltip-dismissed', '');
+  await expect(tip).toBeHidden();
+  await trigger.blur();
 
   await page.setViewportSize({ width: 320, height: 640 });
-  await tooltip.focus();
-  const pseudo = await tooltip.evaluate(element => {
-    const style = getComputedStyle(element, '::after');
-    return { maxWidth: style.maxWidth, pointerEvents: style.pointerEvents };
+  await trigger.evaluate(element => {
+    element.style.cssText = 'position:fixed;top:0;left:0;width:40px;height:40px;padding:0';
+    element.dataset.tooltip = 'Long tooltip text that wraps within a narrow viewport instead of overflowing the page';
   });
-  expect(parseFloat(pseudo.maxWidth)).toBeLessThanOrEqual(288);
-  expect(pseudo.pointerEvents).toBe('auto');
+  await trigger.focus();
+  await expect(tip).toBeVisible();
+  await expect(tip).toHaveAttribute('data-tooltip-placement', 'bottom');
+  const bounds = await tip.evaluate(element => {
+    const style = getComputedStyle(element, '::after');
+    const rect = element.getBoundingClientRect();
+    const width = parseFloat(style.width);
+    const left = rect.left + rect.width / 2 - width / 2 + parseFloat(style.marginLeft);
+    return { width, left, right: left + width, pointerEvents: style.pointerEvents };
+  });
+  expect(bounds.width).toBeGreaterThan(200);
+  expect(bounds.width).toBeLessThanOrEqual(288);
+  expect(bounds.left).toBeGreaterThanOrEqual(15);
+  expect(bounds.right).toBeLessThanOrEqual(305);
+  expect(bounds.pointerEvents).toBe('auto');
+
+  await trigger.blur();
+  await trigger.hover();
+  await page.waitForTimeout(850); // Oat's intentional 700 ms tooltip delay.
+  const point = await tip.evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    const style = getComputedStyle(element, '::after');
+    return {
+      x: rect.left + rect.width / 2 + parseFloat(style.marginLeft),
+      y: rect.bottom + 10 + parseFloat(style.height) / 2
+    };
+  });
+  await page.mouse.move(point.x, point.y);
+  await page.waitForTimeout(250);
+  await expect(tip).toBeVisible();
+  expect(await tip.evaluate(element => getComputedStyle(element).opacity)).toBe('1');
+  await trigger.evaluate(element => {
+    window.tooltipExits = [];
+    const record = event => {
+      if (event.target === element) window.tooltipExits.push({ trusted: event.isTrusted, related: event.relatedTarget?.id, phase: event.eventPhase });
+    };
+    element.addEventListener('mouseout', record);
+    document.addEventListener('mouseout', record);
+  });
+  await trigger.hover();
+  await page.mouse.move(310, 600);
+  await expect(tip).toBeHidden();
+  const exits = await page.evaluate(() => window.tooltipExits);
+  expect(exits).toHaveLength(2); // Trigger and document delegation both receive it.
+  expect(exits.every(event => event.trusted)).toBe(true);
+  expect(exits.map(event => event.phase)).toEqual([2, 3]);
+  await trigger.hover();
+  await expect(tip).toBeVisible();
+});
+
+test('retained tooltips dismiss after combined keyboard focus and pointer target loss', async ({ page }) => {
+  test.setTimeout(60_000);
+  for (const scenario of ['tooltip', 'empty-title']) {
+    for (const dismissal of ['Escape', 'scroll', 'resize']) {
+      await page.goto('/tests/harness.html');
+      await page.addStyleTag({ content: '.ot-tooltip { animation: none !important; }' });
+      await page.evaluate(() => {
+        const trigger = document.querySelector('#fixture-tooltip');
+        trigger.style.cssText = 'position:fixed;top:20px;left:20px;width:40px;height:40px;padding:0';
+        trigger.dataset.tooltipPlacement = 'bottom';
+        const destination = document.createElement('button');
+        destination.id = 'tooltip-destination';
+        destination.textContent = 'Destination';
+        destination.style.cssText = 'position:fixed;top:200px;left:250px';
+        destination.setAttribute('title', '');
+        document.body.append(destination);
+      });
+      const trigger = page.locator('#fixture-tooltip');
+      const tip = page.locator('.ot-tooltip');
+      await trigger.focus();
+      await trigger.hover();
+      await expect(tip).toBeVisible();
+      if (scenario === 'tooltip') {
+        const point = await tip.evaluate(element => {
+          const rect = element.getBoundingClientRect();
+          const style = getComputedStyle(element, '::after');
+          return { x: rect.left + rect.width / 2 + parseFloat(style.marginLeft), y: rect.bottom + 10 + parseFloat(style.height) / 2 };
+        });
+        await page.mouse.move(point.x, point.y);
+        await page.locator('#tooltip-destination').evaluate(element => element.removeAttribute('title'));
+      }
+      await page.locator('#tooltip-destination').hover();
+      await page.waitForTimeout(200); // Exercise the retained state after its close timer.
+      await expect(trigger).toBeFocused();
+      expect(await trigger.evaluate(element => element.matches(':focus-visible'))).toBe(true);
+      await expect(tip).toBeVisible();
+      if (dismissal === 'Escape') await page.keyboard.press('Escape');
+      else if (dismissal === 'scroll') await page.evaluate(() => window.scrollTo(0, 20));
+      else await page.setViewportSize({ width: 1000, height: 700 });
+      await expect(tip, `${scenario}: ${dismissal}`).toBeHidden();
+      await page.setViewportSize({ width: 1280, height: 720 });
+    }
+  }
 });
 
 test('theme switcher exposes explicit selectors and clears them for system mode', async ({ page }) => {

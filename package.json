@@ -245,7 +245,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
-    "@knadh/oat": "0.7.2",
+    "@knadh/oat": "1.0.0",
     "@playwright/test": "1.61.1"
   }
 }

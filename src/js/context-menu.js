@@ -6,7 +6,7 @@ class OtContextMenu extends HTMLElement {
   connectedCallback() { this.#ready?.abort(); this.#ready = connectWhenReady(this, () => this.#connect()); }
   #connect() {
     this.#abort?.abort(); this.#stop?.();
-    this.popup = this.querySelector(':scope > [popover]');
+    this.popup = this.querySelector(':scope > [popover]:not(.ot-tooltip)');
     this.target = this.querySelector(':scope > [data-context-target]');
     this.trigger = this.querySelector('[popovertarget]');
     if (!this.popup?.showPopover || !this.target || !this.trigger) return;

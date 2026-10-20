@@ -99,6 +99,8 @@ test('disconnect cleans up observation and reconnect remains idempotent', async 
 });
 
 test('trace supports keyboard disclosure and themes preserve readable primitives', async ({ page }) => {
+  // Palette contrast must be measured after color transitions have settled.
+  await page.addStyleTag({ content: '*, *::before, *::after { transition: none !important; }' });
   const summary = page.getByText('Read config · failed', { exact: true });
   await summary.focus();
   await page.keyboard.press('Enter');

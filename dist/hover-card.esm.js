@@ -51,7 +51,7 @@ class OtHoverCard extends HTMLElement {
   #connect() {
     this.#cleanup();
     this.trigger = this.querySelector(":scope > [popovertarget]");
-    this.popup = this.querySelector(":scope > [popover]");
+    this.popup = this.querySelector(":scope > [popover]:not(.ot-tooltip)");
     if (!this.trigger || !this.popup || !this.popup.showPopover)
       return;
     this.#abort = new AbortController;

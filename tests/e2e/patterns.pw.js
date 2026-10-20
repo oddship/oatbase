@@ -102,6 +102,9 @@ test('hover card keeps interactive content reachable and dismisses with Escape',
 test('menubar uses one tab stop and opens and switches application menus', async ({ page }) => {
   const host = page.locator('ot-menubar'); const file = host.locator('button[popovertarget="pattern-file-menu"]'); const edit = host.locator('button[popovertarget="pattern-edit-menu"]');
   await expect(file).toHaveAttribute('tabindex', '0'); await expect(edit).toHaveAttribute('tabindex', '-1');
+  // Oat inserts its shared tooltip popover beside the titled trigger.
+  await file.evaluate(element => { element.title = 'File actions'; });
+  await edit.evaluate(element => { element.title = 'Edit actions'; });
   await file.focus(); await page.keyboard.press('ArrowRight'); await expect(edit).toBeFocused();
   await page.keyboard.press('ArrowDown'); await expect(host.locator('#pattern-edit-menu').getByRole('menuitem', { name: 'New document' })).toBeFocused();
   await page.keyboard.press('ArrowUp'); await expect(host.locator('#pattern-edit-menu').getByRole('menuitem', { name: 'Open document' })).toBeFocused();
@@ -139,6 +142,8 @@ test('optional controls clean up and reconnect without duplicated generated cont
 });
 
 test('new patterns fit narrow screens and pass axe in every palette and mode', async ({ page }) => {
+  // Audit settled palette colors rather than Oat's theme-color transitions.
+  await page.addStyleTag({ content: '*, *::before, *::after { transition: none !important; }' });
   test.setTimeout(150_000); await page.setViewportSize({ width: 390, height: 844 });
   for (const preset of ['oat', 'doordarshan', 'forest', 'ocean', 'paper']) {
     for (const mode of ['light', 'dark']) {
@@ -161,5 +166,32 @@ test('open informational and context popovers fit narrow viewports and have acce
     const results = await new AxeBuilder({ page }).options({ iframes: false }).include(tag).analyze();
     expect(results.violations).toEqual([]);
     await page.keyboard.press('Escape');
+  }
+});
+
+test('titled panels keep tooltip styling and select their application popover after reconnect', async ({ page }) => {
+  for (const [tag, targetSelector, popupId] of [
+    ['ot-hover-card', ':scope > button', 'pattern-hover-card'],
+    ['ot-context-menu', ':scope > [data-context-target]', 'pattern-context']
+  ]) {
+    const host = page.locator(tag);
+    await host.scrollIntoViewIfNeeded();
+    const tooltipStyle = await host.evaluate((element, selector) => {
+      const target = element.querySelector(selector);
+      target.title = 'More about this project';
+      target.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+      const tip = element.querySelector(':scope > .ot-tooltip');
+      const style = getComputedStyle(tip);
+      return { open: tip.matches(':popover-open'), padding: style.padding, overflow: style.overflow, background: style.backgroundColor };
+    }, targetSelector);
+    expect(tooltipStyle).toEqual({ open: true, padding: '0px', overflow: 'visible', background: 'rgba(0, 0, 0, 0)' });
+    await host.evaluate(element => {
+      const parent = element.parentNode;
+      element.remove(); parent.append(element);
+      element.open();
+    });
+    await expect(host.locator(`#${popupId}`)).toBeVisible();
+    expect(await host.evaluate(element => element.popup.id)).toBe(popupId);
+    await host.evaluate(element => element.close());
   }
 });

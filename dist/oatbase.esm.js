@@ -16,9 +16,9 @@
       let e = this[`on${t.type}`];
       e && e.call(this, t);
     }
-    keyNav(t, e, i, n, a, r = false) {
-      let { key: o } = t, l = -1;
-      return o === a ? l = (e + 1) % i : o === n ? l = (e - 1 + i) % i : r && (o === "Home" ? l = 0 : o === "End" && (l = i - 1)), l >= 0 && t.preventDefault(), l;
+    keyNav(t, e, s, n, o, a = false) {
+      let { key: r } = t, l = -1;
+      return r === o ? l = (e + 1) % s : r === n ? l = (e - 1 + s) % s : a && (r === "Home" ? l = 0 : r === "End" && (l = s - 1)), l >= 0 && t.preventDefault(), l;
     }
     emit(t, e = null) {
       return this.dispatchEvent(new CustomEvent(t, { bubbles: true, composed: true, cancelable: true, detail: e }));
@@ -27,18 +27,18 @@
       return Math.random().toString(36).slice(2, 10);
     }
   };
-  "commandForElement" in HTMLButtonElement.prototype || document.addEventListener("click", (s) => {
-    let t = s.target.closest("button[commandfor]");
+  "commandForElement" in HTMLButtonElement.prototype || document.addEventListener("click", (i) => {
+    let t = i.target.closest("button[commandfor]");
     if (!t)
       return;
     let e = document.getElementById(t.getAttribute("commandfor"));
     if (!e)
       return;
-    let i = t.getAttribute("command") || "toggle";
-    e instanceof HTMLDialogElement && (i === "show-modal" ? e.showModal() : i === "close" || e.open ? e.close() : e.showModal());
+    let s = t.getAttribute("command") || "toggle";
+    e instanceof HTMLDialogElement && (s === "show-modal" ? e.showModal() : s === "close" || e.open ? e.close() : e.showModal());
   });
-  document.addEventListener("touchstart", (s) => {
-    s.target instanceof HTMLDialogElement && (s.preventDefault(), s.target.close());
+  document.addEventListener("touchstart", (i) => {
+    i.target instanceof HTMLDialogElement && (i.preventDefault(), i.target.close());
   }, { passive: false });
   var c = class extends d {
     #t = [];
@@ -51,12 +51,12 @@
         console.warn("ot-tabs: Missing tab or tabpanel elements");
         return;
       }
-      this.#i = this.dataset.anchor, this.#t.forEach((n, a) => {
-        let r = this.#e[a];
-        r && (this.#s[a] = n.id || "", n.id ||= `ot-tab-${this.uid()}`, r.id ||= `ot-panel-${this.uid()}`, n.setAttribute("aria-controls", r.id), r.setAttribute("aria-labelledby", n.id));
+      this.#i = this.dataset.anchor, this.#t.forEach((n, o) => {
+        let a = this.#e[o];
+        a && (this.#s[o] = n.id || "", n.id ||= `ot-tab-${this.uid()}`, a.id ||= `ot-panel-${this.uid()}`, n.setAttribute("aria-controls", a.id), a.setAttribute("aria-labelledby", n.id));
       }), t.addEventListener("click", this), t.addEventListener("keydown", this), this.#i && window.addEventListener("hashchange", this);
-      let e = this.#t.findIndex((n) => n.ariaSelected === "true"), i = this.#a();
-      this.#n(Math.max(0, i >= 0 ? i : e), false);
+      let e = this.#t.findIndex((n) => n.ariaSelected === "true"), s = this.#a();
+      this.#n(Math.max(0, s >= 0 ? s : e), false);
     }
     cleanup() {
       window.removeEventListener("hashchange", this);
@@ -76,24 +76,24 @@
       t >= 0 && this.#n(t, false);
     }
     #n(t, e = true) {
-      this.#t.forEach((i, n) => {
-        let a = n === t;
-        i.ariaSelected = String(a), i.tabIndex = a ? 0 : -1;
-      }), this.#e.forEach((i, n) => i.hidden = n !== t), e && this.#r(t), this.emit("ot-tab-change", { index: t, tab: this.#t[t] });
+      this.#t.forEach((s, n) => {
+        let o = n === t;
+        s.ariaSelected = String(o), s.tabIndex = o ? 0 : -1;
+      }), this.#e.forEach((s, n) => s.hidden = n !== t), e && this.#o(t), this.emit("ot-tab-change", { index: t, tab: this.#t[t] });
     }
     #a() {
       let t = this.#i && new URLSearchParams(location.hash.slice(1)).get(this.#i);
       return t ? this.#s.indexOf(t) : -1;
     }
-    #r(t) {
+    #o(t) {
       if (!this.#i)
         return;
       let e = new URLSearchParams(location.hash.slice(1));
       e.set(this.#i, this.#s[t]);
-      for (let [n, a] of [...e])
-        a || e.delete(n);
-      let i = e.toString();
-      history.replaceState(null, "", i ? `#${i}` : location.pathname + location.search);
+      for (let [n, o] of [...e])
+        o || e.delete(n);
+      let s = e.toString();
+      history.replaceState(null, "", s ? `#${s}` : location.pathname + location.search);
     }
     get activeIndex() {
       return this.#t.findIndex((t) => t.ariaSelected === "true");
@@ -120,15 +120,15 @@
     onkeydown(t) {
       if (!t.target.matches('[role="menuitem"]'))
         return;
-      let e = this.#s.indexOf(t.target), i = this.keyNav(t, e, this.#s.length, "ArrowUp", "ArrowDown", true);
-      i >= 0 && this.#s[i].focus();
+      let e = this.#s.indexOf(t.target), s = this.keyNav(t, e, this.#s.length, "ArrowUp", "ArrowDown", true);
+      s >= 0 && this.#s[s].focus();
     }
     cleanup() {
       window.removeEventListener("scroll", this.#i, true), window.removeEventListener("resize", this.#i);
     }
   };
   customElements.define("ot-dropdown", u);
-  var f = class extends d {
+  var p = class extends d {
     #t;
     #e;
     #i;
@@ -144,7 +144,7 @@
         return;
       let e = t.target.closest("button");
       if (e && this.#e?.contains(e))
-        return this.#s([...this.#t.files].filter((i, n) => n !== [...this.#e.children].indexOf(e.parentElement)));
+        return this.#s([...this.#t.files].filter((s, n) => n !== [...this.#e.children].indexOf(e.parentElement)));
       t.target !== this.#t && this.#t.click();
     }
     ondragover(t) {
@@ -160,44 +160,55 @@
       if (!this.#e)
         return;
       let t = [...this.#t.files].map((e) => {
-        let i = document.createElement("span");
-        i.className = "badge", i.dataset.variant = "secondary", i.textContent = e.name;
+        let s = document.createElement("span");
+        s.className = "badge", s.dataset.variant = "secondary", s.textContent = e.name;
         let n = document.createElement("button");
-        return n.type = "button", n.ariaLabel = `Remove ${e.name}`, n.textContent = "×", i.append(n), i;
+        return n.type = "button", n.ariaLabel = `Remove ${e.name}`, n.textContent = "×", s.append(n), s;
       });
       this.#e.replaceChildren(...t.length ? t : this.#i);
     }
     #s(t) {
       let e = new DataTransfer;
-      t.forEach((i) => e.items.add(i)), this.#t.files = e.files, this.#t.dispatchEvent(new Event("change", { bubbles: true }));
+      t.forEach((s) => e.items.add(s)), this.#t.files = e.files, this.#t.dispatchEvent(new Event("change", { bubbles: true }));
     }
   };
-  customElements.define("ot-upload", f);
-  document.addEventListener("DOMContentLoaded", () => {
-    let s = "title", t = "[title]", e = (i) => {
-      let n = i.getAttribute(s);
-      n && (i.setAttribute("data-tooltip", n), i.hasAttribute("aria-label") || i.setAttribute("aria-label", n), i.removeAttribute(s));
+  customElements.define("ot-upload", p);
+  if ("showPopover" in HTMLElement.prototype) {
+    let i = document.createElement("span");
+    i.className = "ot-tooltip", i.popover = "manual", i.ariaHidden = "true";
+    let t, e = () => {
+      t && i.hidePopover(), t = null;
+    }, s = (n) => {
+      let a = (n.type.endsWith("out") ? n.relatedTarget : n.target)?.closest?.("[title], [data-tooltip]");
+      if (!a && t?.matches(":hover, :focus-visible") || a === t || (e(), !a))
+        return;
+      let r = a.getAttribute("title");
+      if (r && (a.dataset.tooltip = r, a.hasAttribute("aria-label") || a.setAttribute("aria-label", r), a.removeAttribute("title")), !a.dataset.tooltip)
+        return;
+      t = a;
+      let l = a.getBoundingClientRect();
+      for (let g of ["left", "top", "width", "height"])
+        i.style[g] = `${l[g]}px`;
+      i.dataset.tooltip = a.dataset.tooltip, i.dataset.tooltipPlacement = a.dataset.tooltipPlacement || "top", a.after(i), i.showPopover();
     };
-    document.querySelectorAll(t).forEach(e), new MutationObserver((i) => {
-      for (let n of i) {
-        e(n.target);
-        for (let a of n.addedNodes)
-          a.nodeType === 1 && (e(a), a.querySelectorAll(t).forEach(e));
-      }
-    }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: [s] });
-  });
-  document.addEventListener("click", (s) => {
-    let t = s.target.closest("[data-sidebar-toggle]");
+    for (let n of ["mouseover", "mouseout", "focusin", "focusout"])
+      document.addEventListener(n, s);
+    document.addEventListener("keydown", (n) => {
+      n.key === "Escape" && e();
+    }), window.addEventListener("scroll", e, true), window.addEventListener("resize", e);
+  }
+  document.addEventListener("click", (i) => {
+    let t = i.target.closest("[data-sidebar-toggle]");
     if (t) {
       t.closest("[data-sidebar-layout]")?.toggleAttribute("data-sidebar-open");
       return;
     }
-    if (!s.target.closest("[data-sidebar]")) {
+    if (!i.target.closest("[data-sidebar]")) {
       let e = document.querySelector("[data-sidebar-layout][data-sidebar-open]");
       e && window.matchMedia("(max-width: 768px)").matches && e.removeAttribute("data-sidebar-open");
     }
   });
-  var b = (s) => document.createElement(s), g = (s) => String(s).trim(), p = class extends d {
+  var v = (i) => document.createElement(i), b = (i) => String(i).trim(), f = class extends d {
     static observedAttributes = ["disabled"];
     #t = new WeakMap;
     init() {
@@ -205,11 +216,11 @@
         return;
       this.input.readOnly || (this.input.addEventListener("keydown", this), this.input.addEventListener("input", (e) => {
         e.stopPropagation();
-        let i = this.input.value, n = this.input.list, a = n && (e.inputType === "insertReplacementText" || i.length - (this.prev || "").length > 1);
-        if (this.prev = i, a) {
-          let r = [...n.options].find((o) => o.value === i);
-          if (r)
-            return requestAnimationFrame(() => this.add(r.data ?? i));
+        let s = this.input.value, n = this.input.list, o = n && (e.inputType === "insertReplacementText" || s.length - (this.prev || "").length > 1);
+        if (this.prev = s, o) {
+          let a = [...n.options].find((r) => r.value === s);
+          if (a)
+            return requestAnimationFrame(() => this.add(a.data ?? s));
         }
       }), this.input.addEventListener("change", (e) => e.stopPropagation()), this.input.addEventListener("focus", this), this.addEventListener("click", this));
       let t = this.getAttribute("value");
@@ -243,15 +254,15 @@
       e ? this.remove(e.parentElement) : this.input.focus();
     }
     add(t, e) {
-      let i = g(t);
-      if (!i || this.value.some((a) => g(a) === i))
+      let s = b(t);
+      if (!s || this.value.some((o) => b(o) === s))
         return;
-      let n = b("span");
-      if (n.className = "badge", n.dataset.variant = "secondary", n.textContent = i, t && typeof t == "object" && this.#t.set(n, t), this.input.readOnly)
+      let n = v("span");
+      if (n.className = "badge", n.dataset.variant = "secondary", n.textContent = s, t && typeof t == "object" && this.#t.set(n, t), this.input.readOnly)
         this.insertBefore(n, this.input);
       else {
-        let a = b("button");
-        a.type = "button", a.ariaLabel = `Remove ${i}`, a.textContent = "×", n.appendChild(a), this.insertBefore(n, this.input), this.input.value = this.prev = "", this.input.list?.replaceChildren();
+        let o = v("button");
+        o.type = "button", o.ariaLabel = `Remove ${s}`, o.textContent = "×", n.appendChild(o), this.insertBefore(n, this.input), this.input.value = this.prev = "", this.input.list?.replaceChildren();
       }
       e || this.emit("input", this.value);
     }
@@ -263,65 +274,65 @@
     }
     set value(t) {
       this.input ??= this.querySelector("input"), this.querySelectorAll(".badge").forEach((e) => e.remove()), (Array.isArray(t) ? t : []).forEach((e) => {
-        typeof e == "string" ? e.split(",").forEach((i) => this.add(i, true)) : this.add(e, true);
+        typeof e == "string" ? e.split(",").forEach((s) => this.add(s, true)) : this.add(e, true);
       });
     }
   };
-  customElements.define("ot-taginput", p);
+  customElements.define("ot-taginput", f);
   var h = {};
-  function A(s) {
-    if (!h[s]) {
+  function A(i) {
+    if (!h[i]) {
       let t = document.createElement("div");
-      t.className = "toast-container", t.setAttribute("popover", "manual"), t.setAttribute("data-placement", s), document.body.appendChild(t), h[s] = t;
+      t.className = "toast-container", t.setAttribute("popover", "manual"), t.setAttribute("data-placement", i), document.body.appendChild(t), h[i] = t;
     }
-    return h[s];
+    return h[i];
   }
-  function v(s, t = {}) {
-    let { placement: e = "top-right", duration: i = 4000 } = t, n = A(e);
-    s.classList.add("toast");
-    let a, r = () => {
-      i > 0 && (a = setTimeout(() => x(s, n), i));
+  function E(i, t = {}) {
+    let { placement: e = "top-right", duration: s = 4000 } = t, n = A(e);
+    i.classList.add("toast");
+    let o, a = () => {
+      s > 0 && (o = setTimeout(() => L(i, n), s));
     };
-    return s.onmouseenter = () => clearTimeout(a), s.onmouseleave = r, s.setAttribute("data-entering", ""), n.appendChild(s), n.showPopover(), requestAnimationFrame(() => {
+    return i.onmouseenter = () => clearTimeout(o), i.onmouseleave = a, i.setAttribute("data-entering", ""), n.appendChild(i), n.showPopover(), requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        s.removeAttribute("data-entering");
+        i.removeAttribute("data-entering");
       });
-    }), r(), s;
+    }), a(), i;
   }
-  function x(s, t) {
-    if (s.hasAttribute("data-exiting"))
+  function L(i, t) {
+    if (i.hasAttribute("data-exiting"))
       return;
-    s.setAttribute("data-exiting", "");
+    i.setAttribute("data-exiting", "");
     let e = () => {
-      s.remove(), t.children.length || t.hidePopover();
+      i.remove(), t.children.length || t.hidePopover();
     };
-    s.addEventListener("transitionend", e, { once: true });
-    let i = getComputedStyle(s).getPropertyValue("--transition").trim(), n = parseFloat(i), a = i.endsWith("ms") ? n : n * 1000;
-    setTimeout(e, a);
+    i.addEventListener("transitionend", e, { once: true });
+    let s = getComputedStyle(i).getPropertyValue("--transition").trim(), n = parseFloat(s), o = s.endsWith("ms") ? n : n * 1000;
+    setTimeout(e, o);
   }
-  function E(s, t, e = {}) {
-    let { variant: i = "info", ...n } = e, a = document.createElement("output");
-    if (a.setAttribute("data-variant", i), t) {
-      let o = document.createElement("h6");
-      o.className = "toast-title", o.textContent = t, a.appendChild(o);
+  function y(i, t, e = {}) {
+    let { variant: s = "info", ...n } = e, o = document.createElement("output");
+    if (o.setAttribute("data-variant", s), t) {
+      let r = document.createElement("h6");
+      r.className = "toast-title", r.textContent = t, o.appendChild(r);
     }
-    let r = document.createElement("div");
-    return r.className = "toast-message", r.textContent = s, a.appendChild(r), v(a, n);
+    let a = document.createElement("div");
+    return a.className = "toast-message", a.textContent = i, o.appendChild(a), E(o, n);
   }
-  function y(s, t = {}) {
+  function w(i, t = {}) {
     let e;
-    if (s instanceof HTMLTemplateElement ? e = s.content.firstElementChild?.cloneNode(true) : s && (e = s.cloneNode(true)), !!e)
-      return e.removeAttribute("id"), v(e, t);
+    if (i instanceof HTMLTemplateElement ? e = i.content.firstElementChild?.cloneNode(true) : i && (e = i.cloneNode(true)), !!e)
+      return e.removeAttribute("id"), E(e, t);
   }
-  function w(s) {
-    (s ? [h[s]] : Object.values(h)).forEach((t) => {
+  function x(i) {
+    (i ? [h[i]] : Object.values(h)).forEach((t) => {
       t && (t.innerHTML = "", t.hidePopover());
     });
   }
   var m = window.ot || (window.ot = {});
-  m.toast = E;
-  m.toast.el = y;
-  m.toast.clear = w;
+  m.toast = y;
+  m.toast.el = w;
+  m.toast.clear = x;
 })();
 
 // src/js/base.js
