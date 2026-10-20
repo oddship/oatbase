@@ -59,11 +59,14 @@
     cancelAnimationFrame(frame);
     if (event.newState !== "open") {
       cancelClose();
+      event.target.style.removeProperty("animation-name");
       active = trigger = null;
       return;
     }
-    if (active !== event.target || trigger !== event.target.previousElementSibling)
+    if (active !== event.target || trigger !== event.target.previousElementSibling) {
       cancelClose();
+      event.target.style.removeProperty("animation-name");
+    }
     active = event.target;
     trigger = active.previousElementSibling;
     const tip = active, target = trigger;
@@ -77,6 +80,8 @@
       const fromTrigger = trigger?.contains(event.target);
       if (!onTip && !fromTrigger)
         return;
+      if (onTip)
+        active.style.animationName = "none";
       if (type === "mouseover")
         cancelClose();
       else

@@ -511,6 +511,7 @@ test('Oat popover tooltip is hoverable, viewport-safe, and dismissible with Esca
   await page.mouse.move(point.x, point.y);
   await page.waitForTimeout(250);
   await expect(tip).toBeVisible();
+  expect(await tip.evaluate(element => getComputedStyle(element).opacity)).toBe('1');
   await trigger.evaluate(element => {
     window.tooltipExits = [];
     const record = event => {

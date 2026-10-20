@@ -48,8 +48,8 @@ function preserve(tip, target) {
 document.addEventListener('toggle', event => {
   if (!event.target.matches?.(selector)) return;
   cancelAnimationFrame(frame);
-  if (event.newState !== 'open') { cancelClose(); active = trigger = null; return; }
-  if (active !== event.target || trigger !== event.target.previousElementSibling) cancelClose();
+  if (event.newState !== 'open') { cancelClose(); event.target.style.removeProperty('animation-name'); active = trigger = null; return; }
+  if (active !== event.target || trigger !== event.target.previousElementSibling) { cancelClose(); event.target.style.removeProperty('animation-name'); }
   active = event.target;
   trigger = active.previousElementSibling;
   const tip = active, target = trigger;
@@ -61,6 +61,8 @@ for (const type of ['mouseover', 'mouseout']) window.addEventListener(type, even
   const onTip = event.target.closest?.(selector) === active;
   const fromTrigger = trigger?.contains(event.target);
   if (!onTip && !fromTrigger) return;
+  // Retaining a hovered tooltip must not restart Oat's initial display delay.
+  if (onTip) active.style.animationName = 'none';
   if (type === 'mouseover') cancelClose();
   else deferClose(active, trigger);
   preserve(active, trigger);
