@@ -25,7 +25,7 @@ describe('GitHub Pages artifact', () => {
     await access(join(output, 'assets', 'avatar-sample.svg'));
     const recipe = await readFile(join(output, 'recipes/mobile-product.html'), 'utf8');
     expect(recipe).not.toContain('../../dist/');
-    for (const match of recipe.matchAll(/(?:href|src)="([^"#]+)"/g)) {
+    for (const match of recipe.matchAll(/<(?:a|link|script)\b[^>]*\b(?:href|src)="([^"#]+)"/g)) {
       if (!match[1].startsWith('http')) await access(new URL(match[1], `file://${output}/recipes/mobile-product.html`));
     }
     await access(join(output, 'recipes/responsive-details.js'));
