@@ -100,3 +100,29 @@ test('touch does not leave a supplementary tooltip painted over the product', as
   expect(await tip.evaluate(element => element.matches(':popover-open'))).toBe(false);
   await context.close();
 });
+
+for (const attribute of ['data-tooltip', 'title']) {
+  test(`keyboard focus inside a ${attribute} wrapper retains its tooltip on touch devices`, async ({ browser }) => {
+    const context = await browser.newContext({ hasTouch: true, viewport: { width: 390, height: 844 } });
+    const page = await context.newPage();
+    await page.goto(`http://127.0.0.1:43127${recipe}`);
+    await page.locator('main').evaluate((main, attribute) => {
+      const wrapper = document.createElement('span');
+      wrapper.setAttribute(attribute, 'Supplementary wrapper hint');
+      wrapper.innerHTML = '<button type="button"><span>Wrapped action</span></button>';
+      main.prepend(wrapper);
+    }, attribute);
+    const button = page.getByRole('button', { name: 'Wrapped action' });
+    await button.tap();
+    const tip = page.locator('.ot-tooltip');
+    await expect(tip).toHaveCSS('visibility', 'hidden');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Shift+Tab');
+    await expect(button).toBeFocused();
+    await expect(tip).toHaveAttribute('data-tooltip', 'Supplementary wrapper hint');
+    await expect(tip).toHaveCSS('visibility', 'visible');
+    await page.keyboard.press('Escape');
+    expect(await tip.evaluate(element => element.matches(':popover-open'))).toBe(false);
+    await context.close();
+  });
+}
