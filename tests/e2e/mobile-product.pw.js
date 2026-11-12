@@ -8,7 +8,10 @@ test('compact recipe contains long content and touch targets at narrow widths', 
     await page.goto(recipe);
     const overflow = await page.locator('main').evaluate(root => [...root.querySelectorAll('*')].filter(element => {
       const rect = element.getBoundingClientRect();
-      return rect.width && rect.height && (rect.left < -1 || rect.right > innerWidth + 1 || element.scrollWidth > element.clientWidth + 1);
+      // Firefox exposes zero clientWidth for inline text despite a nonzero
+      // scrollWidth. Check those fragments against viewport bounds instead.
+      const scrolls = element.clientWidth > 0 && element.scrollWidth > element.clientWidth + 1;
+      return rect.width && rect.height && (rect.left < -1 || rect.right > innerWidth + 1 || scrolls);
     }).map(element => `${element.tagName}.${element.className}: ${element.clientWidth}/${element.scrollWidth} ${element.getBoundingClientRect().left}-${element.getBoundingClientRect().right}`));
     expect(overflow).toEqual([]);
     const targets = await page.locator('main :is(button, a.item, input, select, summary):visible').evaluateAll(elements => elements.map(element => element.getBoundingClientRect().height));
