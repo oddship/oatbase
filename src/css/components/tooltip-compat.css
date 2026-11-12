@@ -12,4 +12,11 @@
 
   .ot-tooltip::before,
   .ot-tooltip::after { pointer-events: auto; }
+  /* Touch synthesizes mouseover; don't paint a sticky hover hint after a tap.
+     Keep hints available when a keyboard focuses the trigger or its descendants. */
+  @media (hover: none) {
+    :is([data-tooltip], [title]):not(:focus-visible, :has(:focus-visible)) + .ot-tooltip {
+      visibility: hidden;
+    }
+  }
 }

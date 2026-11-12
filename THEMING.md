@@ -120,3 +120,16 @@ Density is a scoped remapping of Oat’s spacing scale, not a component variant.
 ```
 
 Keep touch targets and form usability intact when reducing density.
+
+The [compact product recipe](docs/recipes/mobile-product.html) extends this mapping
+with dense Item rows, native forms, and Toolbar controls. Copy its
+[scoped CSS](docs/recipes/compact.css), then apply `data-product-compact` to the
+region. It preserves 2.75rem action targets (44px at a 16px root), 1rem input text,
+wrapping toolbar labels, and shrinkable content. Density reduces surrounding
+space, not the reading or interaction area. Check computed target sizes after
+application overrides; avoid globally shrinking every control.
+
+Use `minmax(0, 1fr)` for application grid tracks and `min-inline-size: 0` for
+shrinkable children. Test long unbroken identifiers and each visible descendant,
+not just the document scroll width. Responsive secondary context can use the
+recipe's native details initializer; warnings and approvals remain visible.

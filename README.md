@@ -358,6 +358,10 @@ The Playwright harness verifies no-JavaScript fallbacks, keyboard and focus beha
 
 Open `docs/index.html` after building to use the interactive documentation site. It includes routed component pages, live Preview/Code tabs, copyable examples, navigation search, a command palette, responsive mobile navigation, and theme switching without a documentation framework.
 
+## Product integration recipes
+
+See the [compact product UI recipe](docs/recipes/mobile-product.html), [density guidance](THEMING.md#density), and [React / Next.js integration guide](INTEGRATIONS.md). These compose native HTML and existing primitives without adding runtime dependencies to Oatbase.
+
 ## License
 
 MIT. Oatbase is an independent extension and is not affiliated with Basecoat or Oat.

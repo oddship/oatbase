@@ -7,14 +7,14 @@
   <title>Oatbase — extensions for Oat UI</title>
   <link rel="stylesheet" href="../dist/oatbase.css?v=0.1.0-oat1">
   <link rel="stylesheet" href="../dist/patterns.css?v=0.1.0-oat1">
-  <link rel="stylesheet" href="../dist/tooltip-compat.css?v=0.1.0-oat1">
+  <link rel="stylesheet" href="../dist/tooltip-compat.css?v=0.1.0-mobile">
   <link rel="stylesheet" href="../dist/themes.css?v=0.1.0-oat1">
   <link rel="stylesheet" href="./docs.css?v=0.1.0-oat1">
   <script>try{const preset=localStorage.getItem('oatbase-preset');const mode=localStorage.getItem('oatbase-theme');if(preset)document.documentElement.dataset.oatTheme=preset;if(['system','light','dark'].includes(mode)){document.documentElement.style.colorScheme=mode==='system'?'light dark':mode;if(mode==='system')document.documentElement.removeAttribute('data-theme');else document.documentElement.dataset.theme=mode}}catch{}</script>
   <script src="../dist/oatbase.js?v=0.1.0-oat1" defer></script>
   <script src="../dist/patterns.js?v=0.1.0-oat1" defer></script>
   <script src="../dist/tooltip-compat.js?v=0.1.0-oat1" defer></script>
-  <script src="./components.js?v=0.1.0-oat1" defer></script>
+  <script src="./components.js?v=0.1.0-mobile" defer></script>
   <script src="./examples.js?v=0.1.0-oat1" defer></script>
   <script src="./docs.js?v=0.1.0-oat1" defer></script>
 </head>
@@ -226,6 +226,7 @@
       <article class="docs-page" data-page="/recipes" data-title="Recipes" hidden>
         <header><span class="docs-eyebrow">Compositions</span><h1>Recipes</h1><p class="docs-lead">Application patterns composed from Oat and Oatbase components. Recipes show ownership boundaries without growing the component bundle.</p></header>
         <aside data-callout><strong>Copyable compositions:</strong> these snippets assume the complete Oatbase bundle from the installation guide. Follow the linked component pages when using individual imports. Fetching, validation, permissions, persistence, and mutations stay in application code.</aside>
+        <section class="docs-section"><h2>Mobile product UI</h2><p><a href="./recipes/mobile-product.html">Compact lists, forms, toolbars, and responsive native disclosures</a> preserve touch targets and keep secondary context accessible. See the <a href="https://github.com/oddship/oatbase/blob/main/INTEGRATIONS.md">React / Next.js integration guide</a> for CSS-only ownership and production verification.</p></section>
         <section class="docs-section"><h2 id="data-recipes">Data management</h2><div class="row gap-2 docs-component-grid">
           <article class="card col-6"><header><h3>Filter toolbar</h3><p>Compose an Oat field, <a href="#/components/toolbar">Toolbar</a>, and <a href="#/components/data-table">Data Table</a>. Filtering coordinates rows already in the document.</p></header><details><summary>HTML</summary><ot-copy class="vstack"><pre data-code data-code-kind="html" data-copy-source><code>&lt;ot-data-table&gt;
   &lt;div data-table-toolbar&gt;

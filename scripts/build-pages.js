@@ -15,7 +15,7 @@ export async function buildPages(outputPath = resolve(root, '_site')) {
   await cp(resolve(root, 'docs'), output, { recursive: true });
   await cp(resolve(root, 'dist'), resolve(output, 'dist'), { recursive: true });
 
-  for (const relativePath of ['index.html', 'examples.js']) {
+  for (const relativePath of ['index.html', 'examples.js', 'recipes/mobile-product.html']) {
     const path = resolve(output, relativePath);
     const source = await readFile(path, 'utf8');
     await writeFile(path, source.replaceAll('../dist/', './dist/'));

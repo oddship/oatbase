@@ -14,4 +14,18 @@
   .ot-tooltip:before, .ot-tooltip:after {
     pointer-events: auto;
   }
+
+  @media (hover: none) {
+    :-webkit-any([data-tooltip], [title]):not(:-webkit-any(:focus-visible, :has(:focus-visible))) + .ot-tooltip {
+      visibility: hidden;
+    }
+
+    :-moz-any([data-tooltip], [title]):not(:-moz-any(:focus-visible, :has(:focus-visible))) + .ot-tooltip {
+      visibility: hidden;
+    }
+
+    :is([data-tooltip], [title]):not(:is(:focus-visible, :has(:focus-visible))) + .ot-tooltip {
+      visibility: hidden;
+    }
+  }
 }

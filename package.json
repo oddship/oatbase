@@ -33,6 +33,7 @@
     "src/",
     "README.md",
     "THEMING.md",
+    "INTEGRATIONS.md",
     "THIRD_PARTY_NOTICES.md",
     "LICENSE",
     "components.json",

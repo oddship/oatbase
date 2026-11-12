@@ -1,0 +1,24 @@
+/* Application recipe; load after Oatbase, without wrapping its layers. */
+@layer product {
+  [data-product-compact] {
+    --space-1: 0.1875rem;
+    --space-2: 0.375rem;
+    --space-3: 0.5625rem;
+    --space-4: 0.75rem;
+  }
+  [data-product-compact] :is(button, .button, input:not([type="checkbox"]):not([type="radio"]), select, summary, a.item) {
+    min-block-size: 2.75rem;
+  }
+  [data-product-compact] :is(button, .button) {
+    min-inline-size: 2.75rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  [data-product-compact] :is(input, select, textarea) { font-size: 1rem; }
+  [data-product-compact] :is(.item, ot-toolbar) { flex-wrap: wrap; }
+  [data-product-compact] :is(.item, ot-toolbar, input, select, textarea) { max-inline-size: 100%; }
+  [data-product-compact] :is(.item > *, ot-toolbar > *, [data-field]) { min-inline-size: 0; }
+  [data-product-compact] .item-group { grid-template-columns: minmax(0, 1fr); }
+  [data-product-compact] .item { overflow-wrap: anywhere; }
+  [data-product-compact] .item [data-slot="meta"] { white-space: normal; }
+}

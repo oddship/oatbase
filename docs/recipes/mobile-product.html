@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compact product UI recipes · Oatbase</title>
+  <link rel="stylesheet" href="../../dist/oatbase.css">
+  <link rel="stylesheet" href="../../dist/tooltip-compat.css">
+  <link rel="stylesheet" href="./compact.css">
+  <style>@layer product { body { margin: 0; padding: var(--space-4); } main { max-inline-size: 48rem; margin-inline: auto; } pre { white-space: pre-wrap; overflow-wrap: anywhere; } }</style>
+  <script type="module" src="../../dist/oatbase.esm.js"></script>
+  <script type="module" src="../../dist/tooltip-compat.esm.js"></script>
+</head>
+<body>
+<main data-product-compact>
+  <a href="../index.html#/recipes">Oatbase recipes</a>
+  <h1>Compact product UI</h1>
+  <p>Compose <a href="../index.html#/components/item">Item</a>, <a href="../index.html#/components/toolbar">Toolbar</a>, Oat fields, and native disclosures. These are synthetic project records. Applications own filtering, saving, permissions, and persistence.</p>
+  <aside data-callout data-variant="warning"><strong>Review required.</strong> Warnings, approval scope, and primary content stay visible outside secondary disclosures.</aside>
+  <section aria-labelledby="projects-title">
+    <h2 id="projects-title">Projects</h2>
+    <ot-toolbar aria-label="Project actions" data-full>
+      <button type="button" data-tooltip="Create a new project in this workspace">New project</button>
+      <button type="button" class="outline">Export selected project records</button>
+      <button type="button" class="outline">Refresh</button>
+    </ot-toolbar>
+    <ul class="item-group" data-divided>
+      <li><a class="item" href="#project"><section><h3>Community garden accessibility improvements and maintenance planning</h3><p>project-with-a-deliberately-long-unbroken-identifier-abcdefghijklmnopqrstuvwxyz0123456789</p></section><span data-slot="meta">Ready for review</span></a></li>
+      <li><a class="item" href="#project"><section><h3>Library workshop</h3><p>Two tasks remaining</p></section><span data-slot="meta">In progress</span></a></li>
+    </ul>
+  </section>
+  <section id="project" aria-labelledby="settings-title">
+    <h2 id="settings-title">Project settings</h2>
+    <form action="#project" method="get">
+      <label data-field>Project name including a long descriptive label<input name="project" value="Community garden"></label>
+      <label data-field>Visibility<select name="visibility"><option>Workspace members</option><option>Only me</option></select></label>
+      <button type="submit">Save settings</button>
+    </form>
+    <details data-responsive-details>
+      <summary>Secondary project context</summary>
+      <div><p>Planning notes and completed steps belong here. The same content stays accessible without JavaScript.</p><a href="#settings-title">Return to settings</a></div>
+    </details>
+  </section>
+  <section aria-labelledby="copy-title">
+    <h2 id="copy-title">Use this recipe</h2>
+    <p>Copy the <a href="./compact.css">scoped CSS</a> and apply <code>data-product-compact</code> to the task region. It remaps Oat spacing, wraps long content, and keeps action targets at 2.75rem (44px with a 16px root). Keep icon-only actions named. Measure actual targets after consumer overrides and zoom; avoid shrinking all controls globally.</p>
+    <ot-copy><pre data-copy-source><code>&lt;!-- Load Oatbase CSS, compact.css, and the focused toolbar enhancer. --&gt;
+&lt;section data-product-compact&gt;
+  &lt;ot-toolbar aria-label="Project actions"&gt;
+    &lt;button type="button"&gt;New project&lt;/button&gt;
+    &lt;button type="button" class="outline"&gt;Refresh&lt;/button&gt;
+  &lt;/ot-toolbar&gt;
+  &lt;ul class="item-group" data-divided&gt;
+    &lt;li&gt;&lt;a class="item" href="/projects/garden"&gt;
+      &lt;section&gt;&lt;h3&gt;Community garden&lt;/h3&gt;&lt;p&gt;Planning notes&lt;/p&gt;&lt;/section&gt;
+      &lt;span data-slot="meta"&gt;Ready for review&lt;/span&gt;
+    &lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;form action="/projects/garden" method="post"&gt;
+    &lt;label data-field&gt;Project name&lt;input name="name" required&gt;&lt;/label&gt;
+    &lt;button type="submit"&gt;Save settings&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/section&gt;</code></pre><button type="button" class="outline" data-copy-button>Copy compact composition</button></ot-copy>
+    <p>Copy the <a href="./responsive-details.js">opt-in initializer</a>. Start with a closed native disclosure and a direct summary; no-JS users can open it. The initializer expands at 48rem. User toggles persist within a breakpoint; crossing it reapplies the viewport default. Before collapsing, focus returns to the summary if content inside has focus. Summary stays visible at every width.</p>
+    <ot-copy><pre data-copy-source><code>&lt;details id="context"&gt;
+  &lt;summary&gt;Secondary context&lt;/summary&gt;
+  &lt;p&gt;Supporting information&lt;/p&gt;
+&lt;/details&gt;
+&lt;script type="module"&gt;
+  import { responsiveDetails } from './responsive-details.js';
+  const cleanup = responsiveDetails(document.querySelector('#context'));
+  // Call cleanup() before removing the region in a client-side app.
+&lt;/script&gt;</code></pre><button type="button" class="outline" data-copy-button>Copy disclosure example</button></ot-copy>
+    <p>Do not use secondary disclosures to hide warnings, approvals, failed outcomes, or content needed for a primary task. No state is persisted. Initialize each element once; the recipe adds one media-query listener per initialized disclosure and none to the library aggregates.</p>
+    <p>Use Oat’s tooltip and optional tooltip compatibility for supplementary desktop hints. The compatibility CSS suppresses hover hints after touch taps and retains them for keyboard focus. Touch users need visible labels and help text; a tooltip must never be the only way to understand an action.</p>
+  </section>
+</main>
+<script type="module">
+  import { responsiveDetails } from './responsive-details.js';
+  for (const details of document.querySelectorAll('[data-responsive-details]')) responsiveDetails(details);
+</script>
+</body>
+</html>

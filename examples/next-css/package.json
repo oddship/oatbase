@@ -1,0 +1,15 @@
+{
+  "name": "oatbase-next-css-fixture",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "stage": "node stage.mjs",
+    "build": "npm run stage && next build --webpack && node check-built-css.mjs",
+    "start": "next start --hostname 127.0.0.1 --port 43128"
+  },
+  "dependencies": {
+    "next": "16.4.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  }
+}
