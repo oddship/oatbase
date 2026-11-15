@@ -661,7 +661,7 @@ footnotes.refresh();`,
   },
   {
     slug: 'prose', name: 'Prose', source: 'Oatbase', js: false,
-    description: 'Readable long-form content that preserves native document structure.',
+    description: 'Readable long-form content that preserves native document structure and wraps long links within the reading measure.',
     markup: `<article data-prose><h2>Native documents first</h2><p>Prose supplies a measured reading width and consistent flow spacing without changing the meaning of headings, lists, quotes, figures, or tables.</p><blockquote><p>The document remains the interface.</p></blockquote><h3>Useful defaults</h3><ul><li>Responsive media</li><li>Readable list rhythm</li><li>Token-driven spacing</li></ul></article>`
   }
 ];

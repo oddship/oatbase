@@ -2,7 +2,9 @@
 @layer components {
   [data-prose] {
     max-inline-size: var(--oatbase-prose-width, 68ch);
+    overflow-wrap: anywhere;
     color: var(--foreground);
+    min-inline-size: 0;
   }
 
   [data-prose] > :first-child {

@@ -2,6 +2,8 @@
 @layer components {
   [data-description-list] {
     display: grid;
+    overflow-wrap: anywhere;
+    min-inline-size: 0;
     margin: 0;
   }
 

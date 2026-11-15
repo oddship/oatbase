@@ -1,5 +1,5 @@
 @layer components {
-  [data-prose] { max-inline-size: var(--oatbase-prose-width, 68ch); color: var(--foreground); }
+  [data-prose] { max-inline-size: var(--oatbase-prose-width, 68ch); min-inline-size: 0; overflow-wrap: anywhere; color: var(--foreground); }
   [data-prose] > :first-child { margin-block-start: 0; }
   [data-prose] > :last-child { margin-block-end: 0; }
   [data-prose] :where(p, ul, ol, dl, blockquote, pre, table, figure) { margin-block: var(--space-4); }
