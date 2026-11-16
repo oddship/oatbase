@@ -58,17 +58,17 @@ Tag that exact tested commit and push the tag. For example, the next release aft
 the local bootstrap is:
 
 ```sh
-git tag -a v0.2.1 <tested-main-commit> -m 'Release v0.2.1'
-git push origin v0.2.1
+git tag -a v0.3.0 <tested-main-commit> -m 'Release v0.3.0'
+git push origin v0.3.0
 ```
 
-The package metadata must also be `0.2.1`; the workflow rejects mismatches. Do not
+The package metadata must also be `0.3.0`; the workflow rejects mismatches. Do not
 reuse or move published tags. To retry a run, select its existing tag in a manual
 workflow dispatch using that tag as both the workflow ref and the version input.
 For example:
 
 ```sh
-gh workflow run publish-npm.yml --repo oddship/oatbase --ref v0.2.1 -f version=v0.2.1 -f dry_run=false
+gh workflow run publish-npm.yml --repo oddship/oatbase --ref v0.3.0 -f version=v0.3.0 -f dry_run=false
 ```
 
 The workflow rejects publication if its workflow revision differs from the

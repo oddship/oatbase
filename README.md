@@ -84,7 +84,7 @@ Date Picker, Direction, Navigation Menu, and Separator are documented native rec
 
 ## Install
 
-> **Release status:** Version 0.2.0 is prepared for publication as `@oddship/oatbase`. If your selected version has not been published, use a source checkout. The [release guide](https://github.com/oddship/oatbase/blob/main/docs/maintainers/releases.md) covers the local bootstrap and tokenless GitHub Actions publishing.
+> **Release status:** Version 0.3.0 is prepared for publication as `@oddship/oatbase`. If your selected version has not been published, use a source checkout. The [release guide](https://github.com/oddship/oatbase/blob/main/docs/maintainers/releases.md) covers the local bootstrap and tokenless GitHub Actions publishing.
 
 Enter the checked-in Nix development shell, or install Bun, Node.js/npm, and GNU Make. Then build the distribution from the Oatbase directory:
 
@@ -118,7 +118,7 @@ cp -R ../oatbase/dist ./public/vendor/oatbase
 
 CSS-only applications can use `@oddship/oatbase/css` without loading JavaScript. For an application that already loads Oat, `@oddship/oatbase/extensions.css` and `@oddship/oatbase/extensions` provide the extension-only aggregates. Every Oatbase addition also has an independent entry point, such as `@oddship/oatbase/chart.css`, `@oddship/oatbase/drawer.css`, or `@oddship/oatbase/select` plus `@oddship/oatbase/select.css`.
 
-Oatbase bundles Oat 1.0.0. The v0.2.0 complete Oat-inclusive browser payload is 30.1 kB gzipped, and the extension-only aggregate is 19.9 kB gzipped. Individual entry points and `components.json` support selective application bundles; `examples/esgun/` demonstrates that path without making EsGun a library dependency.
+Oatbase bundles Oat 1.0.0. The v0.3.0 complete Oat-inclusive browser payload is 30.1 kB gzipped, and the extension-only aggregate is 19.9 kB gzipped. Individual entry points and `components.json` support selective application bundles; `examples/esgun/` demonstrates that path without making EsGun a library dependency.
 
 The Flowctl audit added only the reusable boundaries: Repeater coordinates repeated native fields, Log Viewer coordinates a semantic live log, Combobox can create native options, and Stepper has a compact status track. Page headers, validation summaries, action rails, schedule forms, and workflow workspaces remain recipes or blocks. CodeMirror, graph layout, cron/timezone conversion, ANSI parsing, streaming, and virtualization remain application or specialist-library concerns.
 
@@ -401,9 +401,9 @@ uploads its exact npm tarball, and publishes it through npm trusted publishing.
 Manual runs default to a dry run; `main` can be used to prepare the first package
 artifact before any tag is created. See the [maintainer release guide](https://github.com/oddship/oatbase/blob/main/docs/maintainers/releases.md).
 
-Once the selected version is published, install it with `npm install @oddship/oatbase@0.2.0`, or load its browser files through unpkg or jsDelivr. Both
+Once the selected version is published, install it with `npm install @oddship/oatbase@0.3.0`, or load its browser files through unpkg or jsDelivr. Both
 CDNs serve the public npm package without a separate upload. Versioned URLs such
-as `https://unpkg.com/@oddship/oatbase@0.2.0/dist/oatbase.min.css` become usable only
+as `https://unpkg.com/@oddship/oatbase@0.3.0/dist/oatbase.min.css` become usable only
 after that version is published. The complete bundle already includes Oat.
 
 ## Lightweight foundation
@@ -419,5 +419,5 @@ and `icon.css` on a prompt page. No bundler or tree shaking is required.
 
 Browser files are `dist/foundation.min.css` and `dist/foundation.min.js`;
 `dist/foundation.esm.js` is available for ESM consumers. These entry points are
-available in source builds now and will be included in the next npm release.
+included in Oatbase 0.3.0 and later.
 Existing complete and extension-only entry points retain their behavior.

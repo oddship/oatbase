@@ -120,5 +120,5 @@ and `icon.css` on a prompt page. No bundler or tree shaking is required.
 
 Browser files are `dist/foundation.min.css` and `dist/foundation.min.js`;
 `dist/foundation.esm.js` is available for ESM consumers. These entry points are
-available in source builds now and will be included in the next npm release.
+included in Oatbase 0.3.0 and later.
 Existing complete and extension-only entry points retain their behavior.
