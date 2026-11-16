@@ -64,7 +64,16 @@ git push origin v0.2.1
 
 The package metadata must also be `0.2.1`; the workflow rejects mismatches. Do not
 reuse or move published tags. To retry a run, select its existing tag in a manual
-workflow dispatch. The workflow publishes with OIDC and verifies the registry's
+workflow dispatch using that tag as both the workflow ref and the version input.
+For example:
+
+```sh
+gh workflow run publish-npm.yml --repo oddship/oatbase --ref v0.2.1 -f version=v0.2.1 -f dry_run=false
+```
+
+The workflow rejects publication if its workflow revision differs from the
+selected release commit, so provenance refers to the code actually packaged.
+The workflow publishes with OIDC and verifies the registry's
 SHA-512 integrity against the uploaded tarball. Existing published versions are
 immutable. A retry verifies an identical existing artifact and skips publication;
 a different artifact at that version fails instead of being overwritten.

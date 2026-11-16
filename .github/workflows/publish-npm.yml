@@ -87,6 +87,10 @@ jobs:
           fi
           git merge-base --is-ancestor HEAD origin/main
           sha="$(git rev-parse HEAD)"
+          if [[ "$DRY_RUN" != true && "$(git rev-parse --verify "$GITHUB_SHA^{commit}")" != "$sha" ]]; then
+            echo '::error::For publication, dispatch the workflow from the selected release tag so provenance identifies the same commit.'
+            exit 1
+          fi
           count="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --branch main --commit "$sha" --status success --json databaseId --jq length)"
           if [[ "$count" -eq 0 ]]; then
             echo "::error::No successful main CI run exists for $sha. Wait for CI before releasing."
