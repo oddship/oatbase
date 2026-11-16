@@ -1,6 +1,6 @@
 {
   "name": "@oddship/oatbase",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Advanced, semantic components for Oat UI",
   "keywords": [
     "oat",
@@ -257,5 +257,7 @@
     "@axe-core/playwright": "^4.10.2",
     "@knadh/oat": "1.0.0",
     "@playwright/test": "1.61.1"
-  }
+  },
+  "unpkg": "dist/oatbase.min.js",
+  "jsdelivr": "dist/oatbase.min.js"
 }

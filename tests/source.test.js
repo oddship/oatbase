@@ -19,7 +19,8 @@ describe('package', () => {
 
   test('publishes a truthful component dependency manifest', async () => {
     const manifest = JSON.parse(await readFile(new URL('components.json', root), 'utf8'));
-    expect(manifest.version).toBe('0.1.0');
+    const pkg = JSON.parse(await readFile(new URL('package.json', root), 'utf8'));
+    expect(manifest.version).toBe(pkg.version);
     expect(manifest.package).toBe('@oddship/oatbase');
     expect(manifest.components.find(component => component.name === 'data-table')).toEqual(expect.objectContaining({
       implementation: 'javascript', dependencies: []
