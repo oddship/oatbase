@@ -52,10 +52,17 @@
       "attachment", "code-block", "message", "message-scroller", "trace",
       "aspect-ratio", "bubble", "marker", "carousel", "calendar", "context-menu",
       "hover-card", "menubar", "questionnaire", "toggle-group",
-      "timeline", "toggle", "toolbar", "tooltip-compat", "tree", "utilities"
+      "timeline", "toggle", "toolbar", "tooltip-compat", "tree", "utilities", "icon", "agent-prompt"
     ]
   },
   "copies": [
+    { "source": "src/icons/tabler.js", "output": "icons/tabler.js" },
+    { "source": "src/icons/copy.js", "output": "icons/copy.js" },
+    { "source": "src/icons/check.js", "output": "icons/check.js" },
+    { "source": "src/icons/arrow-up-right.js", "output": "icons/arrow-up-right.js" },
+    { "source": "src/icons/brand-github.js", "output": "icons/brand-github.js" },
+    { "source": "src/icons/sparkles.js", "output": "icons/sparkles.js" },
+    { "source": "src/icons/file-text.js", "output": "icons/file-text.js" },
     { "source": "src/css/themes.css", "output": "themes.css" },
     { "source": "src/css/themes/doordarshan.css", "output": "themes/doordarshan.css" },
     { "source": "src/css/themes/forest.css", "output": "themes/forest.css" },

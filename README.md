@@ -53,7 +53,7 @@ Oatbase also includes a small `.visually-hidden` accessibility utility.
 
 ## Complete component coverage
 
-The documentation covers 109 routed patterns. Oatbase ships the 40 default extensions above plus 10 optional patterns and documents 38 Oat-core patterns plus 21 AI recipes without shipping duplicate CSS or JavaScript:
+The documentation covers 111 routed patterns. Oatbase ships the 40 default extensions above plus 10 optional patterns and documents 38 Oat-core patterns plus 21 AI recipes without shipping duplicate CSS or JavaScript:
 
 Accordion, Alert, Alert Dialog, Avatar, Badge, Breadcrumb, Button, Button Group, Card, Checkbox, Dialog, Dropdown Menu, Field, Grid, Input, Input Group, Label, Native Select, Pagination, Popover, Progress and Meter, Radio Group, Sidebar, Skeleton, Slider, Spinner, Switch, Table, Tabs, Tag Input, Textarea, Toast, Tooltip, and Upload.
 
@@ -118,7 +118,7 @@ cp -R ../oatbase/dist ./public/vendor/oatbase
 
 CSS-only applications can use `@oddship/oatbase/css` without loading JavaScript. For an application that already loads Oat, `@oddship/oatbase/extensions.css` and `@oddship/oatbase/extensions` provide the extension-only aggregates. Every Oatbase addition also has an independent entry point, such as `@oddship/oatbase/chart.css`, `@oddship/oatbase/drawer.css`, or `@oddship/oatbase/select` plus `@oddship/oatbase/select.css`.
 
-Oatbase bundles Oat 1.0.0. The v0.1.0 complete Oat-inclusive browser payload is 30.0 kB gzipped, and the extension-only aggregate is 19.8 kB gzipped. Individual entry points and `components.json` support selective application bundles; `examples/esgun/` demonstrates that path without making EsGun a library dependency.
+Oatbase bundles Oat 1.0.0. The v0.1.0 complete Oat-inclusive browser payload is 30.1 kB gzipped, and the extension-only aggregate is 19.9 kB gzipped. Individual entry points and `components.json` support selective application bundles; `examples/esgun/` demonstrates that path without making EsGun a library dependency.
 
 The Flowctl audit added only the reusable boundaries: Repeater coordinates repeated native fields, Log Viewer coordinates a semantic live log, Combobox can create native options, and Stepper has a compact status track. Page headers, validation summaries, action rails, schedule forms, and workflow workspaces remain recipes or blocks. CodeMirror, graph layout, cron/timezone conversion, ANSI parsing, streaming, and virtualization remain application or specialist-library concerns.
 
@@ -365,3 +365,31 @@ See the [compact product UI recipe](docs/recipes/mobile-product.html), [density 
 ## License
 
 MIT. Oatbase is an independent extension and is not affiliated with Basecoat or Oat.
+
+## Agent prompts and optional icons
+
+Agent Prompt composes a native Card and Code Block with `ot-copy`. Load
+`agent-prompt.css`, `copy-button.css`, `code-block.css`, and `copy-button` beside
+Oat, or add only `agent-prompt.css` beside the complete Oatbase bundle. It has no
+separate custom element and its layout stays outside the default bundles. The
+prompt remains readable and selectable without JavaScript. The application owns
+the text and any agent execution or publication approval.
+
+Mark a copy button's text span with `data-copy-label` when it also contains an
+icon. Copy feedback updates that label and preserves the SVG, including when the
+component disconnects and reconnects.
+
+Icon support is also opt-in: `icon.css` sizes `svg[data-icon]` to one em. Paste
+static inline SVG from Tabler, Feather, or another set for zero icon JavaScript.
+Decorative icons use `aria-hidden="true"` and `focusable="false"`; icon-only buttons
+need an accessible name. Paths retain their own stroke/fill definitions and
+inherit text color through `currentColor`.
+
+The small optional Tabler subset exports side-effect-free SVG strings from
+`icons/tabler`, with focused imports such as `icons/copy`. It is not an icon
+registry and never scans the DOM or fetches icons at runtime. Import selected
+icons in build-time templates or an application bundle, never insert untrusted
+SVG. The `examples/esgun/` fixture imports the Copy icon through the barrel and
+verifies that unused icon definitions are absent from its output. Full icon sets
+remain an application choice; the source revision and MIT terms are in
+`THIRD_PARTY_NOTICES.md`.

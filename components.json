@@ -62,9 +62,12 @@
     { "name": "toggle-group", "kind": "component", "implementation": "css", "files": ["toggle-group.css"], "bundle": "patterns" }
   ],
   "optIns": [
+    { "name": "icon", "kind": "opt-in", "files": ["icon.css", "icons/tabler"] },
+    { "name": "agent-prompt", "kind": "opt-in", "files": ["agent-prompt.css"], "dependencies": ["copy-button", "code-block"] },
     { "name": "tooltip-compat", "kind": "opt-in", "files": ["tooltip-compat.css", "tooltip-compat"] }
   ],
   "recipes": [
+    "agent-prompt",
     "filter-toolbar", "row-actions", "bulk-selection", "attachment-row", "code-and-copy", "filtered-empty-state",
     "page-header", "key-value-editor", "validation-summary", "searchable-action-rail", "schedule-form",
     "ai-chain-of-thought", "ai-chat", "ai-checkpoint", "ai-confirmation", "ai-context", "ai-file-tree", "ai-inline-citation", "ai-message", "ai-model-selector", "ai-plan", "ai-prompt-input", "ai-queue", "ai-reasoning", "ai-sources", "ai-stack-trace", "ai-subagent", "ai-suggestion", "ai-task", "ai-terminal", "ai-test-results", "ai-tool"

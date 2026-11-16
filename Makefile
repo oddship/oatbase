@@ -7,6 +7,10 @@ ESGUN ?= esgun
 all: dist
 
 dist:
+	@mkdir -p $(DIST)/icons
+	cp src/icons/*.js $(DIST)/icons/
+	bun build src/css/components/icon.css --outfile $(DIST)/icon.css
+	bun build src/css/components/agent-prompt.css --outfile $(DIST)/agent-prompt.css
 	@mkdir -p $(DIST)
 	bun build src/css/extensions.css --outfile $(DIST)/extensions.css
 	bun build src/css/extensions.css --minify --outfile $(DIST)/extensions.min.css

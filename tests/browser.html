@@ -218,12 +218,17 @@
         drawer.querySelector('button').click();
         assert(!drawer.open && drawer.returnValue === 'close', 'drawer closes natively');
 
+        // Exercise clipboard content deterministically; permission denial has its own browser test.
+        let clipboardText = '';
+        Object.defineProperty(navigator, 'clipboard', { configurable: true, value: {
+          writeText: async value => { clipboardText = value; }
+        } });
         const copy = document.querySelector('#copy');
         let copied = '';
         copy.addEventListener('oatbase:copy', event => { copied = event.detail.value; });
         const copyButtonSize = copy.button.getBoundingClientRect();
         await copy.copy();
-        assert(copied === 'copy me', 'copy button reads its semantic source');
+        assert(copied === 'copy me' && clipboardText === copied, 'copy button writes its semantic source');
         const copiedButtonSize = copy.button.getBoundingClientRect();
         assert(Math.abs(copyButtonSize.width - copiedButtonSize.width) < 1 && Math.abs(copyButtonSize.height - copiedButtonSize.height) < 1, 'copy feedback preserves button dimensions');
 

@@ -87,6 +87,7 @@
     }
   },
   "copies": [
+    { "from": "src/icons", "to": "dist-esgun/icons" },
     { "from": "src/css/themes.css", "to": "dist-esgun/themes.css" },
     { "from": "src/css/themes", "to": "dist-esgun/themes" }
   ]

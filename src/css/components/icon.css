@@ -1,0 +1,11 @@
+@layer components {
+  :where(button, a.button).icon:has(> svg[data-icon]) { aspect-ratio: 1; }
+  svg[data-icon] {
+    display: inline-block;
+    inline-size: 1em;
+    block-size: 1em;
+    flex: none;
+    vertical-align: -0.125em;
+    color: inherit;
+  }
+}

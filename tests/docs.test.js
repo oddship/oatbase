@@ -30,10 +30,10 @@ const documentedMarkup = component => [
 
 describe('component coverage', () => {
   test('covers every Basecoat 1.0 component exactly once', () => {
-    expect(components).toHaveLength(109);
-    expect(new Set(components.map(component => component.slug)).size).toBe(109);
+    expect(components).toHaveLength(111);
+    expect(new Set(components.map(component => component.slug)).size).toBe(111);
     for (const slug of basecoatSlugs) expect(components.some(component => component.slug === slug)).toBe(true);
-    expect(components.map(component => component.slug).sort()).toEqual([...basecoatSlugs, ...expandedSlugs, ...aiPrimitives, ...aiSlugs, ...addedPatterns].sort());
+    expect(components.map(component => component.slug).sort()).toEqual([...basecoatSlugs, ...expandedSlugs, ...aiPrimitives, ...aiSlugs, ...addedPatterns, 'agent-prompt', 'icon'].sort());
   });
 
   test('gives every component a documented implementation path', async () => {
@@ -50,7 +50,7 @@ describe('component coverage', () => {
 
   test('marks JavaScript only where behavior requires it', () => {
     const oatbaseWebComponents = components
-      .filter(component => component.source === 'Oatbase' && component.js)
+      .filter(component => component.source === 'Oatbase' && component.js && component.kind !== 'recipe')
       .map(component => component.slug);
     expect(oatbaseWebComponents).toEqual([
       'action-field', 'combobox', 'command', 'select', 'theme-switcher', 'copy-button',
@@ -61,7 +61,7 @@ describe('component coverage', () => {
 
   test('maps core components instead of duplicating them', () => {
     expect(components.filter(component => component.source === 'Oat core')).toHaveLength(38);
-    expect(components.filter(component => component.source === 'Oatbase')).toHaveLength(50);
+    expect(components.filter(component => component.source === 'Oatbase')).toHaveLength(52);
   });
 
   test('maps every component stylesheet and custom element shipped by Oat', async () => {
@@ -402,7 +402,7 @@ describe('component coverage', () => {
     const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
     for (const component of components.filter(component => component.source === 'Oatbase')) {
       expect(pkg.exports[`./${component.slug}.css`]).toBeTruthy();
-      if (component.js) expect(pkg.exports[`./${component.slug}`]).toBeTruthy();
+      if (component.js && component.kind !== 'recipe') expect(pkg.exports[`./${component.slug}`]).toBeTruthy();
     }
   });
 

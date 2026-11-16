@@ -229,7 +229,16 @@
       "import": "./dist/patterns.esm.js",
       "default": "./dist/patterns.js"
     },
-    "./shadcn-coverage.json": "./shadcn-coverage.json"
+    "./shadcn-coverage.json": "./shadcn-coverage.json",
+    "./icon.css": "./dist/icon.css",
+    "./agent-prompt.css": "./dist/agent-prompt.css",
+    "./icons/tabler": "./dist/icons/tabler.js",
+    "./icons/copy": "./dist/icons/copy.js",
+    "./icons/check": "./dist/icons/check.js",
+    "./icons/arrow-up-right": "./dist/icons/arrow-up-right.js",
+    "./icons/brand-github": "./dist/icons/brand-github.js",
+    "./icons/sparkles": "./dist/icons/sparkles.js",
+    "./icons/file-text": "./dist/icons/file-text.js"
   },
   "scripts": {
     "build": "make dist",

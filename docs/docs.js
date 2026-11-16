@@ -89,6 +89,8 @@ function formatMarkup(markup) {
     const opening = `<${tag}${attributes}>`;
     if (voidElements.has(tag)) return `${indent}<${tag}${attributes}>`;
 
+    if (tag === 'pre' || tag === 'textarea') return `${indent}${opening}${node.innerHTML}</${tag}>`;
+
     const childNodes = tag === 'template' ? node.content.childNodes : node.childNodes;
     const children = [...childNodes].filter(child =>
       child.nodeType !== Node.TEXT_NODE || child.textContent.trim()
