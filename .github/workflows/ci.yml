@@ -27,6 +27,15 @@ jobs:
       - run: bun test
       - run: bun run size
       - run: npm pack --dry-run
+      - name: Verify optional icon tree shaking with EsGun
+        run: |
+          curl -fsSL https://github.com/oddship/esgun/releases/download/v0.1.0/esgun_0.1.0_linux_amd64.tar.gz -o /tmp/esgun.tar.gz
+          echo "3183c52c1989717fbc3bf934f4af8962d0e30a6c8caaad2b7950282d150648fe  /tmp/esgun.tar.gz" | sha256sum -c -
+          mkdir -p /tmp/oatbase-esgun
+          tar -xzf /tmp/esgun.tar.gz -C /tmp/oatbase-esgun
+          /tmp/oatbase-esgun/esgun ci --dir examples/esgun
+          /tmp/oatbase-esgun/esgun build --dir examples/esgun
+          node examples/esgun/verify-icons.js
 
   browser:
     runs-on: ubuntu-latest

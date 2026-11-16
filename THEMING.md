@@ -133,3 +133,9 @@ Use `minmax(0, 1fr)` for application grid tracks and `min-inline-size: 0` for
 shrinkable children. Test long unbroken identifiers and each visible descendant,
 not just the document scroll width. Responsive secondary context can use the
 recipe's native details initializer; warnings and approvals remain visible.
+
+## Optional prompt layout hook
+
+`agent-prompt.css` uses `--oatbase-agent-prompt-height` with a `20rem` fallback
+for its scrollable source preview. This hook is outside the default bundle and
+does not change the global spacing scale.

@@ -199,7 +199,7 @@ describe('source', () => {
     const source = await readFile(new URL('src/js/copy-button.js', root), 'utf8');
     expect(source).toContain('#reserveFeedbackWidth(feedback)');
     expect(source).toContain("this.#reserveFeedbackWidth(this.dataset.copied || 'Copied')");
-    expect(source.indexOf('this.#reserveFeedbackWidth(feedback)')).toBeLessThan(source.indexOf('this.button.textContent = feedback'));
+    expect(source.indexOf('this.#reserveFeedbackWidth(feedback)')).toBeLessThan(source.indexOf('this.#labelNode.textContent = feedback'));
   });
 
   test('composes action fields from copy behavior with a useful no-JavaScript fallback', async () => {

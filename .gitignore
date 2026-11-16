@@ -9,3 +9,5 @@ playwright-report/
 result
 result-*
 test-results/
+
+/examples/esgun/dist/

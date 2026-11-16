@@ -10,3 +10,9 @@ esgun build
 ```
 
 EsGun reads `esgun.config.json`, bundles the JavaScript and imported CSS, and copies the HTML shell into `dist/`. After publication, the relative Oatbase imports can be replaced with the equivalent `@oddship/oatbase/*` package entry points. The package-level `components.json` manifest lists the files and component dependencies an installer can select.
+
+The application imports `copyIcon` through the optional `icons/tabler` barrel.
+Run `node verify-icons.js` after building to check that Copy is present and the
+unused Check and Sparkles definitions are absent. No icon package is a fixture
+runtime dependency. Inline the same SVG in a static template to avoid icon
+JavaScript entirely.

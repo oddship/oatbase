@@ -666,13 +666,15 @@ class OtCopy extends HTMLElement {
   #abort;
   #feedbackTimer;
   #label;
+  #labelNode;
   #status;
   connectedCallback() {
     this.#abort?.abort();
     this.#abort = new AbortController;
     this.button = this.querySelector("[data-copy-button]");
     this.source = this.#source();
-    this.#label = this.button?.textContent?.trim() || "";
+    this.#labelNode = this.button?.querySelector("[data-copy-label]") || this.button;
+    this.#label = this.#labelNode?.textContent?.trim() || "";
     this.#status = this.#ensureStatus();
     this.toggleAttribute("data-enhanced", Boolean(this.button && this.source));
     this.#reserveFeedbackWidth(this.dataset.copied || "Copied");
@@ -681,8 +683,7 @@ class OtCopy extends HTMLElement {
   disconnectedCallback() {
     this.#abort?.abort();
     clearTimeout(this.#feedbackTimer);
-    if (this.button)
-      this.button.textContent = this.#label;
+    this.#restoreLabel();
     if (this.#status)
       this.#status.textContent = "";
   }
@@ -713,12 +714,20 @@ class OtCopy extends HTMLElement {
     if (!this.button)
       return;
     const clone = this.button.cloneNode(true);
-    clone.textContent = feedback;
+    const label = clone.querySelector("[data-copy-label]");
+    if (label)
+      label.textContent = feedback;
+    else
+      clone.textContent = feedback;
     clone.style.cssText = "position:fixed!important;inset:0 auto auto 0!important;inline-size:max-content!important;visibility:hidden!important;pointer-events:none!important";
     this.append(clone);
     const width = Math.ceil(Math.max(this.button.getBoundingClientRect().width, clone.getBoundingClientRect().width));
     clone.remove();
     this.button.style.minInlineSize = `${width}px`;
+  }
+  #restoreLabel() {
+    if (this.#labelNode)
+      this.#labelNode.textContent = this.#label;
   }
   async copy() {
     const value = this.value;
@@ -727,25 +736,40 @@ class OtCopy extends HTMLElement {
     try {
       await navigator.clipboard.writeText(value);
     } catch {
+      const active = document.activeElement;
       const area = Object.assign(document.createElement("textarea"), { value });
+      area.style.cssText = "position:fixed;opacity:0";
       document.body.append(area);
       area.select();
-      document.execCommand("copy");
-      area.remove();
+      let copied = false;
+      try {
+        copied = document.execCommand("copy");
+      } catch {} finally {
+        area.remove();
+        active?.focus({ preventScroll: true });
+      }
+      if (!copied) {
+        const message = this.dataset.copyError || "Unable to copy. Select the text and copy it manually.";
+        if (this.#status)
+          this.#status.textContent = message;
+        emit(this, "oatbase:copy-error", { value, message });
+        return false;
+      }
     }
     const feedback = this.dataset.copied || "Copied";
     this.#reserveFeedbackWidth(feedback);
-    this.button.textContent = feedback;
+    if (this.#labelNode)
+      this.#labelNode.textContent = feedback;
     if (this.#status)
       this.#status.textContent = feedback;
     emit(this, "oatbase:copy", { value });
     clearTimeout(this.#feedbackTimer);
     this.#feedbackTimer = setTimeout(() => {
-      if (this.button)
-        this.button.textContent = this.#label;
+      this.#restoreLabel();
       if (this.#status)
         this.#status.textContent = "";
     }, 1200);
+    return true;
   }
 }
 define("ot-copy", OtCopy);
