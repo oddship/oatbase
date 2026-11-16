@@ -12,7 +12,7 @@ Build this checkout with `npm ci` and `bun run build` (Bun and Make are required
 Copy `dist/oatbase.css`, `LICENSE`, and `THIRD_PARTY_NOTICES.md` into your application
 vendor directory, and record the upstream commit and checksum for updates. This
 is the complete Oat-inclusive CSS; extensions-only CSS assumes Oat is already
-loaded. These instructions do not depend on registry or CDN publication.
+loaded. These instructions do not depend on registry or CDN publication. Once a version is published, package imports can use that version of `@oddship/oatbase` instead. See [release setup](docs/maintainers/releases.md) for the first local bootstrap and GitHub Actions publishing.
 
 In an App Router root layout, import a global stylesheet:
 

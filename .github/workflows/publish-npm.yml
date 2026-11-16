@@ -1,0 +1,161 @@
+name: Publish npm
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Existing stable tag (v0.2.0); main is allowed for dry runs'
+        required: true
+        default: main
+        type: string
+      dry_run:
+        description: 'Build and upload the package without publishing'
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: publish-npm
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    outputs:
+      dry_run: ${{ steps.release.outputs.dry_run }}
+      sha: ${{ steps.metadata.outputs.sha }}
+      filename: ${{ steps.metadata.outputs.filename }}
+      version: ${{ steps.metadata.outputs.version }}
+    steps:
+      - name: Select release
+        id: release
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REQUESTED_VERSION: ${{ inputs.version }}
+          REQUESTED_DRY_RUN: ${{ inputs.dry_run }}
+          PUSHED_TAG: ${{ github.ref_name }}
+        run: |
+          if [[ "$EVENT_NAME" == push ]]; then
+            ref="$PUSHED_TAG"
+            dry_run=false
+          else
+            ref="$REQUESTED_VERSION"
+            dry_run="$REQUESTED_DRY_RUN"
+          fi
+          if [[ "$ref" == main && "$dry_run" == true ]]; then
+            ref=refs/heads/main
+          else
+            ref="v${ref#v}"
+            if [[ ! "$ref" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+              echo '::error::Use a stable tag such as v0.2.0. main is allowed only for dry runs.'
+              exit 1
+            fi
+            ref="refs/tags/$ref"
+          fi
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+          echo "dry_run=$dry_run" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.release.outputs.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Use a reproducible npm pack version
+        run: npm install --global npm@11.15.0
+      - name: Verify metadata and successful main CI
+        id: metadata
+        env:
+          RELEASE_REF: ${{ steps.release.outputs.ref }}
+          DRY_RUN: ${{ steps.release.outputs.dry_run }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ref="${RELEASE_REF##*/}"
+          if [[ "$DRY_RUN" == true ]]; then
+            node scripts/verify-release.js "$ref" --dry-run > "$RUNNER_TEMP/release.json"
+          else
+            node scripts/verify-release.js "$ref" > "$RUNNER_TEMP/release.json"
+          fi
+          git merge-base --is-ancestor HEAD origin/main
+          sha="$(git rev-parse HEAD)"
+          count="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --branch main --commit "$sha" --status success --json databaseId --jq length)"
+          if [[ "$count" -eq 0 ]]; then
+            echo "::error::No successful main CI run exists for $sha. Wait for CI before releasing."
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          node --input-type=module -e 'import fs from "node:fs"; const r=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+"/release.json")); fs.appendFileSync(process.env.GITHUB_OUTPUT,`version=${r.version}\nfilename=${r.filename}\n`);'
+      - run: npm ci
+      - run: bun run build
+      - name: Verify checked-in distributions
+        run: git diff --exit-code -- dist
+      - run: bun test
+      - name: Pack the verified release
+        run: |
+          mkdir -p "$RUNNER_TEMP/npm-package"
+          npm pack --ignore-scripts --json --pack-destination "$RUNNER_TEMP/npm-package" > "$RUNNER_TEMP/npm-package/pack.json"
+          npm publish "$RUNNER_TEMP/npm-package/"*.tgz --dry-run --access public
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-package
+          path: ${{ runner.temp }}/npm-package/
+          retention-days: 14
+      - name: Summarize verification
+        env:
+          VERSION: ${{ steps.metadata.outputs.version }}
+          SHA: ${{ steps.metadata.outputs.sha }}
+          DRY_RUN: ${{ steps.release.outputs.dry_run }}
+        run: |
+          echo "Verified @oddship/oatbase@$VERSION from $SHA." >> "$GITHUB_STEP_SUMMARY"
+          echo "Dry run: $DRY_RUN. The npm-package artifact contains the exact publishable tarball." >> "$GITHUB_STEP_SUMMARY"
+
+  publish:
+    needs: verify
+    if: needs.verify.outputs.dry_run == 'false'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: https://registry.npmjs.org
+      - name: Install npm with trusted publishing support
+        run: npm install --global npm@11.15.0
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-package
+          path: ${{ runner.temp }}/npm-package
+      - name: Check for an identical version already published locally
+        id: registry
+        env:
+          VERSION: ${{ needs.verify.outputs.version }}
+          PACKAGE_FILE: ${{ runner.temp }}/npm-package/${{ needs.verify.outputs.filename }}
+        run: node scripts/verify-registry.js "$VERSION" "$PACKAGE_FILE" --allow-missing
+      - name: Publish using npm trusted publishing
+        if: steps.registry.outputs.published != 'true'
+        env:
+          PACKAGE_FILE: ${{ runner.temp }}/npm-package/${{ needs.verify.outputs.filename }}
+        run: npm publish "$PACKAGE_FILE" --access public --provenance
+      - name: Verify the registry artifact
+        env:
+          VERSION: ${{ needs.verify.outputs.version }}
+          PACKAGE_FILE: ${{ runner.temp }}/npm-package/${{ needs.verify.outputs.filename }}
+        run: |
+          node scripts/verify-registry.js "$VERSION" "$PACKAGE_FILE"
+          echo "Registry artifact verified for @oddship/oatbase@$VERSION. An identical existing version is not republished." >> "$GITHUB_STEP_SUMMARY"
