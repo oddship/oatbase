@@ -70,7 +70,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: npm
       - name: Use a reproducible npm pack version
         run: npm install --global npm@11.15.0
       - name: Verify metadata and successful main CI
