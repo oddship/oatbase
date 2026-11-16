@@ -17,3 +17,11 @@ await Promise.all([
   writeFile(resolve(outputDirectory, 'oatbase.css'), `${banner}\n${oat}\n${extensions}\n`),
   writeFile(resolve(outputDirectory, 'oatbase.min.css'), `${banner}${oat}${extensionsMin}`),
 ]);
+
+// Keep the foundation boundary separate from all Oatbase component aggregates.
+const foundation = (await readFile(resolve(outputDirectory, 'foundation.css'), 'utf8')).trimEnd();
+const foundationMin = (await readFile(resolve(outputDirectory, 'foundation.min.css'), 'utf8')).trimEnd();
+await Promise.all([
+  writeFile(resolve(outputDirectory, 'foundation.css'), `${banner}\n${oat}\n${foundation}\n`),
+  writeFile(resolve(outputDirectory, 'foundation.min.css'), `${banner}${oat}${foundationMin}`),
+]);

@@ -238,7 +238,12 @@
     "./icons/arrow-up-right": "./dist/icons/arrow-up-right.js",
     "./icons/brand-github": "./dist/icons/brand-github.js",
     "./icons/sparkles": "./dist/icons/sparkles.js",
-    "./icons/file-text": "./dist/icons/file-text.js"
+    "./icons/file-text": "./dist/icons/file-text.js",
+    "./foundation": {
+      "import": "./dist/foundation.esm.js",
+      "default": "./dist/foundation.js"
+    },
+    "./foundation.css": "./dist/foundation.css"
   },
   "scripts": {
     "build": "make dist",

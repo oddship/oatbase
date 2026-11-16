@@ -14,6 +14,11 @@ dist:
 	@mkdir -p $(DIST)
 	bun build src/css/extensions.css --outfile $(DIST)/extensions.css
 	bun build src/css/extensions.css --minify --outfile $(DIST)/extensions.min.css
+	bun build src/css/foundation.css --outfile $(DIST)/foundation.css
+	bun build src/css/foundation.css --minify --outfile $(DIST)/foundation.min.css
+	bun build src/js/foundation.js --format=iife --outfile $(DIST)/foundation.js
+	bun build src/js/foundation.js --format=iife --minify --outfile $(DIST)/foundation.min.js
+	bun build src/js/foundation.js --format=esm --outfile $(DIST)/foundation.esm.js
 	bun scripts/build-full-css.js
 	bun build src/js/index.js --format=iife --outfile $(DIST)/oatbase.js
 	bun build src/js/index.js --format=iife --minify --outfile $(DIST)/oatbase.min.js

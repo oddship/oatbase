@@ -405,3 +405,19 @@ Once the selected version is published, install it with `npm install @oddship/oa
 CDNs serve the public npm package without a separate upload. Versioned URLs such
 as `https://unpkg.com/@oddship/oatbase@0.2.0/dist/oatbase.min.css` become usable only
 after that version is published. The complete bundle already includes Oat.
+
+## Lightweight foundation
+
+For sites that need Oat and selected Oatbase components, use
+`@oddship/oatbase/foundation.css` and `@oddship/oatbase/foundation`.
+The foundation includes the pinned Oat CSS/JavaScript and Oatbase's existing
+contrast/focus compatibility fixes. It registers no Oatbase extension components.
+Do not load Oat separately or combine it with the complete Oatbase bundle.
+Add focused component CSS and scripts where needed, such as `prose.css` on docs
+pages and `copy-button.css`, `copy-button.js`, `code-block.css`, `agent-prompt.css`,
+and `icon.css` on a prompt page. No bundler or tree shaking is required.
+
+Browser files are `dist/foundation.min.css` and `dist/foundation.min.js`;
+`dist/foundation.esm.js` is available for ESM consumers. These entry points are
+available in source builds now and will be included in the next npm release.
+Existing complete and extension-only entry points retain their behavior.

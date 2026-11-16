@@ -3,6 +3,7 @@
   "target": "esnext",
   "entrySets": {
     "style-aggregates": [
+      { "input": "src/css/foundation.css", "output": "foundation" },
       { "input": "src/css/extensions.css", "output": "extensions" },
       { "input": "src/css/patterns.css", "output": "patterns" }
     ],
@@ -11,6 +12,7 @@
       { "input": "src/css/utilities.css", "output": "utilities" }
     ],
     "script-aggregates": [
+      { "input": "src/js/foundation.js", "output": "foundation" },
       { "input": "src/js/index.js", "output": "oatbase" },
       { "input": "src/js/extensions.js", "output": "extensions" },
       { "input": "src/js/patterns.js", "output": "patterns" }
