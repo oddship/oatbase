@@ -106,3 +106,19 @@ A passing pinned fixture verifies that configuration, not every Next release,
 Turbopack, browser, React wrapper, or consumer cascade. Recheck your production
 output and real interaction ownership when upgrading. Build in a staging copy,
 never over a running application's production build directory.
+
+## Lightweight foundation
+
+For sites that need Oat and selected Oatbase components, use
+`@oddship/oatbase/foundation.css` and `@oddship/oatbase/foundation`.
+The foundation includes the pinned Oat CSS/JavaScript and Oatbase's existing
+contrast/focus compatibility fixes. It registers no Oatbase extension components.
+Do not load Oat separately or combine it with the complete Oatbase bundle.
+Add focused component CSS and scripts where needed, such as `prose.css` on docs
+pages and `copy-button.css`, `copy-button.js`, `code-block.css`, `agent-prompt.css`,
+and `icon.css` on a prompt page. No bundler or tree shaking is required.
+
+Browser files are `dist/foundation.min.css` and `dist/foundation.min.js`;
+`dist/foundation.esm.js` is available for ESM consumers. These entry points are
+available in source builds now and will be included in the next npm release.
+Existing complete and extension-only entry points retain their behavior.

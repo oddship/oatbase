@@ -22,6 +22,7 @@ async function aggregate(name, paths, budget) {
 }
 
 const aggregates = await Promise.all([
+  aggregate('foundation', ['dist/foundation.min.css', 'dist/foundation.min.js'], 13_000),
   aggregate('complete', ['dist/oatbase.min.css', 'dist/oatbase.min.js'], 28_000),
   aggregate('extensions', ['dist/extensions.min.css', 'dist/extensions.min.js'], 18_000),
   aggregate('tooltip opt-in', ['dist/tooltip-compat.css', 'dist/tooltip-compat.esm.js'])

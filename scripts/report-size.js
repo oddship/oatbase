@@ -1,6 +1,7 @@
 import { gzipSync, brotliCompressSync } from 'node:zlib';
 
 const groups = {
+  foundation: ['dist/foundation.min.css', 'dist/foundation.min.js'],
   complete: ['dist/oatbase.min.css', 'dist/oatbase.min.js'],
   extensions: ['dist/extensions.min.css', 'dist/extensions.min.js'],
   'patterns': ['dist/patterns.min.css', 'dist/patterns.min.js'],

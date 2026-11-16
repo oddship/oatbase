@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foundation integration</title>
+<link rel="stylesheet" href="../dist/foundation.min.css">
+<link rel="stylesheet" href="../dist/copy-button.css">
+<script src="../dist/foundation.min.js" defer></script>
+<script src="../dist/copy-button.js" defer></script>
+</head>
+<body>
+<main class="container">
+<h1>Foundation integration</h1>
+<ot-dropdown>
+<button popovertarget="foundation-menu" aria-haspopup="menu">Open menu</button>
+<menu id="foundation-menu" popover><a role="menuitem" href="#target">Menu item</a></menu>
+</ot-dropdown>
+<ot-copy data-copy-target="source"><button data-copy-button>Copy text</button><pre id="source">Foundation plus a focused component.</pre></ot-copy>
+<a id="target" href="#">Target</a>
+</main>
+</body>
+</html>

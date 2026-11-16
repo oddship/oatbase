@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "javascript": {
     "aggregates": [
+      { "name": "foundation", "source": "src/js/foundation.js", "minified": true, "sideEffectOnly": true },
       { "name": "oatbase", "source": "src/js/index.js", "minified": true },
       { "name": "extensions", "source": "src/js/extensions.js", "minified": true },
       { "name": "patterns", "source": "src/js/patterns.js", "minified": true }
@@ -39,6 +40,7 @@
   },
   "stylesheets": {
     "aggregates": [
+      { "name": "foundation", "source": "src/css/foundation.css", "assembly": "oat-inclusive", "minified": true },
       { "name": "extensions", "source": "src/css/extensions.css", "minified": true },
       { "name": "oatbase", "assembly": "oat-inclusive", "minified": true },
       { "name": "patterns", "source": "src/css/patterns.css", "minified": true }
